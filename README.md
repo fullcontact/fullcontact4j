@@ -2,6 +2,9 @@
 
 A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
 
+##Quick Usage
+* You can either download the source code. Or just use jar files in the lib directory (i.e. jFullContact.jar and gson-2.1.jar)
+
 ##How to use ?
  
 * Declare an instance of FullContact
@@ -85,6 +88,4 @@ A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
 
 
 ##Dependencies
-
 * Google GSON (http://code.google.com/p/google-gson/)
-* Download jar -- http://code.google.com/p/google-gson/downloads/list
