@@ -1,10 +1,10 @@
-package com.fullcontact.api.libs.java;
+package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.java.entity.FullContactEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.FullContactEntity;
 import com.google.gson.Gson;
 
-import com.fullcontact.api.libs.java.config.Constants;
-import com.fullcontact.api.libs.java.http.FullContactHttpRequest;
+import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 
 import java.text.MessageFormat;
 
@@ -28,12 +28,13 @@ public class FullContact {
         String requestParams =
             MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&"
             + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
-        FullContactEntity message = null;
-        Gson gson = new Gson();
-        String response = FullContactHttpRequest.sendRequest(requestParams);
 
+        return parseResponseJson(FullContactHttpRequest.sendRequest(requestParams));
+    }
+
+    public FullContactEntity parseResponseJson(String response) {
+        FullContactEntity message;Gson gson = new Gson();
         message = gson.fromJson(response, FullContactEntity.class);
-
         return message;
     }
 

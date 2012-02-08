@@ -1,4 +1,4 @@
-package com.fullcontact.api.libs.java.config;
+package com.fullcontact.api.libs.fullcontact4j.config;
 
 public class StatusCode {
 

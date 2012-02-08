@@ -1,4 +1,4 @@
-package com.fullcontact.api.libs.java;
+package com.fullcontact.api.libs.fullcontact4j;
 
 @SuppressWarnings("serial")
 public class FullContactException extends Exception {

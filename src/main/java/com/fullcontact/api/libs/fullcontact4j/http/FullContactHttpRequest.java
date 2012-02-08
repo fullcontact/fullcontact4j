@@ -1,7 +1,7 @@
-package com.fullcontact.api.libs.java.http;
+package com.fullcontact.api.libs.fullcontact4j.http;
 
-import com.fullcontact.api.libs.java.FullContactException;
-import com.fullcontact.api.libs.java.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.FullContactException;
+import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
