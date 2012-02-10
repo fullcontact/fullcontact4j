@@ -8,6 +8,9 @@ public class Demographics {
     @SerializedName("age")
     private String age;
 
+    @SerializedName("ageRange")
+    private String ageRange;
+
     /** Field description */
     @SerializedName("children")
     private String children;
@@ -98,6 +101,14 @@ public class Demographics {
      */
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getAgeRange() {
+        return ageRange;
+    }
+
+    public void setAgeRange(String ageRange) {
+        this.ageRange = ageRange;
     }
 
     /**
