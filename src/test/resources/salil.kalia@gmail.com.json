@@ -137,7 +137,7 @@
   ],
   "demographics": {
     "age": "29",
-    "locationGeneral": "Indiana, United States",
+    "locationGeneral": "Delhi (NCR), India",
     "gender": "Male",
     "ageRange": "25-34"
   },
@@ -257,7 +257,7 @@
   [
     {
       "name": "IntelliGrape Software",
-      "title": "Software Development Engineer",
+      "title": "Tech Lead",
       "startDate": "2009",
       "isPrimary": true
     },

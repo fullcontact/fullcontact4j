@@ -1,6 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.FullContactEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.socialprofiles.SocialProfile;
+import com.fullcontact.api.libs.fullcontact4j.entity.socialprofiles.SocialProfileType;
 import junit.framework.TestCase;
 
 import java.io.*;
@@ -68,6 +70,65 @@ public class FullContactTest extends TestCase {
         assertNull(entity.getDemographics());
         assertNull(entity.getDigitalFootprint());
         assertNull(entity.getOrganizations());
+    }
+
+    public void test_parse_person_contact_info() throws IOException {
+        String json = loadJson("test.contactinfo@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNotNull(entity.getContactInfo());
+        assertNull(entity.getOrganizations());
+        assertEquals("Salil", entity.getContactInfo().getGivenName());
+        assertEquals("Kalia", entity.getContactInfo().getFamilyName());
+        assertEquals("Salil Kalia", entity.getContactInfo().getFullName());
+        assertEquals(1, entity.getContactInfo().getWebsites().size());
+        assertEquals("http://rainmaker.cc", entity.getContactInfo().getWebsites().get(0).getUrl());
+    }
+
+    public void test_parse_person_demographics_info() throws IOException {
+        String json = loadJson("salil.kalia@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNotNull(entity.getContactInfo());
+        assertEquals("29", entity.getDemographics().getAge());
+        assertEquals("Delhi (NCR), India", entity.getDemographics().getLocationGeneral());
+        assertEquals("Male", entity.getDemographics().getGender());
+        assertEquals("25-34", entity.getDemographics().getAgeRange());
+    }
+
+    public void test_parse_person_organizations() throws IOException {
+        String json = loadJson("salil.kalia@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNotNull(entity.getOrganizations());
+        assertEquals(5, entity.getOrganizations().size());
+        assertEquals(true, entity.getOrganizations().get(0).isPrimary());
+        assertEquals("Tech Lead", entity.getOrganizations().get(0).getOrganizationTitle());
+        assertEquals("IntelliGrape Software", entity.getOrganizations().get(0).getOrganizationName());
+    }
+
+    public void test_parse_person_social_profiles() throws IOException {
+        String json = loadJson("salil.kalia@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNotNull(entity.getSocialProfiles());
+        assertEquals(13, entity.getSocialProfiles().getAllSocialProfiles().size());
+        assertEquals("28076520", entity.getSocialProfiles().getTwitter().getProfileId());
+        assertEquals("http://twitter.com/statuses/user_timeline/salil_kalia.rss", entity.getSocialProfiles().getTwitter().getRss());
+        assertEquals(50, entity.getSocialProfiles().getTwitter().getFollowing());
+        assertEquals(64, entity.getSocialProfiles().getTwitter().getFollowers());
+
+        assertEquals("http://www.linkedin.com/profile?viewProfile=&key=26679153", entity.getSocialProfiles().getLinkedIn().getProfileUrl());
+
+        SocialProfile googlePlus = entity.getSocialProfiles().getSocialProfile(SocialProfileType.googleplus);
+        assertNotNull(googlePlus);
+        assertEquals("salilkalia", googlePlus.getProfileUsername());
+        assertEquals("All time Softwares :-)<br>", googlePlus.getBio());
+    }
+
+    public void test_parse_person_photos() throws IOException {
+        String json = loadJson("salil.kalia@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNotNull(entity.getPhotos());
+        assertEquals(20, entity.getPhotos().size());
+        assertEquals("http://a.vimeocdn.com/portraits/defaults/d.75.jpg", entity.getPhotos().get(1).getPhotoUrl());
+        assertEquals("https://img-s.foursquare.com/userpix_thumbs/X5NY5CWU3C0R5O1B.jpg", entity.getPhotos().get(19).getPhotoUrl());
     }
 
     private String loadJson(String fileName) throws IOException {
