@@ -33,7 +33,7 @@ public class FullContact {
             MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&"
             + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
 
-        return parseResponseJson(FullContactHttpRequest.sendRequest(requestParams));
+        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
     }
 
     public FullContactEntity getPersonInformation(String email,
@@ -44,13 +44,7 @@ public class FullContact {
             + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey) + "&"
             + MessageFormat.format(Constants.TIMEOUT_SECONDS_FORMAT,
                                    timeoutSeconds);
-        FullContactEntity message = null;
-        Gson gson = new Gson();
-        String response = FullContactHttpRequest.sendRequest(requestParams);
-
-        message = gson.fromJson(response, FullContactEntity.class);
-
-        return message;
+        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
     }
 
     public FullContactEntity parsePersonJsonResponse(String response) {
@@ -89,13 +83,6 @@ public class FullContact {
         if(socialProfilesJsonObject != null && socialProfilesJsonObject.isJsonArray()){
             message.setSocialProfiles(new SocialProfiles(socialProfilesJsonObject));
         }
-
-        return message;
-    }
-
-    public FullContactEntity parseResponseJson(String response) {
-        FullContactEntity message;Gson gson = new Gson();
-        message = gson.fromJson(response, FullContactEntity.class);
         return message;
     }
 

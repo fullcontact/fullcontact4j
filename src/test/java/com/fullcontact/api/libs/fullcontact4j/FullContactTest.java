@@ -59,6 +59,17 @@ public class FullContactTest extends TestCase {
 
     }
 
+    public void test_parse_person_NOTHING_FOUND() throws IOException {
+        String json = loadJson("notfound@gmail.com.json");
+        FullContactEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
+        assertNull(entity.getContactInfo());
+        assertNull(entity.getPhotos());
+        assertNull(entity.getSocialProfiles());
+        assertNull(entity.getDemographics());
+        assertNull(entity.getDigitalFootprint());
+        assertNull(entity.getOrganizations());
+    }
+
     private String loadJson(String fileName) throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("src/test/resources/" + fileName))));
