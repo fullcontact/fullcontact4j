@@ -2,6 +2,8 @@ package com.fullcontact.api.libs.fullcontact4j.entity;
 
 import java.util.List;
 
+import com.fullcontact.api.libs.fullcontact4j.entity.contactinfo.Chats;
+import com.fullcontact.api.libs.fullcontact4j.entity.contactinfo.Website;
 import com.google.gson.annotations.SerializedName;
 
 public class ContactInfo {
