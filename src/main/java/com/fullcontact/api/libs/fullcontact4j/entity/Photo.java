@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Photos {
+public class Photo {
 
     @SerializedName("typeId")
     private String photoTypeId;

@@ -19,7 +19,7 @@ public class FullContactEntity {
     private List<Organizations> organizations;
 
 	@SerializedName("photos")
-	private List<Photos> photos;
+	private List<Photo> photos;
 
 	@SerializedName("status")
 	private int statusCode;
@@ -74,11 +74,11 @@ public class FullContactEntity {
 		this.socialProfiles = socialProfiles;
 	}
 
-	public List<Photos> getPhotos() {
+	public List<Photo> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(List<Photos> photos) {
+	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
 }

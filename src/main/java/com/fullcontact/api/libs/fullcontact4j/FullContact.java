@@ -60,10 +60,10 @@ public class FullContact {
         JsonElement photosJsonObject = jsonObject.get("photos");
         if(photosJsonObject != null && photosJsonObject.isJsonArray()){
             Iterator<JsonElement> iterator = photosJsonObject.getAsJsonArray().iterator();
-            List<Photos> photos = new ArrayList<Photos>();
+            List<Photo> photos = new ArrayList<Photo>();
             while(iterator.hasNext()){
                 JsonElement org = iterator.next();
-                photos.add(gson.fromJson(org, Photos.class));
+                photos.add(gson.fromJson(org, Photo.class));
             }
             message.setPhotos(photos);
         }
