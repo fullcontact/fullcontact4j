@@ -1,12 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.FullContactEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.*;
 import com.google.gson.Gson;
-
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class FullContact {
     private String apiKey;
@@ -29,13 +33,7 @@ public class FullContact {
             MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&"
             + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
 
-        return parseResponseJson(FullContactHttpRequest.sendRequest(requestParams));
-    }
-
-    public FullContactEntity parseResponseJson(String response) {
-        FullContactEntity message;Gson gson = new Gson();
-        message = gson.fromJson(response, FullContactEntity.class);
-        return message;
+        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
     }
 
     public FullContactEntity getPersonInformation(String email,
@@ -46,12 +44,46 @@ public class FullContact {
             + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey) + "&"
             + MessageFormat.format(Constants.TIMEOUT_SECONDS_FORMAT,
                                    timeoutSeconds);
-        FullContactEntity message = null;
+        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
+    }
+
+    public FullContactEntity parsePersonJsonResponse(String response) {
+        FullContactEntity message = new FullContactEntity();
         Gson gson = new Gson();
-        String response = FullContactHttpRequest.sendRequest(requestParams);
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        message.setStatusCode(jsonObject.get("status").getAsInt());
+        message.setContactInfo(gson.fromJson(jsonObject.get("contactInfo"), ContactInfo.class));
+        message.setDemographics(gson.fromJson(jsonObject.get("demographics"), Demographics.class));
+        message.setDigitalFootprint(gson.fromJson(jsonObject.get("digitalFootprint"), DigitalFootPrints.class));
 
-        message = gson.fromJson(response, FullContactEntity.class);
+        JsonElement organizationsJsonObject = jsonObject.get("organizations");
+        if(organizationsJsonObject != null && organizationsJsonObject.isJsonArray()){
+            Iterator<JsonElement> iterator = organizationsJsonObject.getAsJsonArray().iterator();
+            List<Organizations> organizations = new ArrayList<Organizations>();
+            while(iterator.hasNext()){
+                JsonElement org = iterator.next();
+                organizations.add(gson.fromJson(org, Organizations.class));
+            }
+            message.setOrganizations(organizations);
+        }
 
+        JsonElement photosJsonObject = jsonObject.get("photos");
+        if(photosJsonObject != null && photosJsonObject.isJsonArray()){
+            Iterator<JsonElement> iterator = photosJsonObject.getAsJsonArray().iterator();
+            List<Photos> photos = new ArrayList<Photos>();
+            while(iterator.hasNext()){
+                JsonElement org = iterator.next();
+                photos.add(gson.fromJson(org, Photos.class));
+            }
+            message.setPhotos(photos);
+        }
+
+        JsonElement socialProfilesJsonObject = jsonObject.get("socialProfiles");
+        if(socialProfilesJsonObject != null && socialProfilesJsonObject.isJsonArray()){
+            message.setSocialProfiles(new SocialProfiles(socialProfilesJsonObject));
+        }
         return message;
     }
+
 }

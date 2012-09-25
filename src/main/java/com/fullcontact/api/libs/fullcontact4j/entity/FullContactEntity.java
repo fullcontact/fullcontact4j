@@ -6,20 +6,25 @@ import java.util.List;
 
 public class FullContactEntity {
 
-	@SerializedName("contactInfo")
-	private ContactInfo contactInfo;
+    @SerializedName("contactInfo")
+    private ContactInfo contactInfo;
 
-	@SerializedName("organizations")
-	private List<Organizations> organizations;
+    @SerializedName("demographics")
+    private Demographics demographics;
+
+    @SerializedName("digitalFootprint")
+    private DigitalFootPrints digitalFootprint;
+
+    @SerializedName("organizations")
+    private List<Organizations> organizations;
 
 	@SerializedName("photos")
 	private List<Photos> photos;
 
-	@SerializedName("socialProfiles")
-	private List<SocialProfiles> socialProfiles;
-
 	@SerializedName("status")
 	private int statusCode;
+
+    private transient SocialProfiles socialProfiles;
 
 	public int getStatusCode() {
 		return statusCode;
@@ -29,27 +34,43 @@ public class FullContactEntity {
 		this.statusCode = statusCode;
 	}
 
-	public ContactInfo getContactInfo() {
-		return contactInfo;
-	}
+    public ContactInfo getContactInfo() {
+        return contactInfo;
+    }
 
-	public void setContactInfo(ContactInfo contactInfo) {
-		this.contactInfo = contactInfo;
-	}
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
+    }
 
-	public List<Organizations> getOrganizations() {
-		return organizations;
-	}
+    public Demographics getDemographics() {
+        return demographics;
+    }
 
-	public void setOrganizations(List<Organizations> organizations) {
-		this.organizations = organizations;
-	}
+    public void setDemographics(Demographics demographics) {
+        this.demographics = demographics;
+    }
 
-	public List<SocialProfiles> getSocialProfiles() {
+    public List<Organizations> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<Organizations> organizations) {
+        this.organizations = organizations;
+    }
+
+    public DigitalFootPrints getDigitalFootprint() {
+        return digitalFootprint;
+    }
+
+    public void setDigitalFootprint(DigitalFootPrints digitalFootprint) {
+        this.digitalFootprint = digitalFootprint;
+    }
+
+	public SocialProfiles getSocialProfiles() {
 		return socialProfiles;
 	}
 
-	public void setSocialProfiles(List<SocialProfiles> socialProfiles) {
+	public void setSocialProfiles(SocialProfiles socialProfiles) {
 		this.socialProfiles = socialProfiles;
 	}
 

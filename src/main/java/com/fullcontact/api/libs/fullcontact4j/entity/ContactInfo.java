@@ -18,8 +18,11 @@ public class ContactInfo {
 	@SerializedName("emailAddresses")
 	private List<String> emailAddress;
 
-	@SerializedName("chats")
-	private List<Chats> chats;
+    @SerializedName("websites")
+    private List<Website> websites;
+
+    @SerializedName("chats")
+    private List<Chats> chats;
 
 	@SerializedName("phoneNumbers")
 	private List<String> phoneNumbers;
@@ -63,6 +66,14 @@ public class ContactInfo {
 	public List<Chats> getChats() {
 		return chats;
 	}
+
+    public void setWebsites(List<Website> websites){
+        this.websites = websites;
+    }
+
+    public List<Website> getWebsites(){
+        return websites;
+    }
 
 	public void setPhoneNumbers(List<String> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;

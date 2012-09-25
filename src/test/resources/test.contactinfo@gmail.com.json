@@ -1,0 +1,16 @@
+{
+  "status": 200,
+  "contactInfo": {
+    "familyName": "Kalia",
+    "givenName": "Salil",
+    "fullName": "Salil Kalia",
+    "websites":
+    [
+      {
+        "url": "http://rainmaker.cc"
+      }
+    ]
+  },
+  "digitalFootprint": {
+  }
+}

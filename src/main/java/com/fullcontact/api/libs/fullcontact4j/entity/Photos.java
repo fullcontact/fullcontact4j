@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Photos {
 
-	@SerializedName("type")
-	private String photoType;
+    @SerializedName("typeId")
+    private String photoTypeId;
+
+    @SerializedName("typeName")
+    private String photoTypeName;
 
 	@SerializedName("url")
 	private String photoUrl;
@@ -18,11 +21,19 @@ public class Photos {
 		this.photoUrl = photoUrl;
 	}
 
-	public String getPhotoType() {
-		return photoType;
+	public String getPhotoTypeId() {
+		return photoTypeId;
 	}
 
-	public void setPhotoType(String photoType) {
-		this.photoType = photoType;
+	public void setPhotoTypeId(String photoTypeId) {
+		this.photoTypeId = photoTypeId;
 	}
+
+    public String getPhotoTypeName() {
+        return photoTypeName;
+    }
+
+    public void setPhotoTypeName(String photoTypeName) {
+        this.photoTypeName = photoTypeName;
+    }
 }

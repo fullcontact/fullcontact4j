@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.config;
 
 public class Constants {
 
-	public static final String API_URL = "https://api.fullcontact.com/v1/person.json?";
+	public static final String API_URL = "https://api.fullcontact.com/v2/person.json?";
 
 	public static final String API_KEY_FORMAT = "apiKey={0}";
 

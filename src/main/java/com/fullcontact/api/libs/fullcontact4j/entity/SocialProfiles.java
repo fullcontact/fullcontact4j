@@ -1,117 +1,94 @@
 package com.fullcontact.api.libs.fullcontact4j.entity;
 
-import com.google.gson.annotations.SerializedName;
+import com.fullcontact.api.libs.fullcontact4j.entity.socialprofiles.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import java.util.*;
 
 public class SocialProfiles {
 
-	@SerializedName("type")
-	private String profileType;
+    private final static String FLICKR = SocialProfileType.flickr.typeId;
+    private final static String LINKEDIN = SocialProfileType.linkedin.typeId;
+    private final static String PICASA = SocialProfileType.picasa.typeId;
+    private final static String TWITTER = SocialProfileType.twitter.typeId;
+    private final static String YOUTUBE = SocialProfileType.youtube.typeId;
 
-	@SerializedName("url")
-	private String profileUrl;
+    private List<SocialProfile> profiles = new ArrayList<SocialProfile>();
+    private Gson _gson;
 
-	@SerializedName("id")
-	private String profileId;
+    private SocialProfiles() {}
 
-	@SerializedName("birthday")
-	private String profileBday;
+    public SocialProfiles(JsonElement socialProfilesJsonObject) {
+        for (JsonElement profile : socialProfilesJsonObject.getAsJsonArray()){
+            this.addProfileFromJson(profile);
+        }
+    }
 
-	@SerializedName("username")
-	private String profileUsername;
+    private Gson getGson() {
+        if (_gson == null) {
+            _gson = new Gson();
+        }
+        return _gson;
+    }
 
-	@SerializedName("headline")
-	private String headline;
+    private SocialProfile extractSocialProfileFromJson(JsonElement jsonProfile) {
+        SocialProfile socialProfile = null;
+        String typeId = jsonProfile.getAsJsonObject().get("typeId").getAsString();
 
-	@SerializedName("connections")
-	private int connections;
+        if (typeId.equalsIgnoreCase(TWITTER)) {
+            socialProfile = getGson().fromJson(jsonProfile, TwitterProfile.class);
+        } else if (typeId.equalsIgnoreCase(LINKEDIN)) {
+            socialProfile = getGson().fromJson(jsonProfile, LinkedInProfile.class);
+        }  else if (typeId.equalsIgnoreCase(FLICKR)) {
+            socialProfile = getGson().fromJson(jsonProfile, FlickrProfile.class);
+        }  else if (typeId.equalsIgnoreCase(PICASA)) {
+            socialProfile = getGson().fromJson(jsonProfile, PicasaProfile.class);
+        }  else if (typeId.equalsIgnoreCase(YOUTUBE)) {
+            socialProfile = getGson().fromJson(jsonProfile, YouTubeProfile.class);
+        } else {
+            socialProfile = getGson().fromJson(jsonProfile, SocialProfile.class);
+        }
+        return socialProfile;
+    }
 
-	@SerializedName("currentStatus")
-	private String currentStatus;
+    private void addProfileFromJson(JsonElement jsonProfile) {
+        profiles.add(extractSocialProfileFromJson(jsonProfile));
+    }
 
-	@SerializedName("currentStatusTimestamp")
-	private String currentStatusTimestamp;
 
-	@SerializedName("bio")
-	private String bio;
+    public List<SocialProfile> getAllSocialProfiles() {
+        return profiles;
+    }
 
-	public String getProfileType() {
-		return profileType;
-	}
+    public TwitterProfile getTwitter() {
+        return (TwitterProfile) getSocialProfile(SocialProfileType.twitter);
+    }
 
-	public void setProfileType(String profileType) {
-		this.profileType = profileType;
-	}
+    public LinkedInProfile getLinkedIn() {
+        return (LinkedInProfile) getSocialProfile(SocialProfileType.linkedin);
+    }
 
-	public String getProfileUrl() {
-		return profileUrl;
-	}
+    public FlickrProfile getFlickr() {
+        return (FlickrProfile) getSocialProfile(SocialProfileType.flickr);
+    }
 
-	public void setProfileUrl(String profileUrl) {
-		this.profileUrl = profileUrl;
-	}
+    public PicasaProfile getPicasa() {
+        return (PicasaProfile) getSocialProfile(SocialProfileType.picasa);
+    }
 
-	public String getProfileId() {
-		return profileId;
-	}
+    public YouTubeProfile getYouTube() {
+        return (YouTubeProfile) getSocialProfile(SocialProfileType.youtube);
+    }
 
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
-
-	public String getProfileBday() {
-		return profileBday;
-	}
-
-	public void setProfileBday(String profileBday) {
-		this.profileBday = profileBday;
-	}
-
-	public String getProfileUsername() {
-		return profileUsername;
-	}
-
-	public void setProfileUsername(String profileUsername) {
-		this.profileUsername = profileUsername;
-	}
-
-	public void setHeadline(String headline) {
-		this.headline = headline;
-	}
-
-	public String getHeadline() {
-		return headline;
-	}
-
-	public void setConnections(int connections) {
-		this.connections = connections;
-	}
-
-	public int getConnections() {
-		return connections;
-	}
-
-	public void setCurrentStatus(String currentStatus) {
-		this.currentStatus = currentStatus;
-	}
-
-	public String getCurrentStatus() {
-		return currentStatus;
-	}
-
-	public void setCurrentStatusTimestamp(String currentStatusTimestamp) {
-		this.currentStatusTimestamp = currentStatusTimestamp;
-	}
-
-	public String getCurrentStatusTimestamp() {
-		return currentStatusTimestamp;
-	}
-
-	public void setBio(String bio) {
-		this.bio = bio;
-	}
-
-	public String getBio() {
-		return bio;
-	}
+    public SocialProfile getSocialProfile(SocialProfileType profileType) {
+        SocialProfile profile = null;
+        for (SocialProfile socialProfile : profiles) {
+            if (socialProfile.getProfileTypeId().equalsIgnoreCase(profileType.typeId)) {
+                profile = socialProfile;
+                break;
+            }
+        }
+        return profile;
+    }
 
 }

@@ -1,0 +1,286 @@
+{
+  "status": 200,
+  "contactInfo": {
+    "familyName": "Kalia",
+    "givenName": "Salil",
+    "fullName": "Salil Kalia",
+    "websites":
+    [
+      {
+        "url": "http://rainmaker.cc"
+      }
+    ]
+  },
+  "photos":
+  [
+    {
+      "typeName": "Vimeo",
+      "type": "vimeo",
+      "typeId": "vimeo",
+      "url": "http://a.vimeocdn.com/portraits/defaults/d.30.jpg"
+    },
+    {
+      "typeName": "Vimeo",
+      "type": "vimeo",
+      "typeId": "vimeo",
+      "url": "http://a.vimeocdn.com/portraits/defaults/d.75.jpg"
+    },
+    {
+      "typeName": "Vimeo",
+      "type": "vimeo",
+      "typeId": "vimeo",
+      "url": "http://a.vimeocdn.com/portraits/defaults/d.100.jpg"
+    },
+    {
+      "typeName": "Vimeo",
+      "type": "vimeo",
+      "typeId": "vimeo",
+      "url": "http://a.vimeocdn.com/portraits/defaults/d.300.jpg"
+    },
+    {
+      "typeName": "Twitter",
+      "type": "twitter",
+      "typeId": "twitter",
+      "url": "http://a0.twimg.com/profile_images/907185784/DSC06188_normal.JPG"
+    },
+    {
+      "typeName": "Myspace",
+      "type": "myspace",
+      "typeId": "myspace",
+      "url": "http://a1.ec-images.myspacecdn.com/profile01/131/d42ea90106be4fdf802ade7ee5ca2acd/s.jpg"
+    },
+    {
+      "url": "http://media.linkedin.com/mpr/mpr/shrink_80_80/p/1/000/012/3e3/1fedf38.jpg",
+      "type": "linkedin",
+      "typeId": "linkedin",
+      "typeName": "Linkedin"
+    },
+    {
+      "url": "http://www.google.com/s2/photos/public/AIbEiAIAAABDCNrjp6nuycDGZyILdmNhcmRfcGhvdG8qKDhkMjFiNDBmZDYzM2YzNGY0Mjc3YTYyMWFkYjdmM2Q5YzVjMDQxYTEwASCEKTL3HeqroD8jXLsBt8WyHKOh",
+      "type": "google profile",
+      "typeId": "other",
+      "typeName": "Other"
+    },
+    {
+      "url": "http://profile.ak.fbcdn.net/hprofile-ak-snc4/203362_722115022_4180983_n.jpg",
+      "type": "facebook",
+      "typeId": "facebook",
+      "typeName": "Facebook",
+      "isPrimary": true
+    },
+    {
+      "url": "http://media.linkedin.com/mpr/pub/image-ZIgcNUq-YKNEAaoXvAhCNNezwQxk-JyXvJJTNCtswSn2hcxw/salil-kalia.jpg",
+      "type": "linkedin",
+      "typeId": "linkedin",
+      "typeName": "Linkedin"
+    },
+    {
+      "url": "https://secure.gravatar.com/avatar/21dba3294567bbcff7fa5e51c8285e17?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
+      "type": "github",
+      "typeId": "gravatar",
+      "typeName": "Gravatar"
+    },
+    {
+      "url": "http://graph.facebook.com/722115022/picture?type=large",
+      "type": "facebook",
+      "typeId": "facebook",
+      "typeName": "Facebook"
+    },
+    {
+      "url": "http://0.gravatar.com/avatar/21dba3294567bbcff7fa5e51c8285e17",
+      "type": "gravatar",
+      "typeId": "gravatar",
+      "typeName": "Gravatar"
+    },
+    {
+      "url": "http://a1.l3-images.myspacecdn.com/profile01/131/d42ea90106be4fdf802ade7ee5ca2acd/s.jpg",
+      "type": "myspace",
+      "typeId": "myspace",
+      "typeName": "Myspace"
+    },
+    {
+      "url": "http://lh5.googleusercontent.com/-7CUUUsQcsSM/AAAAAAAAAAI/AAAAAAAAAAA/5hnpq7DmQVQ/photo.jpg",
+      "type": "googleplus",
+      "typeId": "googleplus",
+      "typeName": "Google Plus"
+    },
+    {
+      "url": "https://secure.gravatar.com/avatar/21dba3294567bbcff7fa5e51c8285e17?s=140&d=https://d3nwyuy0nl342s.cloudfront.net%2Fimages%2Fgravatars%2Fgravatar-140.png",
+      "type": "github",
+      "typeId": "gravatar",
+      "typeName": "Gravatar"
+    },
+    {
+      "url": "http://profile.ak.fbcdn.net/hprofile-ak-snc4/41657_722115022_6470_q.jpg",
+      "type": "facebook",
+      "typeId": "facebook",
+      "typeName": "Facebook"
+    },
+    {
+      "url": "https://secure.gravatar.com/avatar/21dba3294567bbcff7fa5e51c8285e17?s=140&d=https%3A%2F%2Fgithub.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
+      "type": "github",
+      "typeId": "gravatar",
+      "typeName": "Gravatar"
+    },
+    {
+      "url": "http://profile.ak.fbcdn.net/hprofile-ak-snc4/203362_722115022_4180983_q.jpg",
+      "type": "facebook",
+      "typeId": "facebook",
+      "typeName": "Facebook"
+    },
+    {
+      "typeName": "Foursquare",
+      "type": "foursquare",
+      "typeId": "foursquare",
+      "url": "https://img-s.foursquare.com/userpix_thumbs/X5NY5CWU3C0R5O1B.jpg"
+    }
+  ],
+  "demographics": {
+    "age": "29",
+    "locationGeneral": "Delhi (NCR), India",
+    "gender": "Male",
+    "ageRange": "25-34"
+  },
+  "socialProfiles":
+  [
+    {
+      "id": "9820067",
+      "typeName": "Vimeo",
+      "username": "user9820067",
+      "type": "vimeo",
+      "typeId": "vimeo",
+      "url": "http://vimeo.com/user9820067",
+      "bio": ""
+    },
+    {
+      "id": 28076520,
+      "typeName": "Twitter",
+      "following": 50,
+      "followers": 64,
+      "username": "salil_kalia",
+      "type": "twitter",
+      "typeId": "twitter",
+      "url": "http://www.twitter.com/salil_kalia",
+      "rss": "http://twitter.com/statuses/user_timeline/salil_kalia.rss"
+    },
+    {
+      "id": "90959005",
+      "typeName": "Myspace",
+      "type": "myspace",
+      "typeId": "myspace",
+      "url": "http://www.myspace.com/salil82"
+    },
+    {
+      "type": "linkedin",
+      "typeId": "linkedin",
+      "typeName": "Linkedin",
+      "url": "http://www.linkedin.com/profile?viewProfile=&key=26679153",
+      "id": "cbSBNgNJ1P",
+      "username": "salilkalia",
+      "bio": "Technology Think Tank",
+      "following": "223",
+      "followers": "223"
+    },
+    {
+      "url": "http://profiles.google.com/salilkalia",
+      "id": "107461622695498215898",
+      "type": "googleprofile",
+      "username": "salilkalia",
+      "typeId": "googleprofile",
+      "typeName": "Google Profile"
+    },
+    {
+      "url": "http://www.facebook.com/salilkalia",
+      "id": "722115022",
+      "type": "facebook",
+      "username": "salilkalia",
+      "typeId": "facebook",
+      "typeName": "Facebook"
+    },
+    {
+      "url": "http://github.com/salilk",
+      "type": "github",
+      "username": "salilk",
+      "typeId": "github",
+      "typeName": "Github",
+      "id": "salilk"
+    },
+    {
+      "url": "http://picasaweb.google.com/salil.kalia",
+      "id": "107461622695498215898",
+      "type": "picasa",
+      "username": "salil.kalia",
+      "typeId": "picasa",
+      "typeName": "Picasa"
+    },
+    {
+      "url": "https://plus.google.com/107461622695498215898",
+      "id": "107461622695498215898",
+      "type": "googleplus",
+      "username": "salilkalia",
+      "typeId": "googleplus",
+      "typeName": "Google Plus",
+      "bio": "All time Softwares :-)<br>"
+    },
+    {
+      "url": "http://gravatar.com/salilkalia",
+      "id": "18837077",
+      "type": "gravatar",
+      "typeId": "gravatar",
+      "typeName": "Gravatar",
+      "username": "salilkalia"
+    },
+    {
+      "type": "klout",
+      "typeId": "klout",
+      "typeName": "Klout",
+      "url": "http://www.klout.com/salil_kalia",
+      "username": "salil_kalia"
+    },
+    {
+      "typeName": "Foursquare",
+      "id": "17888733",
+      "type": "foursquare",
+      "typeId": "foursquare",
+      "url": "https://www.foursquare.com/user/17888733"
+    },
+    {
+      "id": "103172",
+      "typeName": "DandyID",
+      "bio": "",
+      "type": "other",
+      "typeId": "dandyid",
+      "url": "http://www.dandyid.org/id/103172"
+    }
+  ],
+  "organizations":
+  [
+    {
+      "name": "IntelliGrape Software",
+      "title": "Tech Lead",
+      "startDate": "2009",
+      "isPrimary": true
+    },
+    {
+      "name": "Birlasoft",
+      "title": "Software Engineer",
+      "isPrimary": false
+    },
+    {
+      "name": "Encyclopaedia Britannica Inc.",
+      "title": "Sr. Software Engineer",
+      "isPrimary": false
+    },
+    {
+      "name": "Intelligrape Software",
+      "title": "",
+      "isPrimary": false
+    },
+    {
+      "name": "Intelligrape Software",
+      "isPrimary": false
+    }
+  ],
+  "digitalFootprint": {
+  }
+}
