@@ -24,6 +24,9 @@ public class FullContactEntity {
 	@SerializedName("status")
 	private int statusCode;
 
+    @SerializedName("enhancedData")
+    private List<EnhancedDataEntity> enhancedData;
+
     private transient SocialProfiles socialProfiles;
 
 	public int getStatusCode() {
@@ -74,11 +77,19 @@ public class FullContactEntity {
 		this.socialProfiles = socialProfiles;
 	}
 
-	public List<Photo> getPhotos() {
-		return photos;
-	}
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 
-	public void setPhotos(List<Photo> photos) {
-		this.photos = photos;
-	}
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public List<EnhancedDataEntity> getEnhancedData() {
+        return enhancedData;
+    }
+
+    public void setEnhancedData(List<EnhancedDataEntity> enhancedData) {
+        this.enhancedData = enhancedData;
+    }
 }

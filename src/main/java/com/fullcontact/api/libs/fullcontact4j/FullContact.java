@@ -72,6 +72,17 @@ public class FullContact {
         if(socialProfilesJsonObject != null && socialProfilesJsonObject.isJsonArray()){
             message.setSocialProfiles(new SocialProfiles(socialProfilesJsonObject));
         }
+
+        JsonElement enhancedDataJsonObject = jsonObject.get("enhancedData");
+        if(enhancedDataJsonObject != null && enhancedDataJsonObject.isJsonArray()){
+            Iterator<JsonElement> iterator = enhancedDataJsonObject.getAsJsonArray().iterator();
+            List<EnhancedDataEntity> enhancedData = new ArrayList<EnhancedDataEntity>();
+            while(iterator.hasNext()){
+                JsonElement org = iterator.next();
+                enhancedData.add(gson.fromJson(org, EnhancedDataEntity.class));
+            }
+            message.setEnhancedData(enhancedData);
+        }
         return message;
     }
 

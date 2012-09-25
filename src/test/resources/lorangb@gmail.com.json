@@ -223,5 +223,12 @@
       "typeId": "foursquare",
       "typeName": "Foursquare"
     }
+  ],
+    "enhancedData":
+  [
+    {
+      "isPrimary": false,
+      "url": "https://api.fullcontact.com/v2/enhanced.json?email=e1e94ffac5967195d81ac3e68ba8aa0c"
+    }
   ]
 }

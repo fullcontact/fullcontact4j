@@ -47,6 +47,11 @@ public class FullContactTest extends TestCase {
         assertEquals("http://a0.twimg.com/profile_images/1364842224/Bart_Profile_1_normal.jpg", entity.getPhotos().get(0).getPhotoUrl());
         assertEquals("twitter", entity.getPhotos().get(0).getPhotoTypeId());
 
+        assertNotNull(entity.getEnhancedData());
+        assertEquals(1, entity.getEnhancedData().size());
+        assertEquals("https://api.fullcontact.com/v2/enhanced.json?email=e1e94ffac5967195d81ac3e68ba8aa0c", entity.getEnhancedData().get(0).getUrl());
+        assertFalse(entity.getEnhancedData().get(0).isPrimary());
+
         assertNotNull(entity.getSocialProfiles());
         assertEquals(14, entity.getSocialProfiles().getAllSocialProfiles().size());
         assertEquals(631, entity.getSocialProfiles().getTwitter().getFollowers());
