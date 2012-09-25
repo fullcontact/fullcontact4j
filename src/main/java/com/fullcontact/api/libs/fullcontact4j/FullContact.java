@@ -36,17 +36,6 @@ public class FullContact {
         return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
     }
 
-    public FullContactEntity getPersonInformation(String email,
-            int timeoutSeconds)
-            throws FullContactException {
-        String requestParams =
-            MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&"
-            + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey) + "&"
-            + MessageFormat.format(Constants.TIMEOUT_SECONDS_FORMAT,
-                                   timeoutSeconds);
-        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
-    }
-
     public FullContactEntity parsePersonJsonResponse(String response) {
         FullContactEntity message = new FullContactEntity();
         Gson gson = new Gson();
