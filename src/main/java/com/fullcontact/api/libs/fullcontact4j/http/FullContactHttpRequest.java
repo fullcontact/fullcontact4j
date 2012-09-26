@@ -11,29 +11,34 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class FullContactHttpRequest {
-	public static String sendRequest(String requestString)
-			throws FullContactException {
-		StringBuffer buffer = new StringBuffer();
 
-		try {
-			String apiUrl = Constants.API_URL + requestString;
-			URL url = new URL(apiUrl);
+    public static String sendPersonRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_PERSON + paramString));
+    }
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					url.openStream(), Constants.UTF_8_CHARSET));
-			String str;
+    public static String sendPersonEnhancedDataRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_PERSON_ENHANCED_DATA + paramString));
+    }
 
-			while ((str = in.readLine()) != null) {
-				buffer.append(str);
-			}
-
-			in.close();
-		} catch (MalformedURLException e) {
-			throw new FullContactException(e.getMessage());
-		} catch (IOException e) {
-			throw new FullContactException(e.getMessage());
-		}
-
-		return buffer.toString();
-	}
+    public static String sendRequest(String apiUrl)
+            throws FullContactException {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            URL url = new URL(apiUrl);
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    url.openStream(), Constants.UTF_8_CHARSET));
+            String str;
+            while ((str = in.readLine()) != null) {
+                buffer.append(str);
+            }
+            in.close();
+        } catch (MalformedURLException e) {
+            throw new FullContactException(e.getMessage());
+        } catch (IOException e) {
+            throw new FullContactException(e.getMessage());
+        }
+        return buffer.toString();
+    }
 }

@@ -81,6 +81,10 @@ public class FullContact {
         return getPersonInfoByParameters(getWebhookParamMap(Constants.PARAM_TWITTER, twitterId, webhookUrl, webhookId));
     }
 
+    public FullContactEntity getPersonEnhancedInfo(String email)
+            throws FullContactException {
+        return getPersonInfoByParameter(MessageFormat.format(Constants.EMAIL_FORMAT, email));
+    }
 
     private Map<String, String> getWebhookParamMap(String paramName, String paramValue, String webhookUrl, String webhookId){
         Map<String, String> params = new HashMap<String, String>();
@@ -119,8 +123,8 @@ public class FullContact {
 
     private FullContactEntity getPersonInfoByParameter(String paramString)
             throws FullContactException {
-        String requestParams = paramString + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
-        return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
+        paramString = paramString + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parsePersonJsonResponse(FullContactHttpRequest.sendPersonRequest(paramString));
     }
 
     public FullContactEntity parsePersonJsonResponse(String response) {
