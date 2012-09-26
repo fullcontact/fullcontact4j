@@ -29,10 +29,33 @@ public class FullContact {
 
     public FullContactEntity getPersonInformation(String email)
             throws FullContactException {
-        String requestParams =
-            MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&"
-            + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return findByEmail(email);
+    }
 
+    public FullContactEntity findByEmail(String email)
+            throws FullContactException {
+        return findByParameter(MessageFormat.format(Constants.EMAIL_FORMAT, email));
+    }
+
+    public FullContactEntity findByTwitter(String twitterId)
+            throws FullContactException {
+        return findByParameter(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
+    }
+
+    public FullContactEntity findByFacebookUsername(String facebookUsername)
+            throws FullContactException {
+        return findByParameter(MessageFormat.format(Constants.FACEBOOK_FORMAT, facebookUsername));
+    }
+
+    public FullContactEntity findByParameter(String paramName, String paramValue)
+            throws FullContactException {
+        String paramString = paramName+"="+paramValue;
+        return findByParameter(paramString);
+    }
+
+    private FullContactEntity findByParameter(String paramString)
+            throws FullContactException {
+        String requestParams = paramString + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
     }
 
