@@ -8,9 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class FullContact {
     private String apiKey;
@@ -29,31 +27,97 @@ public class FullContact {
 
     public FullContactEntity getPersonInformation(String email)
             throws FullContactException {
-        return findByEmail(email);
+        return getPersonInfoByEmail(email);
     }
 
-    public FullContactEntity findByEmail(String email)
+    public FullContactEntity getPersonInfoByEmail(String email)
             throws FullContactException {
-        return findByParameter(MessageFormat.format(Constants.EMAIL_FORMAT, email));
+        return getPersonInfoByParameter(MessageFormat.format(Constants.EMAIL_FORMAT, email));
     }
 
-    public FullContactEntity findByTwitter(String twitterId)
+    public FullContactEntity getPersonInfoByTwitter(String twitterId)
             throws FullContactException {
-        return findByParameter(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
+        return getPersonInfoByParameter(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
     }
 
-    public FullContactEntity findByFacebookUsername(String facebookUsername)
+    public FullContactEntity getPersonInfoByFacebookUsername(String facebookUsername)
             throws FullContactException {
-        return findByParameter(MessageFormat.format(Constants.FACEBOOK_FORMAT, facebookUsername));
+        return getPersonInfoByParameter(MessageFormat.format(Constants.FACEBOOK_FORMAT, facebookUsername));
     }
 
-    public FullContactEntity findByParameter(String paramName, String paramValue)
+    public FullContactEntity getPersonInfoByParameter(String paramName, String paramValue)
             throws FullContactException {
         String paramString = paramName+"="+paramValue;
-        return findByParameter(paramString);
+        return getPersonInfoByParameter(paramString);
     }
 
-    private FullContactEntity findByParameter(String paramString)
+    public FullContactEntity getPersonInfoByEmailUsingWebhook(String email, String webhookUrl)
+            throws FullContactException {
+        return getPersonInfoByEmailUsingWebhook(email, webhookUrl, null);
+    }
+
+    public FullContactEntity getPersonInfoByEmailUsingWebhook(String email, String webhookUrl, String webhookId)
+            throws FullContactException {
+        return getPersonInfoByParameters(getWebhookParamMap(Constants.PARAM_EMAIL, email, webhookUrl, webhookId));
+    }
+
+    public FullContactEntity getPersonInfoByFacebookUsernameUsingWebhook(String facebookUsername, String webhookUrl)
+            throws FullContactException {
+        return getPersonInfoByFacebookUsernameUsingWebhook(facebookUsername, webhookUrl, null);
+    }
+
+    public FullContactEntity getPersonInfoByFacebookUsernameUsingWebhook(String facebookUsername, String webhookUrl, String webhookId)
+            throws FullContactException {
+        return getPersonInfoByParameters(getWebhookParamMap(Constants.PARAM_FACEBOOK_USERNAME, facebookUsername, webhookUrl, webhookId));
+    }
+
+    public FullContactEntity getPersonInfoByTwitterUsingWebhook(String twitterId, String webhookUrl)
+            throws FullContactException {
+        return getPersonInfoByTwitterUsingWebhook(twitterId, webhookUrl, null);
+    }
+
+    public FullContactEntity getPersonInfoByTwitterUsingWebhook(String twitterId, String webhookUrl, String webhookId)
+            throws FullContactException {
+        return getPersonInfoByParameters(getWebhookParamMap(Constants.PARAM_TWITTER, twitterId, webhookUrl, webhookId));
+    }
+
+
+    private Map<String, String> getWebhookParamMap(String paramName, String paramValue, String webhookUrl, String webhookId){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(paramName, paramValue);
+        params.put(Constants.PARAM_WEBHOOK_URL, webhookUrl);
+        if(webhookId != null){
+            params.put(Constants.PARAM_WEBHOOK_ID, webhookId);
+        }
+        return params;
+    }
+
+    public FullContactEntity getPersonInfoByParameters(Map<String, String> params)
+            throws FullContactException {
+        Iterator<String> itr = params.keySet().iterator();
+        List<String> paramStringList = new ArrayList<String>();
+        while(itr.hasNext()){
+            String key = itr.next();
+            String value = params.get(key);
+            String paramString = key+"="+value;
+            paramStringList.add(paramString);
+        }
+        StringBuffer paramStringBuffer = null;
+        for(String paramString : paramStringList){
+            if(paramStringBuffer == null){
+                paramStringBuffer = new StringBuffer();
+            }else{
+                paramStringBuffer.append("&");
+            }
+            paramStringBuffer.append(paramString);
+        }
+        if(paramStringBuffer != null){
+            return getPersonInfoByParameter(paramStringBuffer.toString());
+        }
+        return null;
+    }
+
+    private FullContactEntity getPersonInfoByParameter(String paramString)
             throws FullContactException {
         String requestParams = paramString + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parsePersonJsonResponse(FullContactHttpRequest.sendRequest(requestParams));
