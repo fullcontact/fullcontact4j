@@ -1,0 +1,64 @@
+{
+  "status": 200,
+  "contactInfo": {
+    "fullName": "Dan Lynn",
+    "givenName": "Dan",
+    "familyName": "Lynn",
+    "phoneNumbers":
+    [
+      {
+        "number": "1 (303) 736-9406",
+        "confidence": 38,
+        "accessType": "direct",
+        "provider": "unknown"
+      },
+      {
+        "number": "1 (303) 736-9406",
+        "confidence": 38,
+        "accessType": "mainOffice",
+        "provider": "unknown"
+      }
+    ],
+    "streetAddresses":
+    [
+      {
+        "stateCode": "CO",
+        "postalCode": "80202-5995",
+        "address": "1400 16TH ST STE 400",
+        "formattedAddress": "1400 16TH ST STE 400 DENVER, CO 80202-5995",
+        "country": "UNITED STATES",
+        "city": "DENVER",
+        "typeId": "direct"
+      }
+    ],
+    "emailAddresses":
+    [
+      "dan@fullcontact.com"
+    ]
+  },
+  "demographics": {
+    "locationGeneral": "DENVER, CO",
+    "country": "UNITED STATES",
+    "postalCode": "80202-5995"
+  },
+  "organizations":
+  [
+    {
+      "name": "FullContact",
+      "title": "Chief Technology Officer and Co-Founder",
+      "positionFunctions":
+      [
+        "Information Technology",
+        "General R&D",
+        "CTO"
+      ],
+      "domains":
+      [
+        "http://www.fullcontact.com"
+      ],
+      "revenueRange": "Unknown",
+      "employeeCountRange": "Less than 25",
+      "isPrimary": true
+    }
+  ]
+}
