@@ -22,6 +22,7 @@ public class FullContactTest extends TestCase {
 
         PersonEntity entity = new FullContact("fake_api_key").parsePersonJsonResponse(json);
 
+        assertEquals(0.88, entity.getLikelihood());
         assertEquals("Lorang", entity.getContactInfo().getFamilyName());
         assertEquals("Bart", entity.getContactInfo().getGivenName());
         assertEquals("Bart Lorang", entity.getContactInfo().getFullName());

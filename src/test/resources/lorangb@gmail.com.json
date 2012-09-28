@@ -1,5 +1,6 @@
 {
   "status": 200,
+  "likelihood": 0.88,
   "contactInfo": {
     "familyName": "Lorang",
     "givenName": "Bart",

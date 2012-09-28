@@ -25,6 +25,9 @@ public class PersonEntity {
 	@SerializedName("status")
 	private int statusCode;
 
+    @SerializedName("likelihood")
+    private double likelihood;
+
     @SerializedName("enhancedData")
     private List<EnhancedDataEntity> enhancedData;
 
@@ -37,6 +40,14 @@ public class PersonEntity {
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
+
+    public double getLikelihood() {
+        return likelihood;
+    }
+
+    public void setLikelihood(double likelihood) {
+        this.likelihood = likelihood;
+    }
 
     public ContactInfo getContactInfo() {
         return contactInfo;

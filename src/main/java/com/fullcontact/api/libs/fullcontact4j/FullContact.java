@@ -134,6 +134,10 @@ public class FullContact {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         message.setStatusCode(jsonObject.get("status").getAsInt());
+        JsonElement likelihood = jsonObject.get("likelihood");
+        if(likelihood != null){
+            message.setLikelihood(jsonObject.get("likelihood").getAsDouble());
+        }
         message.setContactInfo(gson.fromJson(jsonObject.get("contactInfo"), ContactInfo.class));
         message.setDemographics(gson.fromJson(jsonObject.get("demographics"), Demographics.class));
         message.setDigitalFootprint(gson.fromJson(jsonObject.get("digitalFootprint"), DigitalFootPrints.class));
