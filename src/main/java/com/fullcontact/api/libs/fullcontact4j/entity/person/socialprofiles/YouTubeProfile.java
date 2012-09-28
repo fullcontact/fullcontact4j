@@ -1,8 +1,8 @@
-package com.fullcontact.api.libs.fullcontact4j.entity.socialprofiles;
+package com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FlickrProfile extends SocialProfile{
+public class YouTubeProfile extends SocialProfile{
 
     @SerializedName("rss")
     private String rss;

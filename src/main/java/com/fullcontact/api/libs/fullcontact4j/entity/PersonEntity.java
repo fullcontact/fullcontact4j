@@ -1,10 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j.entity;
 
+import com.fullcontact.api.libs.fullcontact4j.entity.person.*;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FullContactEntity {
+public class PersonEntity {
 
     @SerializedName("contactInfo")
     private ContactInfo contactInfo;

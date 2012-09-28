@@ -1,6 +1,6 @@
-package com.fullcontact.api.libs.fullcontact4j.entity;
+package com.fullcontact.api.libs.fullcontact4j.entity.person;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.socialprofiles.*;
+import com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import java.util.*;
