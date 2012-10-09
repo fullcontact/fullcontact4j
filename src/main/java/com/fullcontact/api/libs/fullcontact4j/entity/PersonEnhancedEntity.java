@@ -17,7 +17,7 @@ public class PersonEnhancedEntity {
     private Demographics demographics;
 
     @SerializedName("organizations")
-    private List<Organizations> organizations;
+    private List<Organization> organizations;
 
     public int getStatusCode() {
         return statusCode;
@@ -43,11 +43,11 @@ public class PersonEnhancedEntity {
         this.demographics = demographics;
     }
 
-    public List<Organizations> getOrganizations() {
+    public List<Organization> getOrganizations() {
         return organizations;
     }
 
-    public void setOrganizations(List<Organizations> organizations) {
+    public void setOrganizations(List<Organization> organizations) {
         this.organizations = organizations;
     }
 }

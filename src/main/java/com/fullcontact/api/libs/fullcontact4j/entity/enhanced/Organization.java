@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Organizations {
+public class Organization {
 
 	@SerializedName("name")
-	private String organizationName;
+	private String name;
 
     @SerializedName("title")
-    private String organizationTitle;
+    private String title;
 
     @SerializedName("revenueRange")
     private String revenueRange;
@@ -30,20 +30,20 @@ public class Organizations {
     @SerializedName("industries")
     private List<String> industries;
 
-    public String getOrganizationName() {
-        return organizationName;
+    public String getName() {
+        return name;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getOrganizationTitle() {
-        return organizationTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setOrganizationTitle(String organizationTitle) {
-        this.organizationTitle = organizationTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getRevenueRange() {
