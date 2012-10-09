@@ -26,23 +26,23 @@ public class PersonHandler extends BaseHandler {
 
     public PersonEntity getPersonInfoByEmail(String email)
             throws FullContactException {
-        return getPersonInfoByParameter(MessageFormat.format(Constants.EMAIL_FORMAT, email));
+        return getPersonInfoByParameterString(MessageFormat.format(Constants.EMAIL_FORMAT, email));
     }
 
     public PersonEntity getPersonInfoByTwitter(String twitterId)
             throws FullContactException {
-        return getPersonInfoByParameter(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
+        return getPersonInfoByParameterString(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
     }
 
     public PersonEntity getPersonInfoByFacebookUsername(String facebookUsername)
             throws FullContactException {
-        return getPersonInfoByParameter(MessageFormat.format(Constants.FACEBOOK_FORMAT, facebookUsername));
+        return getPersonInfoByParameterString(MessageFormat.format(Constants.FACEBOOK_FORMAT, facebookUsername));
     }
 
     public PersonEntity getPersonInfoByParameter(String paramName, String paramValue)
             throws FullContactException {
         String paramString = paramName+"="+paramValue;
-        return getPersonInfoByParameter(paramString);
+        return getPersonInfoByParameterString(paramString);
     }
 
     public PersonEntity getPersonInfoByEmailUsingWebhook(String email, String webhookUrl)
@@ -105,12 +105,12 @@ public class PersonHandler extends BaseHandler {
             paramStringBuffer.append(paramString);
         }
         if(paramStringBuffer != null){
-            return getPersonInfoByParameter(paramStringBuffer.toString());
+            return getPersonInfoByParameterString(paramStringBuffer.toString());
         }
         return null;
     }
 
-    private PersonEntity getPersonInfoByParameter(String paramString)
+    private PersonEntity getPersonInfoByParameterString(String paramString)
             throws FullContactException {
         paramString = paramString + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseJsonResponse(FullContactHttpRequest.sendPersonRequest(paramString));
