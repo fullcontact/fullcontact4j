@@ -33,11 +33,13 @@ A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
         PersonEntity entity = personHandler.getPersonInfoByFacebookUsername("bart.lorang");
 
 * Finding a person using parameters Map
+
         Map<String, String> map = new HashMap<String, String>();
         map.put("email", "lorangb@gmail.com");
         PersonEntity entity = personHandler.getPersonInfoByParameters(map);
 
 * Finding a person using WebHooks
+
         Find by email
         PersonEntity entity = personHandler.getPersonInfoByEmailUsingWebhook("lorangb@gmail.com", "http://domain.com/webhookUrl", "webhook-id-123");
 
