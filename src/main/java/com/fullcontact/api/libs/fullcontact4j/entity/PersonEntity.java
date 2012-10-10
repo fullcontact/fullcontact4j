@@ -17,7 +17,7 @@ public class PersonEntity {
     private DigitalFootPrints digitalFootprint;
 
     @SerializedName("organizations")
-    private List<Organizations> organizations;
+    private List<Organization> organizations;
 
 	@SerializedName("photos")
 	private List<Photo> photos;
@@ -65,11 +65,11 @@ public class PersonEntity {
         this.demographics = demographics;
     }
 
-    public List<Organizations> getOrganizations() {
+    public List<Organization> getOrganizations() {
         return organizations;
     }
 
-    public void setOrganizations(List<Organizations> organizations) {
+    public void setOrganizations(List<Organization> organizations) {
         this.organizations = organizations;
     }
 

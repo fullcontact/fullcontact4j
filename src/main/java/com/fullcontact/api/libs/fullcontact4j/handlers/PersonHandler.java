@@ -133,10 +133,10 @@ public class PersonHandler extends BaseHandler {
         JsonElement organizationsJsonObject = jsonObject.get("organizations");
         if(organizationsJsonObject != null && organizationsJsonObject.isJsonArray()){
             Iterator<JsonElement> iterator = organizationsJsonObject.getAsJsonArray().iterator();
-            List<Organizations> organizations = new ArrayList<Organizations>();
+            List<Organization> organizations = new ArrayList<Organization>();
             while(iterator.hasNext()){
                 JsonElement org = iterator.next();
-                organizations.add(gson.fromJson(org, Organizations.class));
+                organizations.add(gson.fromJson(org, Organization.class));
             }
             message.setOrganizations(organizations);
         }

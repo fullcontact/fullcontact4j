@@ -36,7 +36,7 @@ public class FullContactTest extends TestCase {
 
         assertNotNull(entity.getOrganizations());
         assertEquals(2, entity.getOrganizations().size());
-        assertEquals("FullContact", entity.getOrganizations().get(0).getOrganizationName());
+        assertEquals("FullContact", entity.getOrganizations().get(0).getName());
 
         assertNotNull(entity.getDigitalFootprint());
         assertEquals(5, entity.getDigitalFootprint().getTopics().size());
@@ -105,8 +105,8 @@ public class FullContactTest extends TestCase {
         assertNotNull(entity.getOrganizations());
         assertEquals(5, entity.getOrganizations().size());
         assertEquals(true, entity.getOrganizations().get(0).isPrimary());
-        assertEquals("Tech Lead", entity.getOrganizations().get(0).getOrganizationTitle());
-        assertEquals("IntelliGrape Software", entity.getOrganizations().get(0).getOrganizationName());
+        assertEquals("Tech Lead", entity.getOrganizations().get(0).getTitle());
+        assertEquals("IntelliGrape Software", entity.getOrganizations().get(0).getName());
     }
 
     public void test_parse_person_social_profiles() throws IOException {
