@@ -17,9 +17,6 @@ public class ContactInfo {
 	@SerializedName("givenName")
 	private String givenName;
 
-//	@SerializedName("emailAddresses")
-//	private List<String> emailAddress;
-
     @SerializedName("websites")
     private List<Website> websites;
 
@@ -49,14 +46,6 @@ public class ContactInfo {
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
 	}
-
-//	public List<String> getEmailAddress() {
-//		return emailAddress;
-//	}
-//
-//	public void setEmailAddress(List<String> emailAddress) {
-//		this.emailAddress = emailAddress;
-//	}
 
 	public void setChats(List<Chats> chats) {
 		this.chats = chats;
