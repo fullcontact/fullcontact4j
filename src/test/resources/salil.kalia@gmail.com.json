@@ -9,7 +9,15 @@
       {
         "url": "http://rainmaker.cc"
       }
-    ]
+    ],
+  "chats":
+  [
+    {
+      "handle": "gmail",
+      "client": "salil.kalia"
+    }
+  ]
+
   },
   "photos":
   [
