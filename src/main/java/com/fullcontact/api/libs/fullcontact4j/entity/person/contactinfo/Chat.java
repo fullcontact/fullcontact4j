@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.entity.person.contactinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Chats {
+public class Chat {
 
 	@SerializedName("client")
 	private String chatClient;

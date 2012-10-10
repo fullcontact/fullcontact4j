@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.entity.person;
 
 import java.util.List;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.person.contactinfo.Chats;
+import com.fullcontact.api.libs.fullcontact4j.entity.person.contactinfo.Chat;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.contactinfo.Website;
 import com.google.gson.annotations.SerializedName;
 
@@ -21,7 +21,7 @@ public class ContactInfo {
     private List<Website> websites;
 
     @SerializedName("chats")
-    private List<Chats> chats;
+    private List<Chat> chats;
 
 	public String getFamilyName() {
 		return familyName;
@@ -47,11 +47,11 @@ public class ContactInfo {
 		this.givenName = givenName;
 	}
 
-	public void setChats(List<Chats> chats) {
+	public void setChats(List<Chat> chats) {
 		this.chats = chats;
 	}
 
-	public List<Chats> getChats() {
+	public List<Chat> getChats() {
 		return chats;
 	}
 
