@@ -1,4 +1,4 @@
-#jFullContact
+#Fullcontact4j
 
 A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
 
