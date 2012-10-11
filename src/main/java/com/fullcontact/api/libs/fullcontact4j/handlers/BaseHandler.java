@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.handlers;
 
-public class BaseHandler {
+abstract class BaseHandler<T> {
     protected String apiKey;
 
     public BaseHandler(String apiKey) {
@@ -14,5 +14,7 @@ public class BaseHandler {
 
         this.apiKey = apiKey;
     }
+
+     abstract T parseJsonResponse(String response);
 
 }

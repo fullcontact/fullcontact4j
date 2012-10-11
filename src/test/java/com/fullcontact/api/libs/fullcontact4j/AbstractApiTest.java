@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import junit.framework.TestCase;
-
 import java.io.*;
 
 abstract class AbstractApiTest extends TestCase {
