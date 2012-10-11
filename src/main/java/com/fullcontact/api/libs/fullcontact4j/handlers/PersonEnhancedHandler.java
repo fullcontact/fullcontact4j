@@ -3,7 +3,6 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.*;
-import com.fullcontact.api.libs.fullcontact4j.entity.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.PersonEnhancedEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.PersonEnhancedEntity;
 import java.io.*;
 
 public class PersonEnhancedTest extends AbstractApiTest {

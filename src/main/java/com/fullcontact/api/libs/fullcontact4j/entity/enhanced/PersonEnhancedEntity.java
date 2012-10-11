@@ -1,4 +1,4 @@
-package com.fullcontact.api.libs.fullcontact4j.entity;
+package com.fullcontact.api.libs.fullcontact4j.entity.enhanced;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.*;
 import com.google.gson.annotations.SerializedName;
