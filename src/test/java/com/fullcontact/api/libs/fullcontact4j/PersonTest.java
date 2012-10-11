@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.PersonEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.person.PersonEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles.SocialProfile;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles.SocialProfileType;
 import java.io.*;
