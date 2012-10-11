@@ -1,11 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.PersonEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles.SocialProfile;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles.SocialProfileType;
-import junit.framework.TestCase;
-
 import java.io.*;
 
 /**
@@ -15,8 +12,7 @@ import java.io.*;
  * Time: 5:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FullContactTest extends TestCase {
-    public static String newline = System.getProperty("line.separator");
+public class PersonTest extends AbstractApiTest {
 
     public void test_parse_person_json_response() throws IOException {
         String json = loadJson("lorangb@gmail.com.json");
@@ -136,35 +132,4 @@ public class FullContactTest extends TestCase {
         assertEquals("https://img-s.foursquare.com/userpix_thumbs/X5NY5CWU3C0R5O1B.jpg", entity.getPhotos().get(19).getPhotoUrl());
     }
 
-    public void test_parse_person_enhanced_data() throws IOException, FullContactException {
-        String json = loadJson("enhanced.dan@fullcontact.com.json");
-        PersonEnhancedEntity entity = new FullContact("fake_api_key").getPersonEnhancedHandler().parseJsonResponse(json);
-        assertNotNull(entity);
-        assertEquals("Dan Lynn", entity.getContactInfo().getFullName());
-        assertEquals("Dan", entity.getContactInfo().getGivenName());
-        assertEquals("Lynn", entity.getContactInfo().getFamilyName());
-        assertEquals(2, entity.getContactInfo().getPhoneNumbers().size());
-        assertEquals(38, entity.getContactInfo().getPhoneNumbers().get(0).getConfidence());
-        assertEquals(1, entity.getContactInfo().getStreetAddresses().size());
-        assertEquals(1, entity.getContactInfo().getEmailAddress().size());
-        assertEquals("dan@fullcontact.com", entity.getContactInfo().getEmailAddress().get(0));
-        assertEquals("80202-5995", entity.getDemographics().getPostalCode());
-        assertEquals(1, entity.getOrganizations().size());
-        assertEquals("FullContact", entity.getOrganizations().get(0).getName());
-        assertEquals(true, entity.getOrganizations().get(0).isPrimary());
-    }
-
-    private String loadJson(String fileName) throws IOException {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("src/test/resources/" + fileName))));
-
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-            sb.append(newline);
-        }
-
-        return sb.toString();
-    }
 }
