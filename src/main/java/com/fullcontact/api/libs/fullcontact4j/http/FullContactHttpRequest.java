@@ -17,6 +17,31 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_PERSON + paramString));
     }
 
+    public static String sendNameNormalizationRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_NAME_NORMALIZATION + paramString));
+    }
+
+    public static String sendNameDeducerRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_NAME_DEDUCER + paramString));
+    }
+
+    public static String sendNameSimilarityRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_NAME_SIMILARITY + paramString));
+    }
+
+    public static String sendNameStatsRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_NAME_STATS + paramString));
+    }
+
+    public static String sendNameParserRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_NAME_PARSER + paramString));
+    }
+
     public static String sendPersonEnhancedDataRequest(String paramString)
             throws FullContactException {
         return sendRequest((Constants.API_URL_PERSON_ENHANCED_DATA + paramString));

@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
+import com.fullcontact.api.libs.fullcontact4j.handlers.NameHandler;
 import com.fullcontact.api.libs.fullcontact4j.handlers.PersonEnhancedHandler;
 import com.fullcontact.api.libs.fullcontact4j.handlers.PersonHandler;
 
@@ -7,6 +8,7 @@ public class FullContact {
     private String apiKey;
     private PersonHandler _personHandler;
     private PersonEnhancedHandler _personEnhancedHandler;
+    private NameHandler _nameHandler;
 
     public FullContact(String apiKey) {
         if (apiKey == null) {
@@ -32,6 +34,13 @@ public class FullContact {
             _personEnhancedHandler =  new PersonEnhancedHandler(apiKey);
         }
         return _personEnhancedHandler;
+    }
+
+    public NameHandler getNameHandler(){
+        if(_nameHandler == null){
+            _nameHandler =  new NameHandler(apiKey);
+        }
+        return _nameHandler;
     }
 
 }
