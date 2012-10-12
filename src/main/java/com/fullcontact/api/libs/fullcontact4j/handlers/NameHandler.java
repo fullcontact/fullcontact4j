@@ -19,7 +19,8 @@ public class NameHandler extends BaseHandler {
 
     public NameEntity getNameNormalizationInfo(String query)
             throws FullContactException {
-        String paramString = MessageFormat.format(Constants.PARAM_QUERY, query) + "&" + MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        String paramString = MessageFormat.format(Constants.QUERY_FORMAT, query) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseJsonResponse(FullContactHttpRequest.sendNameNormalizationRequest(paramString));
     }
 
@@ -30,6 +31,7 @@ public class NameHandler extends BaseHandler {
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         message.setStatusCode(jsonObject.get("status").getAsInt());
         message.setLikelihood(jsonObject.get("likelihood").getAsDouble());
+        message.setRequestId(jsonObject.get("requestId").getAsString());
         message.setRegion(jsonObject.get("region").getAsString());
         message.setNameInfo(gson.fromJson(jsonObject.get("nameDetails"), NameInfo.class));
         return message;

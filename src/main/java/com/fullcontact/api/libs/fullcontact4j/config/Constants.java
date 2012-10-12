@@ -15,13 +15,13 @@ public class Constants {
     public static final String TWITTER_FORMAT = "twitter={0}";
     public static final String FACEBOOK_FORMAT = "facebookUsername={0}";
     public static final String TIMEOUT_SECONDS_FORMAT = "timeoutSeconds={0}";
+    public static final String QUERY_FORMAT = "q={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";
     public static final String PARAM_FACEBOOK_USERNAME = "facebookUsername";
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";
-    public static final String PARAM_QUERY = "q";
 
     public static final String UTF_8_CHARSET = "UTF-8";
 }

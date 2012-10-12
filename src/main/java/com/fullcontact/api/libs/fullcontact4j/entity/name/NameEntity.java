@@ -10,6 +10,9 @@ public class NameEntity {
     @SerializedName("likelihood")
     private double likelihood;
 
+    @SerializedName("requestId")
+    private String requestId;
+
     @SerializedName("region")
     private String region;
 
@@ -46,5 +49,13 @@ public class NameEntity {
 
     public void setNameInfo(NameInfo nameInfo) {
         this.nameInfo = nameInfo;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }
