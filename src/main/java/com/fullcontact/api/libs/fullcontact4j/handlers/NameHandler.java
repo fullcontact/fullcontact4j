@@ -31,6 +31,13 @@ public class NameHandler extends BaseHandler {
         return parseDeducerJsonResponse(FullContactHttpRequest.sendNameDeducerRequest(paramString));
     }
 
+    public NameEntity getNameDeducerInfoByUsername(String username)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.USERNAME_FORMAT, username) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseDeducerJsonResponse(FullContactHttpRequest.sendNameDeducerRequest(paramString));
+    }
+
     public NameEntity parseJsonResponse(String response) {
         return parseNormalizationJsonResponse(response);
     }

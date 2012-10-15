@@ -12,6 +12,7 @@ public class Constants {
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
+    public static final String USERNAME_FORMAT = "username={0}";
     public static final String TWITTER_FORMAT = "twitter={0}";
     public static final String FACEBOOK_FORMAT = "facebookUsername={0}";
     public static final String TIMEOUT_SECONDS_FORMAT = "timeoutSeconds={0}";
