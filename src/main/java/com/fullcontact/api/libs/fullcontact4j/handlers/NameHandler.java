@@ -24,7 +24,31 @@ public class NameHandler extends BaseHandler {
         return parseJsonResponse(FullContactHttpRequest.sendNameNormalizationRequest(paramString));
     }
 
+    public NameEntity getNameDeducerInfoByEmail(String email)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseDeducerJsonResponse(FullContactHttpRequest.sendNameDeducerRequest(paramString));
+    }
+
     public NameEntity parseJsonResponse(String response) {
+        return parseNormalizationJsonResponse(response);
+    }
+
+    public NameEntity parseNormalizationJsonResponse(String response) {
+        NameEntity message = new NameEntity();
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        message.setStatusCode(jsonObject.get("status").getAsInt());
+        message.setLikelihood(jsonObject.get("likelihood").getAsDouble());
+        message.setRequestId(jsonObject.get("requestId").getAsString());
+        message.setRegion(jsonObject.get("region").getAsString());
+        message.setNameInfo(gson.fromJson(jsonObject.get("nameDetails"), NameInfo.class));
+        return message;
+    }
+
+    public NameEntity parseDeducerJsonResponse(String response) {
         NameEntity message = new NameEntity();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
