@@ -4,6 +4,8 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameInfo;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserInfo;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -38,6 +40,13 @@ public class NameHandler extends BaseHandler {
         return parseDeducerJsonResponse(FullContactHttpRequest.sendNameDeducerRequest(paramString));
     }
 
+    public NameParserEntity getNameParserInfo(String query)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.QUERY_FORMAT, query) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseParserJsonResponse(FullContactHttpRequest.sendNameParserRequest(paramString));
+    }
+
     public NameEntity parseJsonResponse(String response) {
         return parseNormalizationJsonResponse(response);
     }
@@ -65,6 +74,24 @@ public class NameHandler extends BaseHandler {
         message.setRequestId(jsonObject.get("requestId").getAsString());
         message.setRegion(jsonObject.get("region").getAsString());
         message.setNameInfo(gson.fromJson(jsonObject.get("nameDetails"), NameInfo.class));
+        return message;
+    }
+
+    public NameParserEntity parseParserJsonResponse(String response) {
+        NameParserEntity message = new NameParserEntity();
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        message.setStatusCode(jsonObject.get("status").getAsInt());
+        message.setRequestId(jsonObject.get("requestId").getAsString());
+        if(jsonObject.get("likelihood") != null){
+            message.setLikelihood(jsonObject.get("likelihood").getAsDouble());
+        }else if (jsonObject.get("result") != null){
+            message.setLikelihood(jsonObject.get("result").getAsJsonObject().get("likelihood").getAsDouble());
+        }
+        message.setRegion(jsonObject.get("region").getAsString());
+        message.setAmbiguousName(jsonObject.get("ambiguousName").getAsString());
+        message.setNameInfo(gson.fromJson(jsonObject.get("result"), NameParserInfo.class));
         return message;
     }
 

@@ -2,6 +2,8 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameInfo;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserInfo;
 
 import java.io.IOException;
 
@@ -65,6 +67,28 @@ public class NameTest extends AbstractApiTest {
         System.out.println("First Name: " + nameInfo.getGivenName());
         System.out.println("Last Name: " + nameInfo.getFamilyName());
         System.out.println("Middle Names: " + nameInfo.getMiddleNames());
+    }
+
+    public void test_name_parser() throws IOException, FullContactException {
+        String json = loadJson("name.parser.json");
+        NameParserEntity entity = new FullContact("fake_api_key").getNameHandler().parseParserJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals(1.0, entity.getLikelihood());
+        assertEquals("80a4772d-e970-44af-a695-31054a8f5d45", entity.getRequestId());
+        assertEquals("USA", entity.getRegion());
+        assertEquals("John Smith", entity.getAmbiguousName());
+        assertEquals("John", entity.getNameInfo().getGivenName());
+        assertEquals("Smith", entity.getNameInfo().getFamilyName());
+
+        System.out.println("Status: " + entity.getStatusCode());
+        System.out.println("Likelihood: " + entity.getLikelihood());
+        System.out.println("RequestId: " + entity.getRequestId());
+        System.out.println("Region: " + entity.getRegion());
+        System.out.println("AmbiguousName: " + entity.getAmbiguousName());
+        NameParserInfo nameInfo = entity.getNameInfo();
+        System.out.println("First Name: " + nameInfo.getGivenName());
+        System.out.println("Last Name: " + nameInfo.getFamilyName());
     }
 
 }

@@ -1,0 +1,11 @@
+{
+  "status": 200,
+  "requestId": "80a4772d-e970-44af-a695-31054a8f5d45",
+  "ambiguousName": "John Smith",
+  "result": {
+    "givenName": "John",
+    "familyName": "Smith",
+    "likelihood": 1
+  },
+  "region": "USA"
+}
