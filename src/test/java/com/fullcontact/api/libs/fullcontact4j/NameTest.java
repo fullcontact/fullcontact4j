@@ -1,9 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameInfo;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserInfo;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.*;
 
 import java.io.IOException;
 
@@ -89,6 +86,30 @@ public class NameTest extends AbstractApiTest {
         NameParserInfo nameInfo = entity.getNameInfo();
         System.out.println("First Name: " + nameInfo.getGivenName());
         System.out.println("Last Name: " + nameInfo.getFamilyName());
+    }
+
+    public void test_name_similarity() throws IOException, FullContactException {
+        String json = loadJson("name.similarity.json");
+        NameSimilarityEntity entity = new FullContact("fake_api_key").getNameHandler().parseSimilarityJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals(0.8888889, entity.getSimMetricsData().getJaroWinklerInfo().getSimilarity());
+        assertEquals(0.44444442, entity.getSimMetricsData().getLevenshteinInfo().getSimilarity());
+        assertEquals(0.888888888888889, entity.getSecondStringData().getJaroWinklerInfo().getSimilarity());
+        assertEquals(0.4444444444444444, entity.getSecondStringData().getLevenshteinInfo().getSimilarity());
+        assertEquals(0.888888888888889, entity.getSecondStringData().getLevel2jaroWinklerInfo().getSimilarity());
+        assertEquals(0.4444444444444444, entity.getSecondStringData().getLevel2levenshteinInfo().getSimilarity());
+        assertEquals(0.5454545455, entity.getBiagramData().getDiceInfo().getSimilarity());
+        assertEquals("24 ms", entity.getBiagramData().getDiceInfo().getTimeTaken());
+
+        System.out.println("Status: " + entity.getStatusCode());
+        System.out.println("SimMetrics JaroWinkler Similarity: " + entity.getSimMetricsData().getJaroWinklerInfo().getSimilarity());
+        System.out.println("SimMetrics Levenshtein Similarity: " + entity.getSimMetricsData().getLevenshteinInfo().getSimilarity());
+        System.out.println("SecondString JaroWinkler Similarity: " + entity.getSecondStringData().getJaroWinklerInfo().getSimilarity());
+        System.out.println("SecondString Levenshtein Similarity: " + entity.getSecondStringData().getLevenshteinInfo().getSimilarity());
+        System.out.println("SecondString Level2 JaroWinkler Similarity: " + entity.getSecondStringData().getLevel2jaroWinklerInfo().getSimilarity());
+        System.out.println("SecondString Level2 Levenshtein Similarity: " + entity.getSecondStringData().getLevel2levenshteinInfo().getSimilarity());
+        System.out.println("Biagram Dice Similarity: " + entity.getBiagramData().getDiceInfo().getSimilarity());
     }
 
 }

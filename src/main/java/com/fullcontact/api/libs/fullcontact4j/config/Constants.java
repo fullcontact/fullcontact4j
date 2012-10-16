@@ -17,6 +17,8 @@ public class Constants {
     public static final String FACEBOOK_FORMAT = "facebookUsername={0}";
     public static final String TIMEOUT_SECONDS_FORMAT = "timeoutSeconds={0}";
     public static final String QUERY_FORMAT = "q={0}";
+    public static final String QUERY1_FORMAT = "q1={0}";
+    public static final String QUERY2_FORMAT = "q2={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";

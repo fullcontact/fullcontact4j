@@ -2,10 +2,9 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameInfo;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.name.NameParserInfo;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.*;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.BiagramData;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.SimilarityData;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -45,6 +44,14 @@ public class NameHandler extends BaseHandler {
         String paramString = MessageFormat.format(Constants.QUERY_FORMAT, query) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseParserJsonResponse(FullContactHttpRequest.sendNameParserRequest(paramString));
+    }
+
+    public NameSimilarityEntity getNameSimilarityInfo(String query1, String query2)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.QUERY1_FORMAT, query1) + "&" +
+                MessageFormat.format(Constants.QUERY2_FORMAT, query2) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseSimilarityJsonResponse(FullContactHttpRequest.sendNameSimilarityRequest(paramString));
     }
 
     public NameEntity parseJsonResponse(String response) {
@@ -92,6 +99,26 @@ public class NameHandler extends BaseHandler {
         message.setRegion(jsonObject.get("region").getAsString());
         message.setAmbiguousName(jsonObject.get("ambiguousName").getAsString());
         message.setNameInfo(gson.fromJson(jsonObject.get("result"), NameParserInfo.class));
+        return message;
+    }
+
+    public NameSimilarityEntity parseSimilarityJsonResponse(String response) {
+        NameSimilarityEntity message = new NameSimilarityEntity();
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        message.setStatusCode(jsonObject.get("status").getAsInt());
+        if(jsonObject.get("result") != null){
+            JsonObject result = jsonObject.get("result").getAsJsonObject();
+            if(result.get("SimMetrics") != null)
+                message.setSimMetricsData(gson.fromJson(result.get("SimMetrics"), SimilarityData.class));
+            if(result.get("SecondString") != null)
+                message.setSecondStringData(gson.fromJson(result.get("SecondString"), SimilarityData.class));
+            if(result.get("FullContact") != null){
+                message.setBiagramData(gson.fromJson(result.get("FullContact").getAsJsonObject()
+                        .get("BigramAnalysis"), BiagramData.class));
+            }
+        }
         return message;
     }
 
