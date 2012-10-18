@@ -151,5 +151,6 @@
             System.out.println("isPrimary: " + dataEntity.isPrimary());
         }
 
-##Dependencies
-* Google GSON (http://code.google.com/p/google-gson/)
+##Other API
+ * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
+ * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)

@@ -9,3 +9,7 @@
 
 * Get PersonEnhancedHandler (handler for Enhanced data API)
         PersonEnhancedHandler enhancedHandler = fullContact.getPersonEnhancedHandler();
+
+##Other API
+* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
+* [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)

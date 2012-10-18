@@ -9,3 +9,7 @@
 
 * Get NameHandler (handler for Name API)
         NameHandler nameHandler = fullContact.getNameHandler();
+
+##Other API
+* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
+* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
