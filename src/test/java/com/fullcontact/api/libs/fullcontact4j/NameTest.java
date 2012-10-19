@@ -210,4 +210,51 @@ public class NameTest extends AbstractApiTest {
         assertEquals(35.3, maleAgeNameStats.getQuartiles().getQuartile1());
     }
 
+    public void test_name_stats_givenName_familyName() throws IOException, FullContactException {
+        String json = loadJson("name.stats.givenName-familyName.json");
+        NameStatsEntity entity = new FullContact("fake_api_key").getNameHandler().parseStatsJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals("e8beadff-10b5-46f6-9b99-2124bbf0a408", entity.getRequestId());
+        assertEquals("USA", entity.getRegion());
+        assertNotNull(entity.getNameStatsInfo());
+        assertEquals("John Smith", entity.getNameStatsInfo().getValue());
+
+        assertNotNull(entity.getNameStatsInfo().getFamilyNameStats());
+
+        assertEquals(2376206, entity.getNameStatsInfo().getFamilyNameStats().getCount());
+        assertEquals(1, entity.getNameStatsInfo().getFamilyNameStats().getRank());
+        assertEquals("0.009814123", entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
+
+        assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
+        assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
+        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+
+        // given name female stats
+        GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
+        assertNotNull(femaleNameStats);
+        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(15015, femaleNameStats.getCount());
+        assertEquals(0.004, femaleNameStats.getLikelihood());
+        assertEquals(928, femaleNameStats.getRank());
+
+        // given name male stats
+        GenderStats maleNameStats = entity.getNameStatsInfo().getGivenNameStats().getMaleStats();
+        assertNotNull(maleNameStats);
+        assertEquals("0.026305137", maleNameStats.getFrequencyRatio());
+        assertEquals(3484136, maleNameStats.getCount());
+        assertEquals(0.996, maleNameStats.getLikelihood());
+        assertEquals(3, maleNameStats.getRank());
+
+        // given name male age stats
+        AgeDensityCurveStats maleAgeNameStats = entity.getNameStatsInfo()
+                .getGivenNameStats().getMaleStats().getAgeStats().getDensityCurve();
+
+        assertNotNull(maleAgeNameStats);
+        assertEquals(51.2, maleAgeNameStats.getMeanAge());
+        assertEquals(77174, maleAgeNameStats.getMode().getCount());
+        assertEquals(47, maleAgeNameStats.getMode().getModeAge().get(0).intValue());
+        assertEquals(35.3, maleAgeNameStats.getQuartiles().getQuartile1());
+    }
+
 }
