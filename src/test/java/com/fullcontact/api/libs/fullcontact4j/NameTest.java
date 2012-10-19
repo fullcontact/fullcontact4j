@@ -175,4 +175,39 @@ public class NameTest extends AbstractApiTest {
         System.out.println("Mode age: " + femaleAgeNameStats.getMode().getModeAge());
     }
 
+    public void test_name_stats_givenName() throws IOException, FullContactException {
+        String json = loadJson("name.stats.givenName.json");
+        NameStatsEntity entity = new FullContact("fake_api_key").getNameHandler().parseStatsJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals("e8beadff-10b5-46f6-9b99-2124bbf0a408", entity.getRequestId());
+        assertEquals("USA", entity.getRegion());
+        assertNotNull(entity.getNameStatsInfo());
+        assertEquals("John", entity.getNameStatsInfo().getValue());
+
+        assertNull(entity.getNameStatsInfo().getFamilyNameStats());
+
+        assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
+        assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
+        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+
+        // given name female stats
+        GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
+        assertNotNull(femaleNameStats);
+        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(15015, femaleNameStats.getCount());
+        assertEquals(0.004, femaleNameStats.getLikelihood());
+        assertEquals(928, femaleNameStats.getRank());
+
+        // given name male age stats
+        AgeDensityCurveStats maleAgeNameStats = entity.getNameStatsInfo()
+                .getGivenNameStats().getMaleStats().getAgeStats().getDensityCurve();
+
+        assertNotNull(maleAgeNameStats);
+        assertEquals(51.2, maleAgeNameStats.getMeanAge());
+        assertEquals(77174, maleAgeNameStats.getMode().getCount());
+        assertEquals(47, maleAgeNameStats.getMode().getModeAge().get(0).intValue());
+        assertEquals(35.3, maleAgeNameStats.getQuartiles().getQuartile1());
+    }
+
 }
