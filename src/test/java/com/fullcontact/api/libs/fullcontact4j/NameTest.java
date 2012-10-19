@@ -257,4 +257,22 @@ public class NameTest extends AbstractApiTest {
         assertEquals(35.3, maleAgeNameStats.getQuartiles().getQuartile1());
     }
 
+    public void test_name_stats_familyName() throws IOException, FullContactException {
+        String json = loadJson("name.stats.familyName.json");
+        NameStatsEntity entity = new FullContact("fake_api_key").getNameHandler().parseStatsJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals("e8beadff-10b5-46f6-9b99-2124bbf0a408", entity.getRequestId());
+        assertEquals("USA", entity.getRegion());
+        assertNotNull(entity.getNameStatsInfo());
+        assertEquals("Smith", entity.getNameStatsInfo().getValue());
+
+        assertNull(entity.getNameStatsInfo().getGivenNameStats());
+        assertNotNull(entity.getNameStatsInfo().getFamilyNameStats());
+
+        assertEquals(2376206, entity.getNameStatsInfo().getFamilyNameStats().getCount());
+        assertEquals(1, entity.getNameStatsInfo().getFamilyNameStats().getRank());
+        assertEquals("0.009814123", entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
+    }
+
 }
