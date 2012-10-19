@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.name.*;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.stats.*;
 
 import java.io.IOException;
 
@@ -110,6 +111,68 @@ public class NameTest extends AbstractApiTest {
         System.out.println("SecondString Level2 JaroWinkler Similarity: " + entity.getSecondStringData().getLevel2jaroWinklerInfo().getSimilarity());
         System.out.println("SecondString Level2 Levenshtein Similarity: " + entity.getSecondStringData().getLevel2levenshteinInfo().getSimilarity());
         System.out.println("Biagram Dice Similarity: " + entity.getBiagramData().getDiceInfo().getSimilarity());
+    }
+
+    public void test_name_stats_name() throws IOException, FullContactException {
+        String json = loadJson("name.stats.name.json");
+        NameStatsEntity entity = new FullContact("fake_api_key").getNameHandler().parseStatsJsonResponse(json);
+        assertNotNull(entity);
+        assertEquals(200, entity.getStatusCode());
+        assertEquals("e8beadff-10b5-46f6-9b99-2124bbf0a408", entity.getRequestId());
+        assertEquals("USA", entity.getRegion());
+        assertNotNull(entity.getNameStatsInfo());
+        assertEquals("John", entity.getNameStatsInfo().getValue());
+        assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
+        assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
+        assertEquals(0.992, entity.getNameStatsInfo().getGivenNameStats().getLikelihood());
+        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+
+        // given name female stats
+        GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
+        assertNotNull(femaleNameStats);
+        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(15015, femaleNameStats.getCount());
+        assertEquals(0.004, femaleNameStats.getLikelihood());
+        assertEquals(928, femaleNameStats.getRank());
+
+        // given name male age stats
+        AgeDensityCurveStats maleAgeNameStats = entity.getNameStatsInfo()
+                .getGivenNameStats().getMaleStats().getAgeStats().getDensityCurve();
+
+        assertNotNull(maleAgeNameStats);
+        assertEquals(51.2, maleAgeNameStats.getMeanAge());
+        assertEquals(77174, maleAgeNameStats.getMode().getCount());
+        assertEquals(47, maleAgeNameStats.getMode().getModeAge().get(0).intValue());
+        assertEquals(35.3, maleAgeNameStats.getQuartiles().getQuartile1());
+
+        System.out.println("Request Status: " + entity.getStatusCode());
+        System.out.println("Request Id: " + entity.getRequestId());
+        System.out.println("Region: " + entity.getRegion());
+
+        // Name Stats info
+        NameStatsInfo statsInfo = entity.getNameStatsInfo();
+        System.out.println("Name value: " + statsInfo.getValue());
+
+        //Name Stats - basic info (common as Given name and family name)
+        BasicNameStats familyNameStats = statsInfo.getFamilyNameStats();
+        System.out.println("Name Count (familyName wise): " + familyNameStats.getCount());
+        System.out.println("Name Rank  (familyName wise): " + familyNameStats.getRank());
+        System.out.println("Name Likelihood (familyName wise): " + familyNameStats.getLikelihood());
+        System.out.println("Name frequency ratio (familyName wise): " + familyNameStats.getFrequencyRatio());
+
+        // Name Stats on Gender basis
+        GenderStats maleNameStats = statsInfo.getGivenNameStats().getMaleStats();
+        System.out.println("Name Count (as male): " + maleNameStats.getCount());
+        System.out.println("Name Rank  (as male): " + maleNameStats.getRank());
+        System.out.println("Name Likelihood (as male): " + maleNameStats.getLikelihood());
+        System.out.println("Name frequency ratio (as male): " + maleNameStats.getFrequencyRatio());
+
+        // Name Stats on the basis of Age Density Curve
+        AgeDensityCurveStats femaleAgeNameStats = statsInfo.getGivenNameStats().getFemaleStats().getAgeStats().getDensityCurve();
+        System.out.println("Mean age: " + femaleAgeNameStats.getMeanAge());
+        System.out.println("Quartile 1: " + femaleAgeNameStats.getQuartiles().getQuartile1());
+        System.out.println("Age mode count: " + femaleAgeNameStats.getMode().getCount());
+        System.out.println("Mode age: " + femaleAgeNameStats.getMode().getModeAge());
     }
 
 }

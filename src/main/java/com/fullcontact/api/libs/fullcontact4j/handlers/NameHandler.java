@@ -5,6 +5,7 @@ import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.*;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.BiagramData;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.SimilarityData;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.stats.NameStatsInfo;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -52,6 +53,13 @@ public class NameHandler extends BaseHandler {
                 MessageFormat.format(Constants.QUERY2_FORMAT, query2) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseSimilarityJsonResponse(FullContactHttpRequest.sendNameSimilarityRequest(paramString));
+    }
+
+    public NameStatsEntity getNameStatsByName(String name)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.NAME_FORMAT, name) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseStatsJsonResponse(FullContactHttpRequest.sendNameStatsRequest(paramString));
     }
 
     public NameEntity parseJsonResponse(String response) {
@@ -119,6 +127,18 @@ public class NameHandler extends BaseHandler {
                         .get("BigramAnalysis"), BiagramData.class));
             }
         }
+        return message;
+    }
+
+    public NameStatsEntity parseStatsJsonResponse(String response) {
+        NameStatsEntity message = new NameStatsEntity();
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        message.setStatusCode(jsonObject.get("status").getAsInt());
+        message.setRequestId(jsonObject.get("requestId").getAsString());
+        message.setRegion(jsonObject.get("region").getAsString());
+        message.setNameStatsInfo(gson.fromJson(jsonObject.get("name"), NameStatsInfo.class));
         return message;
     }
 
