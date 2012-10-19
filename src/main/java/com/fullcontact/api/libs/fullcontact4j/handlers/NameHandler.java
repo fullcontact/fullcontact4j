@@ -62,6 +62,28 @@ public class NameHandler extends BaseHandler {
         return parseStatsJsonResponse(FullContactHttpRequest.sendNameStatsRequest(paramString));
     }
 
+    public NameStatsEntity getNameStatsByGivenName(String givenName)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.GIVEN_NAME_FORMAT, givenName) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseStatsJsonResponse(FullContactHttpRequest.sendNameStatsRequest(paramString));
+    }
+
+    public NameStatsEntity getNameStatsByFamilyName(String familyName)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.FAMILY_NAME_FORMAT, familyName) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseStatsJsonResponse(FullContactHttpRequest.sendNameStatsRequest(paramString));
+    }
+
+    public NameStatsEntity getNameStatsByGivenNameAndFamilyName(String givenName, String familyName)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.GIVEN_NAME_FORMAT, givenName) + "&" +
+                MessageFormat.format(Constants.FAMILY_NAME_FORMAT, familyName) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseStatsJsonResponse(FullContactHttpRequest.sendNameStatsRequest(paramString));
+    }
+
     public NameEntity parseJsonResponse(String response) {
         return parseNormalizationJsonResponse(response);
     }
