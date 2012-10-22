@@ -21,11 +21,11 @@
 
 * Deduce name from email
 
-            NameEntity entity = nameHandler.getNameDeducerInfoByEmail("johndsmith79@business.com");
+        NameEntity entity = nameHandler.getNameDeducerInfoByEmail("johndsmith79@business.com");
 
 * Deduce name from username
 
-            NameEntity entity = nameHandler.getNameDeducerInfoByUsername("johndsmith79@business.com");
+        NameEntity entity = nameHandler.getNameDeducerInfoByUsername("johndsmith79");
 
 ###NameEntity information
 * Status Code of the Request
@@ -75,6 +75,53 @@
 * Getting the nick-name
 
         System.out.println("Nicknames: " + nameInfo.getNicknames());
+
+
+##Name Similarity:
+
+* Check similarity between two names
+
+        NameSimilarityEntity entity = nameHandler.getNameSimilarityInfo("john", "johnathan");
+
+* Getting the request status
+
+        System.out.println("Status: " + entity.getStatusCode());
+
+* Getting the SimMetrics similarity info
+
+        SimilarityData similarityData = entity.getSimMetricsData();
+
+* Getting the SimMetrics JaroWinkler Similarity
+
+        System.out.println("SimMetrics JaroWinkler Similarity: " + similarityData.getJaroWinklerInfo().getSimilarity());
+
+* Getting the SimMetrics Levenshtein Similarity
+
+        System.out.println("SimMetrics Levenshtein Similarity: " + similarityData.getLevenshteinInfo().getSimilarity());
+
+* Getting the SecondString info
+
+        SimilarityData similarityData = entity.getSecondStringData();
+
+* Getting the SecondString JaroWinkler Similarity
+
+        System.out.println("SecondString JaroWinkler Similarity: " + similarityData.getJaroWinklerInfo().getSimilarity());
+
+* Getting the SecondString Levenshtein Similarity
+
+        System.out.println("SecondString Levenshtein Similarity: " + similarityData.getLevenshteinInfo().getSimilarity());
+
+* Getting the SecondString Level2 JaroWinkler Similarity
+
+        System.out.println("SecondString Level2 JaroWinkler Similarity: " + similarityData.getLevel2jaroWinklerInfo().getSimilarity());
+
+* Getting the SecondString Level2 Levenshtein Similarity
+
+        System.out.println("SecondString Level2 Levenshtein Similarity: " + similarityData.getLevel2levenshteinInfo().getSimilarity());
+
+* Getting the BiagramData Dice Similarity
+
+        System.out.println("Biagram Dice Similarity: " + entity.getBiagramData().getDiceInfo().getSimilarity());
 
 
 ##Other API

@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.name.*;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.SimilarityData;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.stats.*;
 
 import java.io.IOException;
@@ -79,15 +80,6 @@ public class NameTest extends AbstractApiTest {
         assertEquals(0.4444444444444444, entity.getSecondStringData().getLevel2levenshteinInfo().getSimilarity());
         assertEquals(0.5454545455, entity.getBiagramData().getDiceInfo().getSimilarity());
         assertEquals("24 ms", entity.getBiagramData().getDiceInfo().getTimeTaken());
-
-        System.out.println("Status: " + entity.getStatusCode());
-        System.out.println("SimMetrics JaroWinkler Similarity: " + entity.getSimMetricsData().getJaroWinklerInfo().getSimilarity());
-        System.out.println("SimMetrics Levenshtein Similarity: " + entity.getSimMetricsData().getLevenshteinInfo().getSimilarity());
-        System.out.println("SecondString JaroWinkler Similarity: " + entity.getSecondStringData().getJaroWinklerInfo().getSimilarity());
-        System.out.println("SecondString Levenshtein Similarity: " + entity.getSecondStringData().getLevenshteinInfo().getSimilarity());
-        System.out.println("SecondString Level2 JaroWinkler Similarity: " + entity.getSecondStringData().getLevel2jaroWinklerInfo().getSimilarity());
-        System.out.println("SecondString Level2 Levenshtein Similarity: " + entity.getSecondStringData().getLevel2levenshteinInfo().getSimilarity());
-        System.out.println("Biagram Dice Similarity: " + entity.getBiagramData().getDiceInfo().getSimilarity());
     }
 
     public void test_name_stats_name() throws IOException, FullContactException {
