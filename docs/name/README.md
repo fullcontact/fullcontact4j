@@ -124,6 +124,103 @@
         System.out.println("Biagram Dice Similarity: " + entity.getBiagramData().getDiceInfo().getSimilarity());
 
 
+##Name Stats:
+
+* Get stats for a name
+
+        NameStatsEntity entity = nameHandler.getNameStatsByName("john");
+
+* Get stats for a given name
+
+        NameStatsEntity entity = nameHandler.getNameStatsByGivenName("john");
+
+* Get stats for a family name
+
+        NameStatsEntity entity = nameHandler.getNameStatsByFamilyName("smith");
+
+* Get stats for a given name and family name
+
+        NameStatsEntity entity = nameHandler.getNameStatsByGivenNameAndFamilyName("john", "smith");
+
+###NameStatsEntity information
+
+* Getting the request status
+
+		System.out.println("Status Code : " + entity.getStatusCode());
+
+* Getting the request id
+
+        System.out.println("Request Id: " + entity.getRequestId());
+
+* Getting the region
+
+        System.out.println("Region: " + entity.getRegion());
+
+* Getting the name stats info
+
+        NameStatsInfo statsInfo = entity.getNameStatsInfo();
+
+* Getting the familyName (or givenName) stats
+
+        BasicNameStats familyNameStats = statsInfo.getFamilyNameStats();
+
+* Getting the familyName count
+
+        System.out.println("Name Count (familyName wise): " + familyNameStats.getCount());
+
+* Getting the familyName rank
+
+        System.out.println("Name Rank  (familyName wise): " + familyNameStats.getRank());
+
+* Getting the familyName likelihood
+
+        System.out.println("Name Likelihood (familyName wise): " + familyNameStats.getLikelihood());
+
+* Getting the familyName frequency ratio
+
+        System.out.println("Name frequency ratio (familyName wise): " + familyNameStats.getFrequencyRatio());
+
+* Getting the gender (male/female) stats
+
+        GenderStats maleNameStats = statsInfo.getGivenNameStats().getMaleStats();
+
+* Getting the name count (as male)
+
+        System.out.println("Name Count (as male): " + maleNameStats.getCount());
+
+* Getting the name rank (as male)
+
+        System.out.println("Name Rank  (as male): " + maleNameStats.getRank());
+
+* Getting the name likelihood (as male)
+
+        System.out.println("Name Likelihood (as male): " + maleNameStats.getLikelihood());
+
+* Getting the name frequency ratio (as male)
+
+        System.out.println("Name frequency ratio (as male): " + maleNameStats.getFrequencyRatio());
+
+* Getting the name stats on the basis of age density curve
+
+        AgeDensityCurveStats femaleAgeNameStats = statsInfo.getGivenNameStats().getFemaleStats().getAgeStats().getDensityCurve();
+
+* Getting the mean age for the name (as per gender)
+
+        System.out.println("Mean age: " + femaleAgeNameStats.getMeanAge());
+
+* Getting the quartile info (as per gender)
+
+        System.out.println("Quartile 1: " + femaleAgeNameStats.getQuartiles().getQuartile1());
+
+* Getting the mode age count (as per gender)
+
+        System.out.println("Age mode count: " + femaleAgeNameStats.getMode().getCount());
+
+* Getting the mode age (as per gender)
+
+        System.out.println("Mode age: " + femaleAgeNameStats.getMode().getModeAge());
+
+
 ##Other API
 
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
