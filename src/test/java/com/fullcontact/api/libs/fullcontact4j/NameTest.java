@@ -55,15 +55,6 @@ public class NameTest extends AbstractApiTest {
         assertEquals("John Smith", entity.getAmbiguousName());
         assertEquals("John", entity.getNameInfo().getGivenName());
         assertEquals("Smith", entity.getNameInfo().getFamilyName());
-
-        System.out.println("Status: " + entity.getStatusCode());
-        System.out.println("Likelihood: " + entity.getLikelihood());
-        System.out.println("RequestId: " + entity.getRequestId());
-        System.out.println("Region: " + entity.getRegion());
-        System.out.println("AmbiguousName: " + entity.getAmbiguousName());
-        NameParserInfo nameInfo = entity.getNameInfo();
-        System.out.println("First Name: " + nameInfo.getGivenName());
-        System.out.println("Last Name: " + nameInfo.getFamilyName());
     }
 
     public void test_name_similarity() throws IOException, FullContactException {

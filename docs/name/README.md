@@ -221,6 +221,41 @@
         System.out.println("Mode age: " + femaleAgeNameStats.getMode().getModeAge());
 
 
+##Name Parser:
+
+* Get stats for a name
+
+        NameParserEntity entity = nameHandler.getNameParserInfo("john");
+
+* Status Code of the Request
+
+		System.out.println("Status Code : " + entity.getStatusCode());
+
+* Getting the likelihood
+
+		System.out.println("Likelihood : " + entity.getLikelihood());
+
+* Getting the request id
+
+        System.out.println("RequestId: " + entity.getRequestId());
+
+* Getting the region
+
+        System.out.println("Region: " + entity.getRegion());
+
+* Getting the ambiguous name
+
+        System.out.println("AmbiguousName: " + entity.getAmbiguousName());
+
+* Getting the givenName
+
+        System.out.println("First Name: " + entity.getNameInfo().getGivenName());
+
+* Getting the givenName
+
+        System.out.println("Last Name: " + entity.getNameInfo().getFamilyName());
+
+
 ##Other API
 
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
