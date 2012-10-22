@@ -27,19 +27,6 @@ public class NameTest extends AbstractApiTest {
         assertEquals("MBA", entity.getNameInfo().getSuffixes().get(1));
         assertEquals(1, entity.getNameInfo().getNicknames().size());
         assertEquals("Johnny", entity.getNameInfo().getNicknames().get(0));
-
-        System.out.println("Status: " + entity.getStatusCode());
-        System.out.println("Likelihood: " + entity.getLikelihood());
-        System.out.println("RequestId: " + entity.getRequestId());
-        System.out.println("Region: " + entity.getRegion());
-        NameInfo nameInfo = entity.getNameInfo();
-        System.out.println("Full Name: " + nameInfo.getFullName());
-        System.out.println("First Name: " + nameInfo.getGivenName());
-        System.out.println("Last Name: " + nameInfo.getFamilyName());
-        System.out.println("Middle Names: " + nameInfo.getMiddleNames());
-        System.out.println("Prefixes: " + nameInfo.getPrefixes());
-        System.out.println("Suffixes: " + nameInfo.getSuffixes());
-        System.out.println("Nicknames: " + nameInfo.getNicknames());
     }
 
     public void test_name_deducer() throws IOException, FullContactException {
@@ -55,16 +42,6 @@ public class NameTest extends AbstractApiTest {
         assertEquals("Smith", entity.getNameInfo().getFamilyName());
         assertEquals(1, entity.getNameInfo().getMiddleNames().size());
         assertEquals("D.", entity.getNameInfo().getMiddleNames().get(0));
-
-        System.out.println("Status: " + entity.getStatusCode());
-        System.out.println("Likelihood: " + entity.getLikelihood());
-        System.out.println("RequestId: " + entity.getRequestId());
-        System.out.println("Region: " + entity.getRegion());
-        NameInfo nameInfo = entity.getNameInfo();
-        System.out.println("Full Name: " + nameInfo.getFullName());
-        System.out.println("First Name: " + nameInfo.getGivenName());
-        System.out.println("Last Name: " + nameInfo.getFamilyName());
-        System.out.println("Middle Names: " + nameInfo.getMiddleNames());
     }
 
     public void test_name_parser() throws IOException, FullContactException {
