@@ -27,10 +27,52 @@ public class LocationHandler extends BaseHandler {
         return parseJsonResponse(FullContactHttpRequest.sendLocationNormalizationRequest(paramString));
     }
 
+    public LocationNormalizerEntity getLocationNormalizationInfo(String place, boolean includeZeroPopulation)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.PLACE_FORMAT, place) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        if(includeZeroPopulation){
+            paramString += ("&" + MessageFormat.format(Constants.INCLUDE_ZERO_POPULATION, "true"));
+        }
+        return parseJsonResponse(FullContactHttpRequest.sendLocationNormalizationRequest(paramString));
+    }
+
+    public LocationNormalizerEntity getLocationNormalizationInfo(String place, String casing, boolean includeZeroPopulation)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.PLACE_FORMAT, place) + "&" +
+                MessageFormat.format(Constants.CASING, casing) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        if(includeZeroPopulation){
+            paramString += ("&" + MessageFormat.format(Constants.INCLUDE_ZERO_POPULATION, "true"));
+        }
+        return parseJsonResponse(FullContactHttpRequest.sendLocationNormalizationRequest(paramString));
+    }
+
     public LocationEnrichmentEntity getLocationEnrichmentInfo(String place)
             throws FullContactException {
         String paramString = MessageFormat.format(Constants.PLACE_FORMAT, place) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseEnrichmentJsonResponse(FullContactHttpRequest.sendLocationEnrichmentRequest(paramString));
+    }
+
+    public LocationEnrichmentEntity getLocationEnrichmentInfo(String place, boolean includeZeroPopulation)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.PLACE_FORMAT, place) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        if(includeZeroPopulation){
+            paramString += ("&" + MessageFormat.format(Constants.INCLUDE_ZERO_POPULATION, "true"));
+        }
+        return parseEnrichmentJsonResponse(FullContactHttpRequest.sendLocationEnrichmentRequest(paramString));
+    }
+
+    public LocationEnrichmentEntity getLocationEnrichmentInfo(String place, String casing, boolean includeZeroPopulation)
+            throws FullContactException {
+        String paramString = MessageFormat.format(Constants.PLACE_FORMAT, place) + "&" +
+                MessageFormat.format(Constants.CASING, casing) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        if(includeZeroPopulation){
+            paramString += ("&" + MessageFormat.format(Constants.INCLUDE_ZERO_POPULATION, "true"));
+        }
         return parseEnrichmentJsonResponse(FullContactHttpRequest.sendLocationEnrichmentRequest(paramString));
     }
 

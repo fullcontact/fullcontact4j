@@ -25,6 +25,8 @@ public class Constants {
     public static final String GIVEN_NAME_FORMAT = "givenName={0}";
     public static final String FAMILY_NAME_FORMAT = "familyName={0}";
     public static final String PLACE_FORMAT = "place={0}";
+    public static final String INCLUDE_ZERO_POPULATION = "includeZeroPopulation={0}";
+    public static final String CASING = "casing={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";
