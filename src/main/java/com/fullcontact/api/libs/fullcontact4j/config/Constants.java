@@ -9,6 +9,7 @@ public class Constants {
     public static final String API_URL_NAME_SIMILARITY = "https://api.fullcontact.com/v2/name/similarity.json?";
     public static final String API_URL_NAME_STATS = "https://api.fullcontact.com/v2/name/stats.json?";
     public static final String API_URL_NAME_PARSER = "https://api.fullcontact.com/v2/name/parser.json?";
+    public static final String API_URL_LOCATION_NORMALIZATION = "https://api.fullcontact.com/v2/address/locationNormalizer.json?";
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
@@ -22,6 +23,7 @@ public class Constants {
     public static final String NAME_FORMAT = "name={0}";
     public static final String GIVEN_NAME_FORMAT = "givenName={0}";
     public static final String FAMILY_NAME_FORMAT = "familyName={0}";
+    public static final String PLACE_FORMAT = "place={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";

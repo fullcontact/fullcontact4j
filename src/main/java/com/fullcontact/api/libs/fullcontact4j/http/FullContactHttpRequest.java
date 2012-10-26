@@ -47,6 +47,11 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_PERSON_ENHANCED_DATA + paramString));
     }
 
+    public static String sendLocationNormalizationRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_LOCATION_NORMALIZATION + paramString));
+    }
+
     public static String sendRequest(String apiUrl)
             throws FullContactException {
         StringBuffer buffer = new StringBuffer();

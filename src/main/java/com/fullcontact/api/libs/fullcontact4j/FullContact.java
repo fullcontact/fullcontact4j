@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
+import com.fullcontact.api.libs.fullcontact4j.handlers.LocationHandler;
 import com.fullcontact.api.libs.fullcontact4j.handlers.NameHandler;
 import com.fullcontact.api.libs.fullcontact4j.handlers.PersonEnhancedHandler;
 import com.fullcontact.api.libs.fullcontact4j.handlers.PersonHandler;
@@ -9,6 +10,7 @@ public class FullContact {
     private PersonHandler _personHandler;
     private PersonEnhancedHandler _personEnhancedHandler;
     private NameHandler _nameHandler;
+    private LocationHandler _locationHandler;
 
     public FullContact(String apiKey) {
         if (apiKey == null) {
@@ -41,6 +43,13 @@ public class FullContact {
             _nameHandler =  new NameHandler(apiKey);
         }
         return _nameHandler;
+    }
+
+    public LocationHandler getLocationHandler(){
+        if(_locationHandler == null){
+            _locationHandler =  new LocationHandler(apiKey);
+        }
+        return _locationHandler;
     }
 
 }
