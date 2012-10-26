@@ -22,6 +22,9 @@ public class LocationInfo {
     @SerializedName("normalizedLocation")
     private String normalizedLocation;
 
+    @SerializedName("population")
+    private long population;
+
     public String getCity() {
         return city;
     }
@@ -68,5 +71,13 @@ public class LocationInfo {
 
     public void setNormalizedLocation(String normalizedLocation) {
         this.normalizedLocation = normalizedLocation;
+    }
+
+    public long getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(long population) {
+        this.population = population;
     }
 }

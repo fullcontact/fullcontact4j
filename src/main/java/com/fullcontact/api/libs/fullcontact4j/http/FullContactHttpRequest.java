@@ -52,6 +52,11 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_LOCATION_NORMALIZATION + paramString));
     }
 
+    public static String sendLocationEnrichmentRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_LOCATION_ENRICHMENT + paramString));
+    }
+
     public static String sendRequest(String apiUrl)
             throws FullContactException {
         StringBuffer buffer = new StringBuffer();

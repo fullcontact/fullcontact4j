@@ -1,0 +1,112 @@
+{
+  "status": 200,
+  "requestId": "81b17202-0fac-4832-ae25-517a06c80a08",
+  "locations": 
+  [
+    {
+      "city": "Denver",
+      "county": "Denver",
+      "state": {
+        "name": "Colorado",
+        "code": "CO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "600158",
+      "normalizedLocation": "Denver, Colorado, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Yoakum",
+      "state": {
+        "name": "Texas",
+        "code": "TX"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "4479",
+      "normalizedLocation": "Denver, Texas, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Lancaster",
+      "state": {
+        "name": "Pennsylvania",
+        "code": "PA"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "3861",
+      "normalizedLocation": "Denver, Pennsylvania, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Lincoln",
+      "state": {
+        "name": "North Carolina",
+        "code": "NC"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "2309",
+      "normalizedLocation": "Denver, North Carolina, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Bremer",
+      "state": {
+        "name": "Iowa",
+        "code": "IA"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "1780",
+      "normalizedLocation": "Denver, Iowa, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Miami",
+      "state": {
+        "name": "Indiana",
+        "code": "IN"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "482",
+      "normalizedLocation": "Denver, Indiana, United States"
+    },
+    {
+      "city": "Denver",
+      "county": "Worth",
+      "state": {
+        "name": "Missouri",
+        "code": "MO"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "39",
+      "normalizedLocation": "Denver, Missouri, United States"
+    }
+  ]
+}
