@@ -8,6 +8,7 @@
         FullContact fullContact = new FullContact(apiKey);
 
 * Get PersonEnhancedHandler (handler for Enhanced data API)
+
         PersonEnhancedHandler enhancedHandler = fullContact.getPersonEnhancedHandler();
 
 ##Other API

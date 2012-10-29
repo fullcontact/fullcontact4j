@@ -8,6 +8,7 @@
         FullContact fullContact = new FullContact(apiKey);
 
 * Get LocationHandler (handler for Location API)
+
         LocationHandler locationHandler = fullContact.getLocationHandler();
 
 

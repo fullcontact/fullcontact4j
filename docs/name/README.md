@@ -8,6 +8,7 @@
         FullContact fullContact = new FullContact(apiKey);
 
 * Get NameHandler (handler for Name API)
+
         NameHandler nameHandler = fullContact.getNameHandler();
 
 
