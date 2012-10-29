@@ -13,3 +13,4 @@
 ##Other API
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
 * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
+* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)

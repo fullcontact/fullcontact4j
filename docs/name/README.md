@@ -260,3 +260,4 @@
 
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
 * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
+* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
