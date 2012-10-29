@@ -9,6 +9,7 @@ A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
 * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
 * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
+* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
 
 ##Dependencies
 * Google GSON (http://code.google.com/p/google-gson/)
