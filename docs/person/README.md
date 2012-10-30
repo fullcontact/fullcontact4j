@@ -155,3 +155,4 @@
 * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
 * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
 * [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
+* [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
