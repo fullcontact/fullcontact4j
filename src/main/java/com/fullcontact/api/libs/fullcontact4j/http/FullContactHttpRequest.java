@@ -2,6 +2,9 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +12,8 @@ import java.io.InputStreamReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FullContactHttpRequest {
 
@@ -75,5 +80,41 @@ public class FullContactHttpRequest {
             throw new FullContactException(e.getMessage());
         }
         return buffer.toString();
+    }
+
+    public static String postResponse(String url, Map<String, String> parameters) {
+        Map<String, String> headers = new HashMap<String, String>();
+        int connectionTimeout = 6000;
+        int responseTimeout = 60000;
+        return postResponse(url, parameters, headers, connectionTimeout, responseTimeout);
+    }
+
+    public static String postResponse(String url, Map<String, String> parameters, Map<String, String> headers, int connectTimeout, int responseTimeout) {
+        try {
+            HttpClient client = new HttpClient();
+            client.getParams().setSoTimeout(responseTimeout);
+            client.getParams().setConnectionManagerTimeout(connectTimeout);
+            PostMethod method = new PostMethod(url);
+
+            for (String headerName : headers.keySet()) {
+                String headerValue = headers.get(headerName);
+                method.setRequestHeader(headerName, headerValue);
+            }
+
+            NameValuePair[] content = new NameValuePair[parameters.size()];
+            int index = 0;
+            for (String paramName : parameters.keySet()) {
+                content[index++] = new NameValuePair(paramName, headers.get(paramName));
+            }
+
+            method.setRequestBody(content);
+            int responseCode = client.executeMethod(method);
+            String response = method.getResponseBodyAsString();
+            method.releaseConnection();
+
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage() + " - " + url, e);
+        }
     }
 }
