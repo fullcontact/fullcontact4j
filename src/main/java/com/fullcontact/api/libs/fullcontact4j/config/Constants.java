@@ -11,7 +11,7 @@ public class Constants {
     public static final String API_URL_NAME_PARSER = "https://api.fullcontact.com/v2/name/parser.json?";
     public static final String API_URL_LOCATION_NORMALIZATION = "https://api.fullcontact.com/v2/address/locationNormalizer.json?";
     public static final String API_URL_LOCATION_ENRICHMENT = "https://api.fullcontact.com/v2/address/locationEnrichment.json?";
-    public static final String API_URL_CARDSHARK_UPLOAD = "https://api.fullcontact.com/v2/cardShark?";
+    public static final String API_URL_CARDSHARK_UPLOAD = "https://api.fullcontact.com/v2/cardShark";
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";

@@ -2,16 +2,20 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.google.gson.JsonObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.util.URIUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,11 +86,51 @@ public class FullContactHttpRequest {
         return buffer.toString();
     }
 
-    public static String postResponse(String url, Map<String, String> parameters) {
+    public static String postCardResponse(String paramString, Map<String, String> parameters) {
+        String url = Constants.API_URL_CARDSHARK_UPLOAD;// + paramString;
+//        String url = "http://requestb.in/14qwmle1";// + paramString;
         Map<String, String> headers = new HashMap<String, String>();
         int connectionTimeout = 6000;
         int responseTimeout = 60000;
-        return postResponse(url, parameters, headers, connectionTimeout, responseTimeout);
+        return postResponseAsJson(url, parameters, headers, connectionTimeout, responseTimeout);
+    }
+
+    public static String postResponseAsJson(String url, Map<String, String> parameters, Map<String, String> headers, int connectTimeout, int responseTimeout) {
+        try {
+            HttpClient client = new HttpClient();
+            client.getParams().setSoTimeout(responseTimeout);
+            client.getParams().setConnectionManagerTimeout(connectTimeout);
+            PostMethod method = new PostMethod(url);
+
+            for (String headerName : headers.keySet()) {
+                String headerValue = headers.get(headerName);
+                method.setRequestHeader(headerName, headerValue);
+            }
+
+            JsonObject jo = new JsonObject();
+            for (String paramName : parameters.keySet()) {
+                jo.addProperty(paramName, parameters.get(paramName));
+            }
+            String jsonString = jo.toString();
+            System.out.println(jsonString + "\n======================\n\n\n\n");
+
+            NameValuePair[] nvps = new NameValuePair[3];
+            nvps[0] = new NameValuePair("data", jsonString);
+            nvps[1] = new NameValuePair("webhookUrl", "http%3A%2F%2Frequestb.in%2F14qwmle1");
+            nvps[2] = new NameValuePair("apiKey", "your_api_key"); //TODO: put API KEY
+            method.setRequestBody(nvps);
+
+//            RequestEntity requestEntity = new StringRequestEntity(jsonString, "application/json", "UTF-8");
+//            method.setRequestEntity(requestEntity);
+
+            int responseCode = client.executeMethod(method);
+            String response = method.getResponseBodyAsString();
+            method.releaseConnection();
+
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage() + " - " + url, e);
+        }
     }
 
     public static String postResponse(String url, Map<String, String> parameters, Map<String, String> headers, int connectTimeout, int responseTimeout) {
@@ -104,7 +148,7 @@ public class FullContactHttpRequest {
             NameValuePair[] content = new NameValuePair[parameters.size()];
             int index = 0;
             for (String paramName : parameters.keySet()) {
-                content[index++] = new NameValuePair(paramName, headers.get(paramName));
+                content[index++] = new NameValuePair(paramName, parameters.get(paramName));
             }
 
             method.setRequestBody(content);
