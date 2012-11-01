@@ -31,12 +31,13 @@ public class Constants {
     public static final String WEBHOOK_URL = "webhookUrl={0}";
     public static final String FORMAT = "format={0}";
 
-
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";
     public static final String PARAM_FACEBOOK_USERNAME = "facebookUsername";
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";
+    public static final String PARAM_API_KEY = "apiKey";
+    public static final String PARAM_FORMAT = "format";
 
     public static final String UTF_8_CHARSET = "UTF-8";
 }

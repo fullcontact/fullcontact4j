@@ -1,19 +1,18 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
+import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import com.google.gson.JsonObject;
+import org.apache.commons.codec.binary.Base64;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.net.URLEncoder;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class FullContactHttpRequest {
 
@@ -82,39 +81,74 @@ public class FullContactHttpRequest {
         return buffer.toString();
     }
 
-    public static String postResponse(String url, Map<String, String> parameters) {
-        Map<String, String> headers = new HashMap<String, String>();
-        int connectionTimeout = 6000;
-        int responseTimeout = 60000;
-        return postResponse(url, parameters, headers, connectionTimeout, responseTimeout);
+    public static String postCardResponse(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
+            throws FullContactException {
+        JsonObject jsonObject = new JsonObject();
+        try {
+            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(frontStream))));
+            if (backStream != null)
+                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(backStream))));
+        } catch (Throwable throwable) {
+            throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
+        }
+
+        byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
+        return postWithGZip(Constants.API_URL_CARDSHARK_UPLOAD, queryParams, payload, "application/json");
     }
 
-    public static String postResponse(String url, Map<String, String> parameters, Map<String, String> headers, int connectTimeout, int responseTimeout) {
+    private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
+            throws FullContactException {
         try {
-            HttpClient client = new HttpClient();
-            client.getParams().setSoTimeout(responseTimeout);
-            client.getParams().setConnectionManagerTimeout(connectTimeout);
-            PostMethod method = new PostMethod(url);
-
-            for (String headerName : headers.keySet()) {
-                String headerValue = headers.get(headerName);
-                method.setRequestHeader(headerName, headerValue);
+            String qs = toQueryString(params);
+            String fullUrl = baseUrl;
+            if (qs.length() > 0) {
+                if (!fullUrl.endsWith("?")) {
+                    fullUrl += "?";
+                }
+                fullUrl += qs;
             }
-
-            NameValuePair[] content = new NameValuePair[parameters.size()];
-            int index = 0;
-            for (String paramName : parameters.keySet()) {
-                content[index++] = new NameValuePair(paramName, headers.get(paramName));
+            URL url = new URL(fullUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setConnectTimeout(6000);
+            connection.setConnectTimeout(60000);
+            connection.setRequestProperty("Accept-Encoding", "gzip");
+            connection.setRequestProperty("Content-Encoding", "gzip");
+            connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestProperty("Content-Length", "" + Integer.toString(data.length));
+            GZIPOutputStream wr = new GZIPOutputStream(connection.getOutputStream());
+            wr.write(data);
+            wr.finish();
+            wr.flush();
+            wr.close();
+            GZIPInputStream stream = new GZIPInputStream(connection.getInputStream());
+            InputStreamReader reader = new InputStreamReader(stream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
             }
-
-            method.setRequestBody(content);
-            int responseCode = client.executeMethod(method);
-            String response = method.getResponseBodyAsString();
-            method.releaseConnection();
-
-            return response;
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage() + " - " + url, e);
+            bufferedReader.close();
+            return sb.toString();
+        } catch (Throwable throwable) {
+            throw new FullContactException("Failed to execute API Request", throwable);
         }
     }
+
+    private static String toQueryString(Map<String, String> params) throws UnsupportedEncodingException {
+        String qs = "";
+        for (String paramName : params.keySet()) {
+            String paramValue = params.get(paramName);
+            if (qs.length() > 0) {
+                qs += "&";
+            }
+            qs += (paramName + "=" + URLEncoder.encode(paramValue, "UTF-8"));
+        }
+        return qs;
+    }
+
 }
