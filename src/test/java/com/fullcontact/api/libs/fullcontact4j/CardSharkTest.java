@@ -1,9 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ContactInfo;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadRequestResult;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.contactinfo.Name;
 
 import java.io.IOException;
@@ -25,43 +22,43 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_upload_card_webhook_response() throws IOException, FullContactException {
         String json = loadJson("cardshark.upload.webhook.response.json");
-        UploadRequestResult entity = new FullContact("fake_api_key").getCardSharkHandler().parseUploadWebhookJsonResponse(json);
-        assertNotNull(entity);
-        assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", entity.getRequestId());
-        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/2I63W5XH0JPPYKTRWFGL0P75N9OEK7.vcf", entity.getvCardUrl());
+        UploadRequestResult requestResult = new FullContact("fake_api_key").getCardSharkHandler().parseUploadWebhookJsonResponse(json);
+        assertNotNull(requestResult);
+        assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", requestResult.getRequestId());
+        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/2I63W5XH0JPPYKTRWFGL0P75N9OEK7.vcf", requestResult.getvCardUrl());
 
-        assertNotNull(entity.getContact().getName());
-        assertEquals("Elliott", entity.getContact().getName().getFamilyName());
-        assertEquals("Matt", entity.getContact().getName().getGivenName());
-        assertNull(entity.getContact().getName().getMiddleName());
+        assertNotNull(requestResult.getContact().getName());
+        assertEquals("Elliott", requestResult.getContact().getName().getFamilyName());
+        assertEquals("Matt", requestResult.getContact().getName().getGivenName());
+        assertNull(requestResult.getContact().getName().getMiddleName());
 
-        assertEquals(1, entity.getContact().getEmails().size());
-        assertEquals("matt@fullcontact.com", entity.getContact().getEmails().get(0).getValue());
-        assertEquals("work", entity.getContact().getEmails().get(0).getType());
+        assertEquals(1, requestResult.getContact().getEmails().size());
+        assertEquals("matt@fullcontact.com", requestResult.getContact().getEmails().get(0).getValue());
+        assertEquals("work", requestResult.getContact().getEmails().get(0).getType());
 
-        assertEquals(1, entity.getContact().getOrganizations().size());
-        assertEquals("Full contact", entity.getContact().getOrganizations().get(0).getName());
-        assertEquals("Senior UI/UX Engineer", entity.getContact().getOrganizations().get(0).getTitle());
-        assertEquals(true, entity.getContact().getOrganizations().get(0).isPrimary());
+        assertEquals(1, requestResult.getContact().getOrganizations().size());
+        assertEquals("Full contact", requestResult.getContact().getOrganizations().get(0).getName());
+        assertEquals("Senior UI/UX Engineer", requestResult.getContact().getOrganizations().get(0).getTitle());
+        assertEquals(true, requestResult.getContact().getOrganizations().get(0).isPrimary());
 
-        assertEquals(1, entity.getContact().getPhoneNumbers().size());
-        assertEquals("+1-720-334-2209", entity.getContact().getPhoneNumbers().get(0).getValue());
-        assertEquals("work", entity.getContact().getPhoneNumbers().get(0).getType());
+        assertEquals(1, requestResult.getContact().getPhoneNumbers().size());
+        assertEquals("+1-720-334-2209", requestResult.getContact().getPhoneNumbers().get(0).getValue());
+        assertEquals("work", requestResult.getContact().getPhoneNumbers().get(0).getType());
 
-        assertEquals(1, entity.getContact().getPhotos().size());
-        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf-front.png", entity.getContact().getPhotos().get(0).getValue());
-        assertEquals("BusinessCard", entity.getContact().getPhotos().get(0).getType());
-        assertFalse(entity.getContact().getPhotos().get(0).isPrimary());
+        assertEquals(1, requestResult.getContact().getPhotos().size());
+        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf-front.png", requestResult.getContact().getPhotos().get(0).getValue());
+        assertEquals("BusinessCard", requestResult.getContact().getPhotos().get(0).getType());
+        assertFalse(requestResult.getContact().getPhotos().get(0).isPrimary());
 
-        assertEquals(1, entity.getContact().getUrls().size());
-        assertEquals("www.fullcontact.com", entity.getContact().getUrls().get(0).getValue());
-        assertEquals("other", entity.getContact().getUrls().get(0).getType());
+        assertEquals(1, requestResult.getContact().getUrls().size());
+        assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
+        assertEquals("other", requestResult.getContact().getUrls().get(0).getType());
 
-        System.out.println("Request Id: " + entity.getRequestId());
-        System.out.println("VCard URL: " + entity.getvCardUrl());
+        System.out.println("Request Id: " + requestResult.getRequestId());
+        System.out.println("VCard URL: " + requestResult.getvCardUrl());
 
-        ContactInfo contactInfo = entity.getContact();
-        Name name = entity.getContact().getName();
+        ContactInfo contactInfo = requestResult.getContact();
+        Name name = requestResult.getContact().getName();
         System.out.println("Given Name: " + name.getGivenName());
         System.out.println("Family Name: " + name.getFamilyName());
         System.out.println("Middle Name: " + name.getMiddleName());
@@ -101,18 +98,18 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(2, viewRequestsEntity.getTotalRecords());
         assertEquals(2, viewRequestsEntity.getCount());
         assertEquals(2, viewRequestsEntity.getResults().size());
-        UploadRequestResult requestEntity = viewRequestsEntity.getResults().get(0);
-        assertNotNull(requestEntity.getContact().getName());
-        assertEquals("Elliott", requestEntity.getContact().getName().getFamilyName());
-        assertEquals(1, requestEntity.getContact().getEmails().size());
-        assertEquals(1, requestEntity.getContact().getOrganizations().size());
-        assertEquals("Senior UI/UX Engineer", requestEntity.getContact().getOrganizations().get(0).getTitle());
-        assertEquals(1, requestEntity.getContact().getPhoneNumbers().size());
-        assertEquals("work", requestEntity.getContact().getPhoneNumbers().get(0).getType());
-        assertEquals(1, requestEntity.getContact().getPhotos().size());
-        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf-front.png", requestEntity.getContact().getPhotos().get(0).getValue());
-        assertEquals(1, requestEntity.getContact().getUrls().size());
-        assertEquals("www.fullcontact.com", requestEntity.getContact().getUrls().get(0).getValue());
+        UploadRequestResult requestResult = viewRequestsEntity.getResults().get(0);
+        assertNotNull(requestResult.getContact().getName());
+        assertEquals("Elliott", requestResult.getContact().getName().getFamilyName());
+        assertEquals(1, requestResult.getContact().getEmails().size());
+        assertEquals(1, requestResult.getContact().getOrganizations().size());
+        assertEquals("Senior UI/UX Engineer", requestResult.getContact().getOrganizations().get(0).getTitle());
+        assertEquals(1, requestResult.getContact().getPhoneNumbers().size());
+        assertEquals("work", requestResult.getContact().getPhoneNumbers().get(0).getType());
+        assertEquals(1, requestResult.getContact().getPhotos().size());
+        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf-front.png", requestResult.getContact().getPhotos().get(0).getValue());
+        assertEquals(1, requestResult.getContact().getUrls().size());
+        assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
 
         System.out.println("Status: " + viewRequestsEntity.getStatus());
         System.out.println("Count: " + viewRequestsEntity.getCount());
@@ -124,7 +121,23 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_view_request() throws IOException, FullContactException {
         String json = loadJson("cardshark.view.request.response.json");
-        //new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestJsonResponse(json);
+        ViewRequestEntity viewRequestEntity = new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestJsonResponse(json);
+        assertNotNull(viewRequestEntity);
+        assertEquals(200, viewRequestEntity.getStatus());
+        assertNotNull(viewRequestEntity.getResult());
+        UploadRequestResult requestResult = viewRequestEntity.getResult();
+        assertEquals("Elliott", requestResult.getContact().getName().getFamilyName());
+        assertEquals(1, requestResult.getContact().getEmails().size());
+        assertEquals(1, requestResult.getContact().getOrganizations().size());
+        assertEquals("Senior UI/UX Engineer", requestResult.getContact().getOrganizations().get(0).getTitle());
+        assertEquals(1, requestResult.getContact().getPhoneNumbers().size());
+        assertEquals("work", requestResult.getContact().getPhoneNumbers().get(0).getType());
+        assertEquals(1, requestResult.getContact().getPhotos().size());
+        assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/3c1759f1-820f-43ce-8a7a-24be8aa9d045-front.png", requestResult.getContact().getPhotos().get(0).getValue());
+        assertEquals(1, requestResult.getContact().getUrls().size());
+        assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
+
+        System.out.println("Status: " + viewRequestEntity.getStatus());
     }
 
 }

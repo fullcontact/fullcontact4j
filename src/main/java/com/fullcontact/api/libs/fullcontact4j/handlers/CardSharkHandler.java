@@ -4,6 +4,7 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadResponse;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadRequestResult;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
@@ -53,27 +54,20 @@ public class CardSharkHandler extends BaseHandler {
     }
 
     public ViewRequestsEntity viewCardSharkRequests(int page, String format) throws FullContactException {
-        String paramString = getParamString(page, format);
+        String paramString = MessageFormat.format(Constants.PAGE, page) + "&" +
+                MessageFormat.format(Constants.FORMAT, format) + "&" +
+                MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestsJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(paramString));
     }
 
-    public void viewCardSharkRequest(String requestId) throws FullContactException {
-        viewCardSharkRequest(requestId, 0);
+    public ViewRequestEntity viewCardSharkRequest(String requestId) throws FullContactException {
+        return viewCardSharkRequest(requestId, "json");
     }
 
-    public void viewCardSharkRequest(String requestId, int page) throws FullContactException {
-        viewCardSharkRequest(requestId, page, "json");
-    }
-
-    public void viewCardSharkRequest(String requestId, int page, String format) throws FullContactException {
-        String paramString = getParamString(page, format);
-        parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
-    }
-
-    private String getParamString(int page, String format) {
-        return MessageFormat.format(Constants.PAGE, page) + "&" +
-                MessageFormat.format(Constants.FORMAT, format) + "&" +
+    public ViewRequestEntity viewCardSharkRequest(String requestId, String format) throws FullContactException {
+        String paramString = MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
+        return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
     }
 
     public UploadResponse parseUploadJsonResponse(String response) {
@@ -101,7 +95,11 @@ public class CardSharkHandler extends BaseHandler {
         return gson.fromJson(jsonObject, ViewRequestsEntity.class);
     }
 
-    public void parseViewRequestJsonResponse(String response) {
+    public ViewRequestEntity parseViewRequestJsonResponse(String response) {
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
+        return gson.fromJson(jsonObject, ViewRequestEntity.class);
     }
 
 }
