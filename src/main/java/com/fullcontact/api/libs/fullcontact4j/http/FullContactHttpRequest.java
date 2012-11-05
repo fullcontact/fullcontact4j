@@ -111,6 +111,18 @@ public class FullContactHttpRequest {
         return postWithGZip(Constants.API_URL_CARDSHARK_UPLOAD, queryParams, payload, "application/json");
     }
 
+    public static String postCardSharkAcceptResult(String requestId, Map<String, String> queryParams)
+            throws FullContactException {
+        String url = MessageFormat.format(Constants.API_URL_CARDSHARK_ACCEPT, requestId);
+        return postWithGZip(url, queryParams, new byte[0], "application/json");
+    }
+
+    public static String postCardSharkRejectResult(String requestId, Map<String, String> queryParams)
+            throws FullContactException {
+        String url = MessageFormat.format(Constants.API_URL_CARDSHARK_REJECT, requestId);
+        return postWithGZip(url, queryParams, new byte[0], "application/json");
+    }
+
     private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
             throws FullContactException {
         try {

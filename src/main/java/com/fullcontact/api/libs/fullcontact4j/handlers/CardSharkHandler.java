@@ -2,10 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadRequestResult;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -68,6 +65,32 @@ public class CardSharkHandler extends BaseHandler {
         String paramString = MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
+    }
+
+    public AcceptResultResponse acceptResult(String requestId) throws FullContactException {
+        return acceptResult(requestId, "json");
+    }
+
+    public AcceptResultResponse acceptResult(String requestId, String format) throws FullContactException {
+        Map<String, String> queryParams = new HashMap<String, String>();
+        queryParams.put(Constants.PARAM_API_KEY, apiKey);
+        if (format != null)
+            queryParams.put(Constants.PARAM_FORMAT, format);
+
+        String response = FullContactHttpRequest.postCardSharkAcceptResult(requestId, queryParams);
+        //TODO: parsing pending
+        return null;
+    }
+
+    public RejectResultResponse rejectResult(String requestId, String format)  throws FullContactException {
+        Map<String, String> queryParams = new HashMap<String, String>();
+        queryParams.put(Constants.PARAM_API_KEY, apiKey);
+        if (format != null)
+            queryParams.put(Constants.PARAM_FORMAT, format);
+
+        String response = FullContactHttpRequest.postCardSharkRejectResult(requestId, queryParams);
+        //TODO: parsing pending
+        return null;
     }
 
     public UploadResponse parseUploadJsonResponse(String response) {

@@ -14,6 +14,8 @@ public class Constants {
     public static final String API_URL_CARDSHARK_UPLOAD = "https://api.fullcontact.com/v2/cardShark?";
     public static final String API_URL_CARDSHARK_VIEW_REQUEST = "https://api.fullcontact.com/v2/cardShark/{0}?";
     public static final String API_URL_CARDSHARK_VIEW_REQUESTS = "https://api.fullcontact.com/v2/cardShark?";
+    public static final String API_URL_CARDSHARK_ACCEPT = "https://api.fullcontact.com/v2/cardShark/accept/{0}?";
+    public static final String API_URL_CARDSHARK_REJECT = "https://api.fullcontact.com/v2/cardShark/reject/{0}?";
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
