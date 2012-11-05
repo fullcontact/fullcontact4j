@@ -3,7 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadWebhookResponse;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadRequestResult;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
@@ -87,11 +87,11 @@ public class CardSharkHandler extends BaseHandler {
         return gson.fromJson(jsonObject, UploadResponse.class);
     }
 
-    public UploadWebhookResponse parseUploadWebhookJsonResponse(String response) {
+    public UploadRequestResult parseUploadWebhookJsonResponse(String response) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, UploadWebhookResponse.class);
+        return gson.fromJson(jsonObject, UploadRequestResult.class);
     }
 
     public ViewRequestsEntity parseViewRequestsJsonResponse(String response) {

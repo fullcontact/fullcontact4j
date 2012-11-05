@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ContactInfo;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadWebhookResponse;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.UploadRequestResult;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.contactinfo.Name;
 
@@ -25,7 +25,7 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_upload_card_webhook_response() throws IOException, FullContactException {
         String json = loadJson("cardshark.upload.webhook.response.json");
-        UploadWebhookResponse entity = new FullContact("fake_api_key").getCardSharkHandler().parseUploadWebhookJsonResponse(json);
+        UploadRequestResult entity = new FullContact("fake_api_key").getCardSharkHandler().parseUploadWebhookJsonResponse(json);
         assertNotNull(entity);
         assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", entity.getRequestId());
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/2I63W5XH0JPPYKTRWFGL0P75N9OEK7.vcf", entity.getvCardUrl());
@@ -101,7 +101,7 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(2, viewRequestsEntity.getTotalRecords());
         assertEquals(2, viewRequestsEntity.getCount());
         assertEquals(2, viewRequestsEntity.getResults().size());
-        UploadWebhookResponse requestEntity = viewRequestsEntity.getResults().get(0);
+        UploadRequestResult requestEntity = viewRequestsEntity.getResults().get(0);
         assertNotNull(requestEntity.getContact().getName());
         assertEquals("Elliott", requestEntity.getContact().getName().getFamilyName());
         assertEquals(1, requestEntity.getContact().getEmails().size());

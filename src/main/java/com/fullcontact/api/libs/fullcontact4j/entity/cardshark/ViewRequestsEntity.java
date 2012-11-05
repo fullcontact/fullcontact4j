@@ -22,7 +22,7 @@ public class ViewRequestsEntity {
     private int totalPages;
 
     @SerializedName("results")
-    private List<UploadWebhookResponse> results;
+    private List<UploadRequestResult> results;
 
     public int getCount() {
         return count;
@@ -64,11 +64,11 @@ public class ViewRequestsEntity {
         this.totalPages = totalPages;
     }
 
-    public List<UploadWebhookResponse> getResults() {
+    public List<UploadRequestResult> getResults() {
         return results;
     }
 
-    public void setResults(List<UploadWebhookResponse> results) {
+    public void setResults(List<UploadRequestResult> results) {
         this.results = results;
     }
 }

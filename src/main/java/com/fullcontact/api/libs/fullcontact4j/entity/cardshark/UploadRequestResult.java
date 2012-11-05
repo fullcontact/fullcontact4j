@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.entity.cardshark;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UploadWebhookResponse {
+public class UploadRequestResult {
 
     @SerializedName("status")
     private String statusCode;
