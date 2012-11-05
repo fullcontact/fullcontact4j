@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class UploadWebhookResponse {
 
     @SerializedName("status")
-    private int statusCode;
+    private String statusCode;
 
     @SerializedName("id")
     private String requestId;
@@ -19,11 +19,11 @@ public class UploadWebhookResponse {
     @SerializedName("contact")
     private ContactInfo contact;
 
-    public int getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 

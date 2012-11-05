@@ -5,11 +5,13 @@ import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.google.gson.JsonObject;
 import org.apache.commons.codec.binary.Base64;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -79,6 +81,19 @@ public class FullContactHttpRequest {
             throw new FullContactException(e.getMessage());
         }
         return buffer.toString();
+    }
+
+    public static String sendCardSharkViewRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_CARDSHARK_VIEW_REQUESTS + paramString));
+    }
+
+    public static String sendCardSharkViewRequest(String requestId, String paramString)
+            throws FullContactException {
+        if (requestId == null) {
+            return sendCardSharkViewRequest(paramString);
+        }
+        return sendRequest((MessageFormat.format(Constants.API_URL_CARDSHARK_VIEW_REQUEST, requestId) + paramString));
     }
 
     public static String postCardResponse(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
