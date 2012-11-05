@@ -45,26 +45,26 @@ public class CardSharkHandler extends BaseHandler {
         return parseUploadJsonResponse(response);
     }
 
-    public ViewRequestsEntity viewCardSharkRequests() throws FullContactException {
-        return viewCardSharkRequests(0);
+    public ViewRequestsEntity viewRequestResults() throws FullContactException {
+        return viewRequestResults(0);
     }
 
-    public ViewRequestsEntity viewCardSharkRequests(int page) throws FullContactException {
-        return viewCardSharkRequests(page, "json");
+    public ViewRequestsEntity viewRequestResults(int page) throws FullContactException {
+        return viewRequestResults(page, "json");
     }
 
-    public ViewRequestsEntity viewCardSharkRequests(int page, String format) throws FullContactException {
+    public ViewRequestsEntity viewRequestResults(int page, String format) throws FullContactException {
         String paramString = MessageFormat.format(Constants.PAGE, page) + "&" +
                 MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestsJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(paramString));
     }
 
-    public ViewRequestEntity viewCardSharkRequest(String requestId) throws FullContactException {
-        return viewCardSharkRequest(requestId, "json");
+    public ViewRequestEntity viewRequestResult(String requestId) throws FullContactException {
+        return viewRequestResult(requestId, "json");
     }
 
-    public ViewRequestEntity viewCardSharkRequest(String requestId, String format) throws FullContactException {
+    public ViewRequestEntity viewRequestResult(String requestId, String format) throws FullContactException {
         String paramString = MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
