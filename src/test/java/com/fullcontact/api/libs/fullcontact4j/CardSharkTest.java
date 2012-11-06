@@ -140,4 +140,28 @@ public class CardSharkTest extends AbstractApiTest {
         System.out.println("Status: " + viewRequestEntity.getStatus());
     }
 
+    public void test_accept_response() throws IOException, FullContactException {
+        String json = loadJson("cardshark.result.accept.response.json");
+        AcceptResultResponse acceptResultResponse = new FullContact("fake_api_key").getCardSharkHandler().parseAcceptResponse(json);
+        assertNotNull(acceptResultResponse);
+        assertEquals(200, acceptResultResponse.getStatusCode());
+        assertTrue(acceptResultResponse.isAccepted());
+
+        System.out.println("Status: " + acceptResultResponse.getStatusCode());
+        System.out.println("Is Accepted: " + acceptResultResponse.isAccepted());
+    }
+
+    public void test_reject_response() throws IOException, FullContactException {
+        String json = loadJson("cardshark.result.reject.response.json");
+        RejectResultResponse rejectResultResponse = new FullContact("fake_api_key").getCardSharkHandler().parseRejectResponse(json);
+        assertNotNull(rejectResultResponse);
+        assertEquals(200, rejectResultResponse.getStatusCode());
+        assertEquals("some-new-id", rejectResultResponse.getRequestId());
+        assertTrue(rejectResultResponse.isRejected());
+
+        System.out.println("Status: " + rejectResultResponse.getStatusCode());
+        System.out.println("New Request Id: " + rejectResultResponse.getRequestId());
+        System.out.println("Is Rejected: " + rejectResultResponse.isRejected());
+    }
+
 }

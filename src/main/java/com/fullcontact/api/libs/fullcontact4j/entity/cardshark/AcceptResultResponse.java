@@ -8,7 +8,7 @@ public class AcceptResultResponse {
     private int statusCode;
 
     @SerializedName("accepted")
-    private int accepted;
+    private boolean accepted;
 
     public int getStatusCode() {
         return statusCode;
@@ -18,11 +18,11 @@ public class AcceptResultResponse {
         this.statusCode = statusCode;
     }
 
-    public int getAccepted() {
+    public boolean isAccepted() {
         return accepted;
     }
 
-    public void setAccepted(int accepted) {
+    public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
 }

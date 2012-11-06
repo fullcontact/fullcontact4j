@@ -8,7 +8,7 @@ public class RejectResultResponse {
     private int statusCode;
 
     @SerializedName("rejected")
-    private int rejected;
+    private boolean rejected;
 
     @SerializedName("id")
     private String requestId;
@@ -21,11 +21,11 @@ public class RejectResultResponse {
         this.statusCode = statusCode;
     }
 
-    public int getRejected() {
+    public boolean isRejected() {
         return rejected;
     }
 
-    public void setRejected(int rejected) {
+    public void setRejected(boolean rejected) {
         this.rejected = rejected;
     }
 
