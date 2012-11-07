@@ -29,7 +29,7 @@ public class CardSharkHandler extends BaseHandler {
         return uploadCardImage(frontImageStream, backImageStream, webhookUrl, null);
     }
 
-    public UploadResponse uploadCardImage(InputStream frontImageStream, InputStream backImageStream, String webhookUrl, String format)
+    private UploadResponse uploadCardImage(InputStream frontImageStream, InputStream backImageStream, String webhookUrl, String format)
             throws FullContactException {
 
         Map<String, String> queryParams = new HashMap<String, String>();
@@ -50,7 +50,7 @@ public class CardSharkHandler extends BaseHandler {
         return viewRequestResults(page, "json");
     }
 
-    public ViewRequestsEntity viewRequestResults(int page, String format) throws FullContactException {
+    private ViewRequestsEntity viewRequestResults(int page, String format) throws FullContactException {
         String paramString = MessageFormat.format(Constants.PAGE, page) + "&" +
                 MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
@@ -61,7 +61,7 @@ public class CardSharkHandler extends BaseHandler {
         return viewRequestResult(requestId, "json");
     }
 
-    public ViewRequestEntity viewRequestResult(String requestId, String format) throws FullContactException {
+    private ViewRequestEntity viewRequestResult(String requestId, String format) throws FullContactException {
         String paramString = MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
@@ -71,7 +71,7 @@ public class CardSharkHandler extends BaseHandler {
         return acceptResult(requestId, "json");
     }
 
-    public AcceptResultResponse acceptResult(String requestId, String format) throws FullContactException {
+    private AcceptResultResponse acceptResult(String requestId, String format) throws FullContactException {
         Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put(Constants.PARAM_API_KEY, apiKey);
         if (format != null)
@@ -83,7 +83,7 @@ public class CardSharkHandler extends BaseHandler {
         return rejectResult(requestId, "json");
     }
 
-    public RejectResultResponse rejectResult(String requestId, String format) throws FullContactException {
+    private RejectResultResponse rejectResult(String requestId, String format) throws FullContactException {
         Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put(Constants.PARAM_API_KEY, apiKey);
         if (format != null)

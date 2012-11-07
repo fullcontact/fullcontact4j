@@ -3,7 +3,9 @@ package com.fullcontact.api.libs.fullcontact4j;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.contactinfo.Name;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class CardSharkTest extends AbstractApiTest {
 
@@ -14,10 +16,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(202, entity.getStatusCode());
         assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", entity.getRequestId());
         assertEquals(true, entity.isQueued());
-
-        System.out.println("Response Status: " + entity.getStatusCode());
-        System.out.println("Request Id: " + entity.getRequestId());
-        System.out.println("is Queued: " + entity.isQueued());
     }
 
     public void test_upload_card_webhook_response() throws IOException, FullContactException {
@@ -53,39 +51,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
         assertEquals("other", requestResult.getContact().getUrls().get(0).getType());
-
-        System.out.println("Request Id: " + requestResult.getRequestId());
-        System.out.println("VCard URL: " + requestResult.getvCardUrl());
-
-        ContactInfo contactInfo = requestResult.getContact();
-        Name name = requestResult.getContact().getName();
-        System.out.println("Given Name: " + name.getGivenName());
-        System.out.println("Family Name: " + name.getFamilyName());
-        System.out.println("Middle Name: " + name.getMiddleName());
-        System.out.println("Name Prefix: " + name.getHonorificPrefix());
-        System.out.println("Name Suffix: " + name.getHonorificSuffix());
-
-        System.out.println("Emails count: " + contactInfo.getEmails().size());
-        System.out.println("Email Address: " + contactInfo.getEmails().get(0).getValue());
-        System.out.println("Email Type: " + contactInfo.getEmails().get(0).getType());
-
-        System.out.println("Phone numbers count: " + contactInfo.getPhoneNumbers().size());
-        System.out.println("Phone number: " + contactInfo.getPhoneNumbers().get(0).getValue());
-        System.out.println("Phone number Type: " + contactInfo.getPhoneNumbers().get(0).getType());
-
-        System.out.println("Photos count: " + contactInfo.getPhotos().size());
-        System.out.println("Photo Url: " + contactInfo.getPhotos().get(0).getValue());
-        System.out.println("Photo Type: " + contactInfo.getPhotos().get(0).getType());
-        System.out.println("Is photo primary: " + contactInfo.getPhotos().get(0).isPrimary());
-
-        System.out.println("URLs count: " + contactInfo.getUrls().size());
-        System.out.println("URL: " + contactInfo.getUrls().get(0).getValue());
-        System.out.println("URL Type: " + contactInfo.getUrls().get(0).getType());
-
-        System.out.println("Organizations count: " + contactInfo.getOrganizations().size());
-        System.out.println("Organization Name: " + contactInfo.getOrganizations().get(0).getName());
-        System.out.println("Organization Title: " + contactInfo.getOrganizations().get(0).getTitle());
-        System.out.println("Is primary organization: " + contactInfo.getOrganizations().get(0).isPrimary());
     }
 
     public void test_view_requests() throws IOException, FullContactException {
@@ -110,13 +75,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf-front.png", requestResult.getContact().getPhotos().get(0).getValue());
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
-
-        System.out.println("Status: " + viewRequestsEntity.getStatus());
-        System.out.println("Count: " + viewRequestsEntity.getCount());
-        System.out.println("Total Pages: " + viewRequestsEntity.getTotalPages());
-        System.out.println("Current Page: " + viewRequestsEntity.getCurrentPage());
-        System.out.println("Total Records: " + viewRequestsEntity.getTotalRecords());
-        System.out.println("Results count: " + viewRequestsEntity.getResults().size());
     }
 
     public void test_view_request() throws IOException, FullContactException {
@@ -136,8 +94,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/3c1759f1-820f-43ce-8a7a-24be8aa9d045-front.png", requestResult.getContact().getPhotos().get(0).getValue());
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
-
-        System.out.println("Status: " + viewRequestEntity.getStatus());
     }
 
     public void test_accept_response() throws IOException, FullContactException {
@@ -146,9 +102,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertNotNull(acceptResultResponse);
         assertEquals(200, acceptResultResponse.getStatusCode());
         assertTrue(acceptResultResponse.isAccepted());
-
-        System.out.println("Status: " + acceptResultResponse.getStatusCode());
-        System.out.println("Is Accepted: " + acceptResultResponse.isAccepted());
     }
 
     public void test_reject_response() throws IOException, FullContactException {
@@ -158,10 +111,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(200, rejectResultResponse.getStatusCode());
         assertEquals("some-new-id", rejectResultResponse.getRequestId());
         assertTrue(rejectResultResponse.isRejected());
-
-        System.out.println("Status: " + rejectResultResponse.getStatusCode());
-        System.out.println("New Request Id: " + rejectResultResponse.getRequestId());
-        System.out.println("Is Rejected: " + rejectResultResponse.isRejected());
     }
 
 }
