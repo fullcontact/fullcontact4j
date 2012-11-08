@@ -98,7 +98,7 @@ public class FullContactHttpRequest {
         return sendRequest((MessageFormat.format(Constants.API_URL_CARDSHARK_VIEW_REQUEST, requestId) + paramString));
     }
 
-    public static String postCardResponse(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
+    public static String postCardRequest(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
             throws FullContactException {
         JsonObject jsonObject = new JsonObject();
         try {

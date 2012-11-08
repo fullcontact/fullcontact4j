@@ -38,7 +38,7 @@ public class CardSharkHandler extends BaseHandler {
         if (format != null)
             queryParams.put(Constants.PARAM_FORMAT, format);
 
-        String response = FullContactHttpRequest.postCardResponse(queryParams, frontImageStream, backImageStream);
+        String response = FullContactHttpRequest.postCardRequest(queryParams, frontImageStream, backImageStream);
         return parseUploadJsonResponse(response);
     }
 
