@@ -1,0 +1,28 @@
+{
+  "status": 200,
+  "responses": {
+    "https://api.fullcontact.com/v2/name/normalizer.json?q=dan+lynn": {
+      "region": "USA",
+      "nameDetails": {
+        "nicknames":
+        [
+        ],
+        "suffixes":
+        [
+        ],
+        "familyName": "Lynn",
+        "fullName": "Dan Lynn",
+        "givenName": "Dan",
+        "prefixes":
+        [
+        ],
+        "middleNames":
+        [
+        ]
+      },
+      "requestId": "471c0726-d64e-44be-a32b-04376f9a4d6a",
+      "status": 200,
+      "likelihood": 0.974
+    }
+  }
+}

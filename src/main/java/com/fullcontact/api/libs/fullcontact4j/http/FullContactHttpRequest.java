@@ -3,15 +3,20 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -121,6 +126,18 @@ public class FullContactHttpRequest {
             throws FullContactException {
         String url = MessageFormat.format(Constants.API_URL_CARDSHARK_REJECT, requestId);
         return postWithGZip(url, queryParams, new byte[0], "application/json");
+    }
+
+    public static String postBatchRequest(Map<String, String> queryParams, List<String> queries)
+            throws FullContactException {
+        JsonObject jsonObject = new JsonObject();
+        try {
+            jsonObject.add("requests", new Gson().toJsonTree(queries));
+        } catch (Throwable throwable) {
+            throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
+        }
+        byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
+        return postWithGZip(Constants.API_URL_BATCH_PROCESS, queryParams, payload, "application/json");
     }
 
     private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
