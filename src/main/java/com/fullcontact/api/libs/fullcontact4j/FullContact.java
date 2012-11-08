@@ -9,6 +9,7 @@ public class FullContact {
     private NameHandler _nameHandler;
     private LocationHandler _locationHandler;
     private CardSharkHandler _cardSharkHandler;
+    private BatchHandler _batchHandler;
 
     public FullContact(String apiKey) {
         if (apiKey == null) {
@@ -57,5 +58,11 @@ public class FullContact {
         return _cardSharkHandler;
     }
 
+    public BatchHandler getBatchHandler(){
+        if(_batchHandler == null){
+            _batchHandler =  new BatchHandler(apiKey);
+        }
+        return _batchHandler;
+    }
 
 }
