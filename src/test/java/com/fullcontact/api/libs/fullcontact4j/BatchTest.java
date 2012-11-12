@@ -12,6 +12,7 @@ import com.fullcontact.api.libs.fullcontact4j.entity.name.NameStatsEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.person.PersonEntity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BatchTest extends AbstractApiTest {

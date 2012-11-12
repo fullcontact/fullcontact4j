@@ -263,3 +263,4 @@
 * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
 * [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
 * [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
+* [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)

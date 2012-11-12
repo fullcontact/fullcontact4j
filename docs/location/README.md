@@ -116,7 +116,8 @@
 
 ##Other API
 
-* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
-* [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
-* [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
+ * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
+ * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
+ * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
+ * [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
+ * [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)
