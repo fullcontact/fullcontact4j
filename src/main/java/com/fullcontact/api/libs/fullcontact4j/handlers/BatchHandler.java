@@ -3,9 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.batch.BatchResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,7 +33,7 @@ public class BatchHandler extends BaseHandler {
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         batchResponse.setStatusCode(jsonObject.get("status").getAsInt());
         Iterator<Map.Entry<String, JsonElement>> iterator = jsonObject.get("responses").getAsJsonObject().entrySet().iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Map.Entry<String, JsonElement> entry = iterator.next();
             batchResponse.addResult(entry.getKey(), entry.getValue().toString());
         }
