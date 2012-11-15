@@ -14,11 +14,6 @@ public class EmailTest extends AbstractApiTest {
         assertEquals("true", response.getDisposableEmailDomainStatus());
         assertEquals("unknown", response.getUsernameSubAddressingStatus());
         assertEquals("Email username contains sub address characters but is unknown. Email's domain is likely assocated with dispoable email addresses.", response.getMessage());
-
-        System.out.println("Status Code: " + response.getStatusCode());
-        System.out.println("Disposable Email Domain status: " + response.getDisposableEmailDomainStatus());
-        System.out.println("Username SubAddressing status: " + response.getUsernameSubAddressingStatus());
-        System.out.println("Message: " + response.getMessage());
     }
 
 }
