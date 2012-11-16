@@ -26,13 +26,11 @@ public class EmailHandler extends BaseHandler {
         }
         String paramString = MessageFormat.format(Constants.EMAIL_FORMAT, email) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
-        System.out.println("paramString: " + paramString);
         String response = FullContactHttpRequest.sendEmailDisposableDomainRequest(paramString);
         return parseJsonResponse(response);
     }
 
     public DisposableResponse parseJsonResponse(String response) {
-        System.out.println("DEA response:\n" + response + "\n====================");
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
