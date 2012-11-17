@@ -111,7 +111,6 @@ public class FullContactHttpRequest {
     public static InputStream sendIconRequest(String typeId, int size, String style, String paramString)
             throws FullContactException {
         String url = MessageFormat.format(Constants.API_URL_ICON_TYPE_ID, typeId, size, style);
-        System.out.println("URL: " + url);
         try {
             return new URL(url+paramString).openStream();
         } catch (IOException e) {
