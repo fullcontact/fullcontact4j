@@ -103,6 +103,22 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_EMAIL_DISPOSABLE_DOMAIN + paramString));
     }
 
+    public static String sendIconsListRequest(String paramString)
+            throws FullContactException {
+        return sendRequest((Constants.API_URL_ICON + paramString));
+    }
+
+    public static InputStream sendIconRequest(String typeId, int size, String style, String paramString)
+            throws FullContactException {
+        String url = MessageFormat.format(Constants.API_URL_ICON_TYPE_ID, typeId, size, style);
+        System.out.println("URL: " + url);
+        try {
+            return new URL(url+paramString).openStream();
+        } catch (IOException e) {
+            throw new FullContactException(e.getMessage(), e);
+        }
+    }
+
     public static String postCardRequest(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
             throws FullContactException {
         JsonObject jsonObject = new JsonObject();

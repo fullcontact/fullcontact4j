@@ -18,6 +18,8 @@ public class Constants {
     public static final String API_URL_CARDSHARK_REJECT = "https://api.fullcontact.com/v2/cardShark/reject/{0}?";
     public static final String API_URL_BATCH_PROCESS = "https://api.fullcontact.com/v2/batch.json?";
     public static final String API_URL_EMAIL_DISPOSABLE_DOMAIN = "https://api.fullcontact.com/v2/email/disposable.json?";
+    public static final String API_URL_ICON = "https://api.fullcontact.com/v2/icon?";
+    public static final String API_URL_ICON_TYPE_ID = "https://api.fullcontact.com/v2/icon/{0}/{1}/{2}?";
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
@@ -37,6 +39,9 @@ public class Constants {
     public static final String WEBHOOK_URL = "webhookUrl={0}";
     public static final String FORMAT = "format={0}";
     public static final String PAGE = "page={0}";
+    public static final String TYPE_ID_FORMAT = "typeId={0}";
+    public static final String SIZE_FORMAT = "size={0}";
+    public static final String STYLE_FORMAT = "style={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";
