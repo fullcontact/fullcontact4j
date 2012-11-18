@@ -264,3 +264,5 @@
 * [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
 * [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
 * [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)
+* [Email API](/fullcontact/fullcontact4j/tree/refactoring/docs/email/)
+* [Icon API](/fullcontact/fullcontact4j/tree/refactoring/docs/icon/)

@@ -7,7 +7,7 @@
         String apiKey = "Your api key goes here";
         FullContact fullContact = new FullContact(apiKey);
 
-* Get EmailHandler (handler for Batch API)
+* Get EmailHandler (handler for Email API)
 
         EmailHandler emailHandler = fullContact.getEmailHandler();
 
@@ -41,3 +41,5 @@
 * [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
 * [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
 * [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
+* [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)
+* [Icon API](/fullcontact/fullcontact4j/tree/refactoring/docs/icon/)
