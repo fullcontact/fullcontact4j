@@ -10,8 +10,6 @@ public class IconTest extends AbstractApiTest {
         String json = loadJson("icon.validList.json");
         IconListResponse response = new FullContact("fake_api_key").getIconHandler().parseIconsListJsonResponse(json);
         assertNotNull(response);
-        System.out.println("Status Code: " + response.getStatusCode());
-        System.out.println("Icon TypeIds: " + response.getValidIconTypes());
     }
 
 }
