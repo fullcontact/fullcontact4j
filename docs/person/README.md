@@ -19,6 +19,10 @@
 
         PersonEntity entity = personHandler.getPersonInfoByEmail("lorangb@gmail.com");
 
+* Finding a person information by email MD5 hash (case sensitive)
+
+        PersonEntity entity = personHandler.getPersonInfoByEmailMD5("a4cb1b07d68a3436a190e1559586ae3c");
+
 * Finding a person information by Twitter Id
 
         PersonEntity entity = personHandler.getPersonInfoByTwitter("lorangb");

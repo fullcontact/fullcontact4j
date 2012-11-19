@@ -42,6 +42,7 @@ public class Constants {
     public static final String TYPE_ID_FORMAT = "typeId={0}";
     public static final String SIZE_FORMAT = "size={0}";
     public static final String STYLE_FORMAT = "style={0}";
+    public static final String EMAIL_MD5_FORMAT = "emailMD5={0}";
 
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_TWITTER = "twitter";

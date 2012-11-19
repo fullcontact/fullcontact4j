@@ -28,6 +28,11 @@ public class PersonHandler extends BaseHandler {
         return getPersonInfoByParameterString(MessageFormat.format(Constants.EMAIL_FORMAT, email));
     }
 
+    public PersonEntity getPersonInfoByEmailMD5(String emailMd5)
+            throws FullContactException {
+        return getPersonInfoByParameterString(MessageFormat.format(Constants.EMAIL_MD5_FORMAT, emailMd5));
+    }
+
     public PersonEntity getPersonInfoByTwitter(String twitterId)
             throws FullContactException {
         return getPersonInfoByParameterString(MessageFormat.format(Constants.TWITTER_FORMAT, twitterId));
