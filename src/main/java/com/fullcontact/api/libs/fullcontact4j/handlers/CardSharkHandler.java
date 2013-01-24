@@ -67,30 +67,6 @@ public class CardSharkHandler extends BaseHandler {
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
     }
 
-    public AcceptResultResponse acceptResult(String requestId) throws FullContactException {
-        return acceptResult(requestId, "json");
-    }
-
-    private AcceptResultResponse acceptResult(String requestId, String format) throws FullContactException {
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put(Constants.PARAM_API_KEY, apiKey);
-        if (format != null)
-            queryParams.put(Constants.PARAM_FORMAT, format);
-        return parseAcceptResponse(FullContactHttpRequest.postCardSharkAcceptResult(requestId, queryParams));
-    }
-
-    public RejectResultResponse rejectResult(String requestId) throws FullContactException {
-        return rejectResult(requestId, "json");
-    }
-
-    private RejectResultResponse rejectResult(String requestId, String format) throws FullContactException {
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put(Constants.PARAM_API_KEY, apiKey);
-        if (format != null)
-            queryParams.put(Constants.PARAM_FORMAT, format);
-        return parseRejectResponse(FullContactHttpRequest.postCardSharkRejectResult(requestId, queryParams));
-    }
-
     public UploadResponse parseUploadJsonResponse(String response) {
         return parseJsonResponse(response);
     }
@@ -121,20 +97,6 @@ public class CardSharkHandler extends BaseHandler {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         return gson.fromJson(jsonObject, ViewRequestEntity.class);
-    }
-
-    public AcceptResultResponse parseAcceptResponse(String response) {
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, AcceptResultResponse.class);
-    }
-
-    public RejectResultResponse parseRejectResponse(String response) {
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, RejectResultResponse.class);
     }
 
 }

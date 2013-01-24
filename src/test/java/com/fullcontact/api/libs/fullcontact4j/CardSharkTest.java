@@ -1,11 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.contactinfo.Name;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class CardSharkTest extends AbstractApiTest {
 
@@ -94,23 +90,6 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/3c1759f1-820f-43ce-8a7a-24be8aa9d045-front.png", requestResult.getContact().getPhotos().get(0).getValue());
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
-    }
-
-    public void test_accept_response() throws IOException, FullContactException {
-        String json = loadJson("cardshark.result.accept.response.json");
-        AcceptResultResponse acceptResultResponse = new FullContact("fake_api_key").getCardSharkHandler().parseAcceptResponse(json);
-        assertNotNull(acceptResultResponse);
-        assertEquals(200, acceptResultResponse.getStatusCode());
-        assertTrue(acceptResultResponse.isAccepted());
-    }
-
-    public void test_reject_response() throws IOException, FullContactException {
-        String json = loadJson("cardshark.result.reject.response.json");
-        RejectResultResponse rejectResultResponse = new FullContact("fake_api_key").getCardSharkHandler().parseRejectResponse(json);
-        assertNotNull(rejectResultResponse);
-        assertEquals(200, rejectResultResponse.getStatusCode());
-        assertEquals("some-new-id", rejectResultResponse.getRequestId());
-        assertTrue(rejectResultResponse.isRejected());
     }
 
 }
