@@ -2,9 +2,12 @@ package com.fullcontact.api.libs.fullcontact4j.entity.cardshark;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ViewRequestEntity {
+public class ViewRequestEntity extends UploadRequestResult{
 
-    @SerializedName("status")
+    // View Request Entity response is same as UploadRequestResult now (after the format change).
+    // But just to keep the same name we are doing this way as of now.
+
+    /*@SerializedName("status")
     private int status;
 
     @SerializedName("results")
@@ -24,5 +27,5 @@ public class ViewRequestEntity {
 
     public void setResult(UploadRequestResult result) {
         this.result = result;
-    }
+    }*/
 }

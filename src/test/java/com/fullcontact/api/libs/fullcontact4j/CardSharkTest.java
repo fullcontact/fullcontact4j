@@ -75,11 +75,8 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_view_request() throws IOException, FullContactException {
         String json = loadJson("cardshark.view.request.response.json");
-        ViewRequestEntity viewRequestEntity = new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestJsonResponse(json);
-        assertNotNull(viewRequestEntity);
-        assertEquals(200, viewRequestEntity.getStatus());
-        assertNotNull(viewRequestEntity.getResult());
-        UploadRequestResult requestResult = viewRequestEntity.getResult();
+        ViewRequestEntity requestResult = new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestJsonResponse(json);
+        assertNotNull(requestResult);
         assertEquals("Elliott", requestResult.getContact().getName().getFamilyName());
         assertEquals(1, requestResult.getContact().getEmails().size());
         assertEquals(1, requestResult.getContact().getOrganizations().size());
