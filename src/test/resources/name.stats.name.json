@@ -11,7 +11,7 @@
                 "count": 3484136,
                 "likelihood": 0.996,
                 "rank": 3,
-                "frequencyRatio": "0.026305137",
+                "frequencyRatio": 0.026305137,
                 "age": {
                     "densityCurve": {
                         "mode": {
@@ -31,7 +31,7 @@
                 "count": 15015,
                 "likelihood": 0.004,
                 "rank": 928,
-                "frequencyRatio": "0.00011386",
+                "frequencyRatio": 0.00011386,
                 "age": {
                     "densityCurve": {
                         "mode": {
@@ -52,7 +52,7 @@
             "likelihood": 0.008,
             "count": 27643,
             "rank": 1161,
-            "frequencyRatio": "0.00011417"
+            "frequencyRatio": 0.00011417
         }
     },
     "region": "USA"

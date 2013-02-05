@@ -14,7 +14,7 @@ public class GenderStats {
     private long count;
 
     @SerializedName("frequencyRatio")
-    private String frequencyRatio;
+    private double frequencyRatio;
 
     @SerializedName("age")
     private AgeStats ageStats;
@@ -43,11 +43,12 @@ public class GenderStats {
         this.count = count;
     }
 
-    public String getFrequencyRatio() {
+    //TODO: convert this to double
+    public double getFrequencyRatio() {
         return frequencyRatio;
     }
 
-    public void setFrequencyRatio(String frequencyRatio) {
+    public void setFrequencyRatio(double frequencyRatio) {
         this.frequencyRatio = frequencyRatio;
     }
 

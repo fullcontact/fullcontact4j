@@ -84,12 +84,12 @@ public class NameTest extends AbstractApiTest {
         assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
         assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
         assertEquals(0.992, entity.getNameStatsInfo().getGivenNameStats().getLikelihood());
-        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+        assertEquals(0.0, entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
 
         // given name female stats
         GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
         assertNotNull(femaleNameStats);
-        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(0.00011386, femaleNameStats.getFrequencyRatio());
         assertEquals(15015, femaleNameStats.getCount());
         assertEquals(0.004, femaleNameStats.getLikelihood());
         assertEquals(928, femaleNameStats.getRank());
@@ -119,12 +119,12 @@ public class NameTest extends AbstractApiTest {
 
         assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
         assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
-        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+        assertEquals(0.0, entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
 
         // given name female stats
         GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
         assertNotNull(femaleNameStats);
-        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(0.00011386, femaleNameStats.getFrequencyRatio());
         assertEquals(15015, femaleNameStats.getCount());
         assertEquals(0.004, femaleNameStats.getLikelihood());
         assertEquals(928, femaleNameStats.getRank());
@@ -154,16 +154,16 @@ public class NameTest extends AbstractApiTest {
 
         assertEquals(2376206, entity.getNameStatsInfo().getFamilyNameStats().getCount());
         assertEquals(1, entity.getNameStatsInfo().getFamilyNameStats().getRank());
-        assertEquals("0.009814123", entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
+        assertEquals(0.009814123, entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
 
         assertEquals(3499150, entity.getNameStatsInfo().getGivenNameStats().getCount());
         assertEquals(3, entity.getNameStatsInfo().getGivenNameStats().getRank());
-        assertNull(entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
+        assertEquals(0.0, entity.getNameStatsInfo().getGivenNameStats().getFrequencyRatio());
 
         // given name female stats
         GenderStats femaleNameStats = entity.getNameStatsInfo().getGivenNameStats().getFemaleStats();
         assertNotNull(femaleNameStats);
-        assertEquals("0.00011386", femaleNameStats.getFrequencyRatio());
+        assertEquals(0.00011386, femaleNameStats.getFrequencyRatio());
         assertEquals(15015, femaleNameStats.getCount());
         assertEquals(0.004, femaleNameStats.getLikelihood());
         assertEquals(928, femaleNameStats.getRank());
@@ -171,7 +171,7 @@ public class NameTest extends AbstractApiTest {
         // given name male stats
         GenderStats maleNameStats = entity.getNameStatsInfo().getGivenNameStats().getMaleStats();
         assertNotNull(maleNameStats);
-        assertEquals("0.026305137", maleNameStats.getFrequencyRatio());
+        assertEquals(0.026305137, maleNameStats.getFrequencyRatio());
         assertEquals(3484136, maleNameStats.getCount());
         assertEquals(0.996, maleNameStats.getLikelihood());
         assertEquals(3, maleNameStats.getRank());
@@ -202,7 +202,7 @@ public class NameTest extends AbstractApiTest {
 
         assertEquals(2376206, entity.getNameStatsInfo().getFamilyNameStats().getCount());
         assertEquals(1, entity.getNameStatsInfo().getFamilyNameStats().getRank());
-        assertEquals("0.009814123", entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
+        assertEquals(0.009814123, entity.getNameStatsInfo().getFamilyNameStats().getFrequencyRatio());
     }
 
 }

@@ -14,7 +14,7 @@ public class BasicNameStats {
     private int rank;
 
     @SerializedName("frequencyRatio")
-    private String frequencyRatio;
+    private double frequencyRatio;
 
     public double getLikelihood() {
         return likelihood;
@@ -40,11 +40,11 @@ public class BasicNameStats {
         this.rank = rank;
     }
 
-    public String getFrequencyRatio() {
+    public double getFrequencyRatio() {
         return frequencyRatio;
     }
 
-    public void setFrequencyRatio(String frequencyRatio) {
+    public void setFrequencyRatio(double frequencyRatio) {
         this.frequencyRatio = frequencyRatio;
     }
 }
