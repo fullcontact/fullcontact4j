@@ -8,10 +8,7 @@ import com.google.gson.JsonObject;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -65,13 +62,18 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_LOCATION_ENRICHMENT + paramString));
     }
 
+    private static final String FC_USER_AGENT = "fullcontact4j/1.0";
+    private static final String STR_USER_AGENT = "User-Agent";
+
     public static String sendRequest(String apiUrl)
             throws FullContactException {
         StringBuffer buffer = new StringBuffer();
         try {
             URL url = new URL(apiUrl);
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
             BufferedReader in = new BufferedReader(new InputStreamReader(
-                    url.openStream(), Constants.UTF_8_CHARSET));
+                    connection.getInputStream(), Constants.UTF_8_CHARSET));
             String str;
             while ((str = in.readLine()) != null) {
                 buffer.append(str);
@@ -112,7 +114,9 @@ public class FullContactHttpRequest {
             throws FullContactException {
         String url = MessageFormat.format(Constants.API_URL_ICON_TYPE_ID, typeId, size, style);
         try {
-            return new URL(url+paramString).openStream();
+            URLConnection connection = new URL(url+paramString).openConnection();
+            connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
+            return connection.getInputStream();
         } catch (IOException e) {
             throw new FullContactException(e.getMessage(), e);
         }
@@ -170,6 +174,7 @@ public class FullContactHttpRequest {
             }
             URL url = new URL(fullUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
