@@ -13,6 +13,9 @@ public class Photo {
 	@SerializedName("url")
 	private String photoUrl;
 
+    @SerializedName("isPrimary")
+    private Boolean photoIsPrimary = false;
+
 	public String getPhotoUrl() {
 		return photoUrl;
 	}
@@ -36,4 +39,13 @@ public class Photo {
     public void setPhotoTypeName(String photoTypeName) {
         this.photoTypeName = photoTypeName;
     }
+
+    public void setPhotoIsPrimary(Boolean isPrimary){
+        this.photoIsPrimary = isPrimary;
+    }
+
+    public Boolean getPhotoIsPrimary(){
+        return this.photoIsPrimary;
+    }
+
 }

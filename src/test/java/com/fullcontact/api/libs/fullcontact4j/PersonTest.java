@@ -41,6 +41,9 @@ public class PersonTest extends AbstractApiTest {
         assertNotNull(entity.getPhotos());
         assertEquals(7, entity.getPhotos().size());
         assertEquals("http://a0.twimg.com/profile_images/1364842224/Bart_Profile_1_normal.jpg", entity.getPhotos().get(0).getPhotoUrl());
+        assert(entity.getPhotos().get(3).getPhotoIsPrimary());
+        assert(!entity.getPhotos().get(1).getPhotoIsPrimary());
+
         assertEquals("twitter", entity.getPhotos().get(0).getPhotoTypeId());
 
         assertNotNull(entity.getEnhancedData());
