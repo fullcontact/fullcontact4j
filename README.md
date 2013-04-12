@@ -38,14 +38,14 @@ dependencies {
 
 ##Usage:
 
-* [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
-* [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
-* [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
-* [CardShark API](/fullcontact/fullcontact4j/tree/master/docs/cardShark/)
-* [Batch API](/fullcontact/fullcontact4j/tree/master/docs/batch/)
-* [Email API](/fullcontact/fullcontact4j/tree/master/docs/email/)
-* [Icon API](/fullcontact/fullcontact4j/tree/master/docs/icon/)
+* [Person API](/docs/person/)
+* [Person Enhanced Data API](/docs/enhancedData/)
+* [Name API](/docs/name/)
+* [Location API](/docs/location/)
+* [CardShark API](/docs/cardShark/)
+* [Batch API](/docs/batch/)
+* [Email API](/docs/email/)
+* [Icon API](/docs/icon/)
 
 ##Dependencies
 * Google GSON (http://code.google.com/p/google-gson/)
