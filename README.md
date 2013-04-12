@@ -1,11 +1,42 @@
-#Fullcontact4j
+#FullContact4j
 
-A Java wrapper for the [FullContact API](http://api.fullcontact.com/)
+A Java client for the [FullContact API](http://www.fullcontact.com/docs)
 
-##Quick Usage
-* You can either download the source code. Or just use jar files in the lib directory (i.e. fullcontact4j.jar and gson-2.1.jar)
 
-##How to use ?
+##Maven
+To fetch FullContact4j from Maven, you'll need to connect to FullContact's public and fetch the artifact like this:
+```xml
+<repositories>
+  <repository>
+    <id>fullcontact</id>
+    <url>http://fullcontact.artifactoryonline.com/fullcontact/repo</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>com.fullcontact</groupId>
+    <artifactId>fullcontact4j</artifactId>
+    <version>${version}</version>
+  </dependency>
+</dependencies>
+```
+
+##Gradle
+```groovy
+repositories {
+    maven {
+        url "http://fullcontact.artifactoryonline.com/fullcontact/repo"
+    }
+}
+
+dependencies {
+    compile group: "com.fullcontact:fullcontact4j:${version}"
+}
+```
+
+
+##Usage:
 
 * [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
 * [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
