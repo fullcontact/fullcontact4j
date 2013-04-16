@@ -4,12 +4,12 @@ A Java client for the [FullContact API](http://www.fullcontact.com/docs)
 
 
 ##Maven
-To fetch FullContact4j from Maven, you'll need to connect to FullContact's public and fetch the artifact like this:
+To fetch FullContact4j from Maven, you'll need to connect to [Bintray](https://bintray.com/) and fetch the artifact like this:
 ```xml
 <repositories>
   <repository>
     <id>fullcontact</id>
-    <url>http://fullcontact.artifactoryonline.com/fullcontact/repo</url>
+    <url>http://dl.bintray.com/content/fullcontact/fullcontact-oss</url>
   </repository>
 </repositories>
 
@@ -26,7 +26,7 @@ To fetch FullContact4j from Maven, you'll need to connect to FullContact's publi
 ```groovy
 repositories {
     maven {
-        url "http://fullcontact.artifactoryonline.com/fullcontact/repo"
+        url "http://dl.bintray.com/content/fullcontact/fullcontact-oss"
     }
 }
 
