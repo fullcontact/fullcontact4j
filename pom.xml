@@ -37,6 +37,14 @@
 
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-fullcontact-fullcontact-oss-fullcontact4j</id>
+            <name>fullcontact-fullcontact-oss-fullcontact4j</name>
+            <url>https://api.bintray.com/maven/fullcontact/fullcontact-oss/fullcontact4j</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
         </plugins>
