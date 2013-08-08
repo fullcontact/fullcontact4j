@@ -1,14 +1,24 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.*;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadRequestResult;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadResponse;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity;
+
 import java.io.IOException;
 
-@Deprecated
-public class CardSharkTest extends AbstractApiTest {
+/**
+ * Created with IntelliJ IDEA.
+ * User: mattdelliott
+ * Date: 8/7/13
+ * Time: 4:31 PM
+ * To change this template use File | Settings | File Templates.
+ */
+public class CardReaderTest extends AbstractApiTest {
 
     public void test_upload_card() throws IOException, FullContactException {
         String json = loadJson("cardshark.upload.response.json");
-        UploadResponse entity = new FullContact("fake_api_key").getCardSharkHandler().parseUploadJsonResponse(json);
+        UploadResponse entity = new FullContact("fake_api_key").getCardReaderHandler().parseUploadJsonResponse(json);
         assertNotNull(entity);
         assertEquals(202, entity.getStatusCode());
         assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", entity.getRequestId());
@@ -17,7 +27,7 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_upload_card_webhook_response() throws IOException, FullContactException {
         String json = loadJson("cardshark.upload.webhook.response.json");
-        UploadRequestResult requestResult = new FullContact("fake_api_key").getCardSharkHandler().parseUploadWebhookJsonResponse(json);
+        UploadRequestResult requestResult = new FullContact("fake_api_key").getCardReaderHandler().parseUploadWebhookJsonResponse(json);
         assertNotNull(requestResult);
         assertEquals("b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf", requestResult.getRequestId());
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/2I63W5XH0JPPYKTRWFGL0P75N9OEK7.vcf", requestResult.getvCardUrl());
@@ -52,7 +62,7 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_view_requests() throws IOException, FullContactException {
         String json = loadJson("cardshark.view.requests.response.json");
-        ViewRequestsEntity viewRequestsEntity = new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestsJsonResponse(json);
+        ViewRequestsEntity viewRequestsEntity = new FullContact("fake_api_key").getCardReaderHandler().parseViewRequestsJsonResponse(json);
         assertNotNull(viewRequestsEntity);
         assertEquals(200, viewRequestsEntity.getStatus());
         assertEquals(1, viewRequestsEntity.getTotalPages());
@@ -76,7 +86,7 @@ public class CardSharkTest extends AbstractApiTest {
 
     public void test_view_request() throws IOException, FullContactException {
         String json = loadJson("cardshark.view.request.response.json");
-        ViewRequestEntity requestResult = new FullContact("fake_api_key").getCardSharkHandler().parseViewRequestJsonResponse(json);
+        ViewRequestEntity requestResult = new FullContact("fake_api_key").getCardReaderHandler().parseViewRequestJsonResponse(json);
         assertNotNull(requestResult);
         assertEquals("Elliott", requestResult.getContact().getName().getFamilyName());
         assertEquals(1, requestResult.getContact().getEmails().size());
@@ -89,5 +99,4 @@ public class CardSharkTest extends AbstractApiTest {
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
     }
-
 }

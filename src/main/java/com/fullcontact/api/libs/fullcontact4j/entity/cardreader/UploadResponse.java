@@ -1,8 +1,7 @@
-package com.fullcontact.api.libs.fullcontact4j.entity.cardshark;
+package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
 import com.google.gson.annotations.SerializedName;
 
-@Deprecated
 public class UploadResponse {
 
     @SerializedName("status")
@@ -13,6 +12,9 @@ public class UploadResponse {
 
     @SerializedName("queued")
     private boolean queued;
+
+    @SerializedName("estimatedWaitTimeMinutes")
+    private int estimatedWaitTimeMinutes;
 
     public int getStatusCode() {
         return statusCode;
@@ -36,5 +38,13 @@ public class UploadResponse {
 
     public void setQueued(boolean queued) {
         this.queued = queued;
+    }
+
+    public int getEstimatedWaitTimeMinutes() {
+        return estimatedWaitTimeMinutes;
+    }
+
+    public void setEstimatedWaitTimeMinutes(int estimatedWaitTimeMinutes) {
+        this.estimatedWaitTimeMinutes = estimatedWaitTimeMinutes;
     }
 }

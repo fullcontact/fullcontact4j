@@ -13,17 +13,21 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class CardSharkHandler extends BaseHandler {
 
+    @Deprecated
     public CardSharkHandler(String apiKey) {
         super(apiKey);
     }
 
+    @Deprecated
     public UploadResponse uploadCardImage(InputStream frontImageStream, String webhookUrl)
             throws FullContactException {
         return uploadCardImage(frontImageStream, null, webhookUrl);
     }
 
+    @Deprecated
     public UploadResponse uploadCardImage(InputStream frontImageStream, InputStream backImageStream, String webhookUrl)
             throws FullContactException {
         return uploadCardImage(frontImageStream, backImageStream, webhookUrl, null);
@@ -42,10 +46,12 @@ public class CardSharkHandler extends BaseHandler {
         return parseUploadJsonResponse(response);
     }
 
+    @Deprecated
     public ViewRequestsEntity viewRequestResults() throws FullContactException {
         return viewRequestResults(0);
     }
 
+    @Deprecated
     public ViewRequestsEntity viewRequestResults(int page) throws FullContactException {
         return viewRequestResults(page, "json");
     }
@@ -57,6 +63,7 @@ public class CardSharkHandler extends BaseHandler {
         return parseViewRequestsJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(paramString));
     }
 
+    @Deprecated
     public ViewRequestEntity viewRequestResult(String requestId) throws FullContactException {
         return viewRequestResult(requestId, "json");
     }
@@ -67,10 +74,12 @@ public class CardSharkHandler extends BaseHandler {
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardSharkViewRequest(requestId, paramString));
     }
 
+    @Deprecated
     public UploadResponse parseUploadJsonResponse(String response) {
         return parseJsonResponse(response);
     }
 
+    @Deprecated
     public UploadResponse parseJsonResponse(String response) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -78,6 +87,7 @@ public class CardSharkHandler extends BaseHandler {
         return gson.fromJson(jsonObject, UploadResponse.class);
     }
 
+    @Deprecated
     public UploadRequestResult parseUploadWebhookJsonResponse(String response) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -85,6 +95,7 @@ public class CardSharkHandler extends BaseHandler {
         return gson.fromJson(jsonObject, UploadRequestResult.class);
     }
 
+    @Deprecated
     public ViewRequestsEntity parseViewRequestsJsonResponse(String response) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -92,6 +103,7 @@ public class CardSharkHandler extends BaseHandler {
         return gson.fromJson(jsonObject, ViewRequestsEntity.class);
     }
 
+    @Deprecated
     public ViewRequestEntity parseViewRequestJsonResponse(String response) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();

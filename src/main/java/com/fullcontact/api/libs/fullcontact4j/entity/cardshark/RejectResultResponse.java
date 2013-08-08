@@ -2,6 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.entity.cardshark;
 
 import com.google.gson.annotations.SerializedName;
 
+@Deprecated
 public class RejectResultResponse {
 
     @SerializedName("status")

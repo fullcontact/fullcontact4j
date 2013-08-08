@@ -11,11 +11,9 @@ public class Constants {
     public static final String API_URL_NAME_PARSER = "https://api.fullcontact.com/v2/name/parser.json?";
     public static final String API_URL_LOCATION_NORMALIZATION = "https://api.fullcontact.com/v2/address/locationNormalizer.json?";
     public static final String API_URL_LOCATION_ENRICHMENT = "https://api.fullcontact.com/v2/address/locationEnrichment.json?";
-    public static final String API_URL_CARDSHARK_UPLOAD = "https://api.fullcontact.com/v2/cardShark?";
-    public static final String API_URL_CARDSHARK_VIEW_REQUEST = "https://api.fullcontact.com/v2/cardShark/{0}?";
-    public static final String API_URL_CARDSHARK_VIEW_REQUESTS = "https://api.fullcontact.com/v2/cardShark?";
-    public static final String API_URL_CARDSHARK_ACCEPT = "https://api.fullcontact.com/v2/cardShark/accept/{0}?";
-    public static final String API_URL_CARDSHARK_REJECT = "https://api.fullcontact.com/v2/cardShark/reject/{0}?";
+    public static final String API_URL_CARDREADER_UPLOAD = "https://api.fullcontact.com/v2/cardReader?";
+    public static final String API_URL_CARDREADER_VIEW_REQUEST = "https://api.fullcontact.com/v2/cardReader/{0}?";
+    public static final String API_URL_CARDREADER_VIEW_REQUESTS = "https://api.fullcontact.com/v2/cardReader?";
     public static final String API_URL_BATCH_PROCESS = "https://api.fullcontact.com/v2/batch.json?";
     public static final String API_URL_EMAIL_DISPOSABLE_DOMAIN = "https://api.fullcontact.com/v2/email/disposable.json?";
     public static final String API_URL_ICON = "https://api.fullcontact.com/v2/icon?";
@@ -51,6 +49,10 @@ public class Constants {
     public static final String PARAM_WEBHOOK_ID = "webhookId";
     public static final String PARAM_API_KEY = "apiKey";
     public static final String PARAM_FORMAT = "format";
+    public static final String PARAM_VERIFIED = "verified";
+    public static final String PARAM_RETURNED_DATA = "returnedData";
+    public static final String PARAM_CASING = "casing";
+    public static final String PARAM_SANDBOX = "sandbox";
 
     public static final String UTF_8_CHARSET = "UTF-8";
 }

@@ -1,8 +1,7 @@
-package com.fullcontact.api.libs.fullcontact4j.entity.cardshark.contactinfo;
+package com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-@Deprecated
 public class Organization {
 
 	@SerializedName("name")

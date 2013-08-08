@@ -2,7 +2,11 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
+import com.fullcontact.api.libs.fullcontact4j.builders.CardReaderUploadRequestBuilder;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderCasing;
+import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderSandboxStatus;
+import com.fullcontact.api.libs.fullcontact4j.enums.ResponseFormat;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.commons.codec.binary.Base64;
@@ -10,6 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.io.*;
 import java.net.*;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -87,17 +92,29 @@ public class FullContactHttpRequest {
         return buffer.toString();
     }
 
-    public static String sendCardSharkViewRequest(String paramString)
+    public static String sendCardReaderViewRequest(String paramString)
             throws FullContactException {
-        return sendRequest((Constants.API_URL_CARDSHARK_VIEW_REQUESTS + paramString));
+        return sendRequest((Constants.API_URL_CARDREADER_VIEW_REQUESTS + paramString));
     }
 
-    public static String sendCardSharkViewRequest(String requestId, String paramString)
+    public static String sendCardReaderViewRequest(String requestId, String paramString)
             throws FullContactException {
         if (requestId == null) {
-            return sendCardSharkViewRequest(paramString);
+            return sendCardReaderViewRequest(paramString);
         }
-        return sendRequest((MessageFormat.format(Constants.API_URL_CARDSHARK_VIEW_REQUEST, requestId) + paramString));
+        return sendRequest((MessageFormat.format(Constants.API_URL_CARDREADER_VIEW_REQUEST, requestId) + paramString));
+    }
+
+    @Deprecated
+    public static String sendCardSharkViewRequest(String paramString)
+            throws FullContactException {
+        return sendCardReaderViewRequest(paramString);
+    }
+
+    @Deprecated
+    public static String sendCardSharkViewRequest(String requestId, String paramString)
+            throws FullContactException {
+        return sendCardReaderViewRequest(requestId, paramString);
     }
 
     public static String sendEmailDisposableDomainRequest(String paramString)
@@ -122,31 +139,56 @@ public class FullContactHttpRequest {
         }
     }
 
-    public static String postCardRequest(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
+    public static String postCardReaderRequest(String apiKey, CardReaderUploadRequestBuilder.CardReaderUploadRequest request)
             throws FullContactException {
+        Map<String, String> queryParams = new HashMap<String, String>();
+        queryParams.put(Constants.PARAM_API_KEY, apiKey);
+        queryParams.put(Constants.PARAM_WEBHOOK_URL, request.getWebhookUrl());
+        queryParams.put(Constants.PARAM_FORMAT, request.getFormat().toString().toLowerCase());
+        queryParams.put(Constants.PARAM_VERIFIED, request.getFormat().toString().toLowerCase());
+        if(request.isVerifiedOnly())
+            queryParams.put(Constants.PARAM_RETURNED_DATA, "verifiedOnly");
+        queryParams.put(Constants.PARAM_VERIFIED, request.getVerification().toString().toLowerCase());
+        if(request.getCasing() != CardReaderCasing.Default)
+            queryParams.put(Constants.PARAM_CASING, request.getCasing().toString().toLowerCase());
+        if(request.isSandbox()) {
+            CardReaderSandboxStatus sandboxStatus = request.getSandboxStatus();
+            if(sandboxStatus != null)
+                queryParams.put(Constants.PARAM_SANDBOX, request.getSandboxStatus().toString());
+            else
+                throw new FullContactException("sandboxStatus is required if request isSandbox");
+        }
         JsonObject jsonObject = new JsonObject();
         try {
-            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(frontStream))));
-            if (backStream != null)
-                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(backStream))));
+            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getFrontImage()))));
+            if (request.getBackImage() != null)
+                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getBackImage()))));
         } catch (Throwable throwable) {
             throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
         }
 
         byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
-        return postWithGZip(Constants.API_URL_CARDSHARK_UPLOAD, queryParams, payload, "application/json");
+        return postWithGZip(Constants.API_URL_CARDREADER_UPLOAD, queryParams, payload, "application/json");
     }
 
-    public static String postCardSharkAcceptResult(String requestId, Map<String, String> queryParams)
-            throws FullContactException {
-        String url = MessageFormat.format(Constants.API_URL_CARDSHARK_ACCEPT, requestId);
-        return postWithGZip(url, queryParams, new byte[0], "application/json");
-    }
+    @Deprecated
+    public static String postCardRequest(Map<String, String> queryParams, InputStream frontStream, InputStream backStream)
+        throws FullContactException {
+        String apiKey = queryParams.get(Constants.PARAM_API_KEY);
+        String webhookUrl = queryParams.get(Constants.PARAM_WEBHOOK_URL);
+        String format = queryParams.containsKey(Constants.PARAM_FORMAT) ?
+                queryParams.get(Constants.PARAM_FORMAT) :
+                null;
+        ResponseFormat responseFormat = ResponseFormat.JSON;
+        if(format != null && format.toLowerCase() == "xml")
+            responseFormat = ResponseFormat.XML;
 
-    public static String postCardSharkRejectResult(String requestId, Map<String, String> queryParams)
-            throws FullContactException {
-        String url = MessageFormat.format(Constants.API_URL_CARDSHARK_REJECT, requestId);
-        return postWithGZip(url, queryParams, new byte[0], "application/json");
+        CardReaderUploadRequestBuilder builder = new CardReaderUploadRequestBuilder();
+        builder.setWebhookUrl(webhookUrl)
+                .setFormat(responseFormat)
+                .setFrontImage(frontStream)
+                .setBackImage(backStream);
+        return postCardReaderRequest(apiKey, builder.build());
     }
 
     public static String postBatchRequest(Map<String, String> queryParams, List<String> queries)

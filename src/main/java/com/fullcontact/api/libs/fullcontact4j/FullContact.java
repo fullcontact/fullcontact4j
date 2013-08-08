@@ -12,6 +12,7 @@ public class FullContact {
     private BatchHandler _batchHandler;
     private EmailHandler _emailHandler;
     private IconHandler _iconHandler;
+    private CardReaderHandler _cardReaderHandler;
 
     public FullContact(String apiKey) {
         if (apiKey == null) {
@@ -58,6 +59,13 @@ public class FullContact {
             _cardSharkHandler =  new CardSharkHandler(apiKey);
         }
         return _cardSharkHandler;
+    }
+
+    public CardReaderHandler getCardReaderHandler() {
+        if(_cardReaderHandler == null) {
+            _cardReaderHandler = new CardReaderHandler(apiKey);
+        }
+        return _cardReaderHandler;
     }
 
     public BatchHandler getBatchHandler(){

@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardshark;
 
-import com.google.gson.annotations.SerializedName;
-
+@Deprecated
 public class ViewRequestEntity extends UploadRequestResult{
 
     // View Request Entity response is same as UploadRequestResult now (after the format change).

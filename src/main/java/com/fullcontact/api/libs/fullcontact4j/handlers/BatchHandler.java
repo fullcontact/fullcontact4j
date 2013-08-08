@@ -13,12 +13,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/***
+ * Handler for batching requests in parallel.
+ * @see "http://www.fullcontact.com/developer/docs/batch/"
+ */
 public class BatchHandler extends BaseHandler {
 
     public BatchHandler(String apiKey) {
         super(apiKey);
     }
 
+    /***
+     * Batches a set of requests to the server to process in parallel.
+     * @param queries
+     * @return
+     * @throws FullContactException
+     * @see "http://www.fullcontact.com/developer/docs/batch/"
+     */
     public BatchResponse processApiRequests(List<String> queries)
             throws FullContactException {
         Map<String, String> queryParams = new HashMap<String, String>();
@@ -27,6 +38,11 @@ public class BatchHandler extends BaseHandler {
         return parseJsonResponse(response);
     }
 
+    /***
+     * Parses the json from the batch request.
+     * @param response
+     * @return
+     */
     public BatchResponse parseJsonResponse(String response) {
         BatchResponse batchResponse = new BatchResponse();
         JsonParser parser = new JsonParser();

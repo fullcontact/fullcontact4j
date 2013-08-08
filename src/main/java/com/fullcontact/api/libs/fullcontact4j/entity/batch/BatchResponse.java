@@ -2,8 +2,6 @@ package com.fullcontact.api.libs.fullcontact4j.entity.batch;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationEnrichmentEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationNormalizerEntity;
@@ -146,20 +144,57 @@ public class BatchResponse {
         return entities;
     }
 
-    public List<ViewRequestsEntity> getCardSharkRequestsResults() {
+    public List<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity> getCardReaderRequestsResults() {
+        if(!_csRequestsProcessed){
+            processCardReaderRequests();
+        }
+        return _crRequestsEntities;
+    }
+
+    public List<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity> getCardReaderRequestResults() {
+        if(!_csRequestsProcessed){
+            processCardReaderRequests();
+        }
+        return _crRequestEntities;
+    }
+
+    private void processCardReaderRequests() {
+        CardReaderHandler handler = getClient().getCardReaderHandler();
+        for (String apiUrl : results.keySet()) {
+            if (apiUrl.startsWith(_csRequestsUrl)) {
+                String apiUrlTrimmed = apiUrl.replaceFirst(_csRequestsUrl, "");
+                if (apiUrlTrimmed.length() > 1) {
+                    try{
+                        _crRequestEntities.add(handler.parseViewRequestJsonResponse(results.get(apiUrl)));
+                    }catch(Exception e){}
+                } else {
+                    try{
+                        _crRequestsEntities.add(handler.parseViewRequestsJsonResponse(results.get(apiUrl)));
+                    }catch(Exception e){}
+                }
+            }
+        }
+        _csRequestsProcessed = true;
+    }
+
+
+    @Deprecated
+    public List<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity> getCardSharkRequestsResults() {
         if(!_csRequestsProcessed){
             processCardSharkRequests();
         }
-        return _csReqestsEntities;
+        return _csRequestsEntities;
     }
 
-    public List<ViewRequestEntity> getCardSharkRequestResults() {
+    @Deprecated
+    public List<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity> getCardSharkRequestResults() {
         if(!_csRequestsProcessed){
             processCardSharkRequests();
         }
-        return _csReqestEntities;
+        return _csRequestEntities;
     }
 
+    @Deprecated
     private void processCardSharkRequests() {
         CardSharkHandler cardSharkHandler = getClient().getCardSharkHandler();
         for (String apiUrl : results.keySet()) {
@@ -167,11 +202,11 @@ public class BatchResponse {
                 String apiUrlTrimmed = apiUrl.replaceFirst(_csRequestsUrl, "");
                 if (apiUrlTrimmed.length() > 1) {
                     try{
-                        _csReqestEntities.add(cardSharkHandler.parseViewRequestJsonResponse(results.get(apiUrl)));
+                        _csRequestEntities.add(cardSharkHandler.parseViewRequestJsonResponse(results.get(apiUrl)));
                     }catch(Exception e){}
                 } else {
                     try{
-                        _csReqestsEntities.add(cardSharkHandler.parseViewRequestsJsonResponse(results.get(apiUrl)));
+                        _csRequestsEntities.add(cardSharkHandler.parseViewRequestsJsonResponse(results.get(apiUrl)));
                     }catch(Exception e){}
                 }
             }
@@ -190,9 +225,15 @@ public class BatchResponse {
     }
 
     private FullContact _client;
-    private String _csRequestsUrl = "https://api.fullcontact.com/v2/cardShark";
-    private List<ViewRequestEntity> _csReqestEntities = new ArrayList<ViewRequestEntity>();
-    private List<ViewRequestsEntity> _csReqestsEntities = new ArrayList<ViewRequestsEntity>();
+    private String _csRequestsUrl = "https://api.fullcontact.com/v2/cardReader";
+    private List<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity> _csRequestEntities =
+            new ArrayList<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestEntity>();
+    private List<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity> _csRequestsEntities =
+            new ArrayList<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity>();
+    private List<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity> _crRequestEntities =
+            new ArrayList<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity>();
+    private List<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity> _crRequestsEntities =
+            new ArrayList<com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity>();
     private boolean _csRequestsProcessed = false;
 
 }

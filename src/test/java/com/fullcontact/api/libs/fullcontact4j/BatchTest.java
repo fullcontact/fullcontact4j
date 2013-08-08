@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.batch.BatchResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationEnrichmentEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationNormalizerEntity;
@@ -85,7 +84,7 @@ public class BatchTest extends AbstractApiTest {
         assertEquals(600158, locationEnrichmentResults.get(0).getLocations().get(0).getPopulation());
         assertEquals(200, locationEnrichmentResults.get(0).getStatusCode());
 
-        List<ViewRequestsEntity> cardSharkRequestsResults = response.getCardSharkRequestsResults();
+        List<com.fullcontact.api.libs.fullcontact4j.entity.cardshark.ViewRequestsEntity> cardSharkRequestsResults = response.getCardSharkRequestsResults();
 
         assertEquals(1, cardSharkRequestsResults.size());
         assertEquals(2, cardSharkRequestsResults.get(0).getResults().size());
