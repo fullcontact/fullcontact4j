@@ -3,6 +3,8 @@ package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class UploadRequestResult {
 
     @SerializedName("status")
@@ -21,10 +23,10 @@ public class UploadRequestResult {
     private ContactInfo contact;
 
     @SerializedName("submitted")
-    private String submitted;
+    private Date submitted;
 
     @SerializedName("lastWebhookAttempt")
-    private String lastWebhookAttempt;
+    private Date lastWebhookAttempt;
 
     @SerializedName("webhookAttempts")
     private Integer webhookAttempts;
@@ -75,19 +77,19 @@ public class UploadRequestResult {
         this.contact = contact;
     }
 
-    public String getSubmitted() {
+    public Date getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(String submitted) {
+    public void setSubmitted(Date submitted) {
         this.submitted = submitted;
     }
 
-    public String getLastWebhookAttempt() {
+    public Date getLastWebhookAttempt() {
         return lastWebhookAttempt;
     }
 
-    public void setLastWebhookAttempt(String lastWebhookAttempt) {
+    public void setLastWebhookAttempt(Date lastWebhookAttempt) {
         this.lastWebhookAttempt = lastWebhookAttempt;
     }
 
