@@ -42,7 +42,7 @@ dependencies {
 * [Person Enhanced Data API](/docs/enhancedData/)
 * [Name API](/docs/name/)
 * [Location API](/docs/location/)
-* [CardShark API](/docs/cardShark/)
+* [CardReader API](/docs/cardReader/)
 * [Batch API](/docs/batch/)
 * [Email API](/docs/email/)
 * [Icon API](/docs/icon/)

@@ -36,10 +36,10 @@
 
 ##Other API
 
-* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
-* [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
-* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
-* [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
-* [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)
-* [Icon API](/fullcontact/fullcontact4j/tree/refactoring/docs/icon/)
+* [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
+* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
+* [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
+* [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
+* [CardReader API](/fullcontact/fullcontact4j/tree/master/docs/cardReader/)
+* [Batch API](/fullcontact/fullcontact4j/tree/master/docs/batch/)
+* [Icon API](/fullcontact/fullcontact4j/tree/master/docs/icon/)

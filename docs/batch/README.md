@@ -81,18 +81,18 @@
         List<LocationEnrichmentEntity> locationEnrichmentResults = response.getLocationEnrichmentResults();
         System.out.println("Location Enrichment results count: " + enhancedResults.size());
 
-* Getting the cardshark requests results
+* Getting the cardReader requests results
 
-        List<ViewRequestsEntity> cardSharkRequestsResults = response.getCardSharkRequestsResults();
-        System.out.println("CardSharkRequests results count: " + cardSharkRequestsResults.size());
+        List<ViewRequestsEntity> cardReaderRequestsResults = response.getCardReaderRequestsResults();
+        System.out.println("CardReaderRequests results count: " + cardReaderRequestsResults.size());
 
 
 ##Other API
 
-* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
-* [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
-* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
-* [CardShark API](/fullcontact/fullcontact4j/tree/refactoring/docs/cardShark/)
-* [Email API](/fullcontact/fullcontact4j/tree/refactoring/docs/email/)
-* [Icon API](/fullcontact/fullcontact4j/tree/refactoring/docs/icon/)
+* [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
+* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
+* [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
+* [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
+* [CardReader API](/fullcontact/fullcontact4j/tree/master/docs/cardReader/)
+* [Email API](/fullcontact/fullcontact4j/tree/master/docs/email/)
+* [Icon API](/fullcontact/fullcontact4j/tree/master/docs/icon/)

@@ -7,22 +7,29 @@
         String apiKey = "Your api key goes here";
         FullContact fullContact = new FullContact(apiKey);
 
-* Get CardSharkHandler (handler for CardShark API)
+* Get CardReaderHandler (handler for CardShark API)
 
-        CardSharkHandler cardSharkHandler = fullContact.getCardSharkHandler();
+        CardReaderHandler cardReaderHandler = fullContact.getCardReaderHandler();
 
 
-## Upload card methods:
+## Upload card method:
 
 * Upload card with only front image (of scanned business card) as InputStreams
 
         InputStream frontImageStream = new FileInputStream("/path/to/the/front-image-file.png");
         String webhookUrl = "http://example.com/webhookurl";
-        UploadResponse uploadResponse = cardSharkHandler.uploadCardImage(frontImageStream, webhookUrl)
-
-* Upload card with front and back images (of scanned business card) as InputStreams
-
-        UploadResponse uploadResponse = cardSharkHandler.uploadCardImage(frontImageStream, backImageStream, webhookUrl)
+        UploadResponse uploadResponse = cardSharkHandler.uploadCardImage(
+        		 new CardReaderUploadRequestBuilder()
+        		 		.setFrontImage(frontImageStream)
+        		 		.setWebhookUrl(webhookUrl)
+        		 		.setBackImage(backImageStream) //optional
+        		 		.setVerification(CardReaderVerification.Medium) //optional
+        		 		.setVerifiedOnly(true) //optional
+        		 		.setCasing(CardReaderCasing.TitleCase) //optional
+        		 		.setSandbox(true) //optional
+        		 		.setSandboxStatus(CardReaderSandboxStatus.CALLBACK_MADE) //optional
+        		 		.build()
+        );
 
 * Getting the upload response status code
 
@@ -35,12 +42,16 @@
 * Getting the request queued status from the upload response
 
         System.out.println("is Queued: " + uploadResponse.isQueued());
+        
+* Getting the estimated wait time:
+
+		System.out.println("Estimated time: " + uploadResponse.getEstimatedWaitTimeMinutes());
 
 ### Handling the webhook response
 
 * Parsing the json response received on webhook url.
 
-        UploadRequestResult requestResult = cardSharkHandler.parseUploadWebhookJsonResponse(jsonResponseAsString);
+        UploadRequestResult requestResult = cardReaderHandler.parseUploadWebhookJsonResponse(jsonResponseAsString);
 
 * Getting the requestId
 
@@ -153,11 +164,11 @@
 
 * Getting the requests information (for the first page only)
 
-        ViewRequestsEntity viewRequestsEntity = cardSharkHandler.viewRequestResults()
+        ViewRequestsEntity viewRequestsEntity = cardReaderHandler.viewRequestResults()
 
 * Getting the requests information using pagination
 
-        ViewRequestsEntity viewRequestsEntity = cardSharkHandler.viewRequestResults(pageNumber)
+        ViewRequestsEntity viewRequestsEntity = cardReaderHandler.viewRequestResults(pageNumber)
 
 * Getting the status for the request made
 
@@ -186,7 +197,7 @@
 * Getting the (single) request information (by request id)
 
         String requestId = "your-request-id";
-        ViewRequestEntity viewRequestsEntity = cardSharkHandler.viewRequestResults(requestId)
+        ViewRequestEntity viewRequestsEntity = cardReaderHandler.viewRequestResults(requestId)
 
 * Getting the single request status
 
@@ -196,43 +207,12 @@
 
         UploadRequestResult requestResult = viewRequestEntity.getResult();
 
-## Accept or Reject results
-
-* Accepting the result
-
-        AcceptResultResponse acceptResultResponse = acceptResult("your-request-id");
-
-* Getting the status code (from the AcceptResultResponse)
-
-        System.out.println("Status: " + acceptResultResponse.getStatusCode());
-
-* Checking if accepted?
-
-        System.out.println("Is Accepted: " + acceptResultResponse.isAccepted());
-
-* Rejecting the result
-
-        RejectResultResponse rejectResultResponse = rejectResult("your-request-id");
-
-* Getting the status code (from the RejectResultResponse)
-
-        System.out.println("Status: " + rejectResultResponse.getStatusCode());
-
-* Checking if rejected?
-
-        System.out.println("Is Rejected: " + rejectResultResponse.isRejected());
-
-* Getting the new request id (if it's rerun case)
-
-        System.out.println("New Request Id: " + rejectResultResponse.getRequestId());
-
-
 ##Other API
 
-* [Person API](/fullcontact/fullcontact4j/tree/refactoring/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/refactoring/docs/enhancedData/)
-* [Name API](/fullcontact/fullcontact4j/tree/refactoring/docs/name/)
-* [Location API](/fullcontact/fullcontact4j/tree/refactoring/docs/location/)
-* [Batch API](/fullcontact/fullcontact4j/tree/refactoring/docs/batch/)
-* [Email API](/fullcontact/fullcontact4j/tree/refactoring/docs/email/)
-* [Icon API](/fullcontact/fullcontact4j/tree/refactoring/docs/icon/)
+* [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
+* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
+* [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
+* [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
+* [Batch API](/fullcontact/fullcontact4j/tree/master/docs/batch/)
+* [Email API](/fullcontact/fullcontact4j/tree/master/docs/email/)
+* [Icon API](/fullcontact/fullcontact4j/tree/master/docs/icon/)
