@@ -1,4 +1,4 @@
-#Fullcontact4j: CardShark API
+#Fullcontact4j: CardReader API
 
 ##How to use ?
 
