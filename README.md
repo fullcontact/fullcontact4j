@@ -47,5 +47,8 @@ dependencies {
 * [Email API](/docs/email/)
 * [Icon API](/docs/icon/)
 
+#####Set a Customer User-Agent
+* FullContact fullContact = new FullContact("my-api-key").setUserAgent("My Custom Agent/1.0");
+
 ##Dependencies
 * Google GSON (http://code.google.com/p/google-gson/)

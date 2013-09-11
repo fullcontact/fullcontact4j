@@ -67,8 +67,12 @@ public class FullContactHttpRequest {
         return sendRequest((Constants.API_URL_LOCATION_ENRICHMENT + paramString));
     }
 
-    private static final String FC_USER_AGENT = "fullcontact4j/1.0";
+    private static String FC_USER_AGENT = "fullcontact4j/1.0";
     private static final String STR_USER_AGENT = "User-Agent";
+
+    public static void setUserAgent(String str) {
+        FC_USER_AGENT = str;
+    }
 
     public static String sendRequest(String apiUrl)
             throws FullContactException {

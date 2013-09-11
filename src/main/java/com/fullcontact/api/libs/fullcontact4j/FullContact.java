@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.handlers.*;
+import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 
 public class FullContact {
     private String apiKey;
@@ -24,6 +25,16 @@ public class FullContact {
         }
 
         this.apiKey = apiKey;
+    }
+
+    /***
+     * Sets a custom User-Agent to be sent with each request
+     * @param userAgent
+     * @return
+     */
+    public FullContact setUserAgent(String userAgent){
+        FullContactHttpRequest.setUserAgent(userAgent);
+        return this;
     }
 
     public PersonHandler getPersonHandler(){
