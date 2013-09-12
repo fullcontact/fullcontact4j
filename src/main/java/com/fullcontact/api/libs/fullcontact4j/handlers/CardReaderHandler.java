@@ -93,7 +93,7 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public UploadResponse parseJsonResponse(String response) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         return gson.fromJson(jsonObject, UploadResponse.class);
