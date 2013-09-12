@@ -9,6 +9,7 @@ import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntit
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity;
 import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -92,7 +93,7 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public UploadResponse parseJsonResponse(String response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
         return gson.fromJson(jsonObject, UploadResponse.class);
