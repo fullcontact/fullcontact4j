@@ -4,6 +4,7 @@ import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadRequestRes
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadResponse;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestsEntity;
+import com.fullcontact.api.libs.fullcontact4j.handlers.CardReaderHandler;
 
 import java.io.IOException;
 
@@ -98,5 +99,12 @@ public class CardReaderTest extends AbstractApiTest {
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/3c1759f1-820f-43ce-8a7a-24be8aa9d045-front.png", requestResult.getContact().getPhotos().get(0).getValue());
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
+    }
+
+    public void test_parse_iso8601() {
+        String json = "{ \"submitted\": \"2013-09-13T19:08:30.000Z\" }";
+        CardReaderHandler handler = new CardReaderHandler("tester");
+        ViewRequestEntity entity = handler.parseViewRequestJsonResponse(json);
+        assert entity.getSubmitted() != null;
     }
 }

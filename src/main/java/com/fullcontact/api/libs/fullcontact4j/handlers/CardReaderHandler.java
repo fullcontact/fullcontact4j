@@ -45,6 +45,10 @@ public class CardReaderHandler extends BaseHandler {
         return viewRequestResults(0);
     }
 
+    protected Gson getGson() {
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
+    }
+
     /***
      * Gets the selected page of uploaded card results.
      * @param page
@@ -93,10 +97,9 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public UploadResponse parseJsonResponse(String response) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssZ").create();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, UploadResponse.class);
+        return this.getGson().fromJson(jsonObject, UploadResponse.class);
     }
 
     /***
@@ -105,10 +108,9 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public UploadRequestResult parseUploadWebhookJsonResponse(String response) {
-        Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, UploadRequestResult.class);
+        return this.getGson().fromJson(jsonObject, UploadRequestResult.class);
     }
 
     /***
@@ -117,10 +119,9 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public ViewRequestsEntity parseViewRequestsJsonResponse(String response) {
-        Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, ViewRequestsEntity.class);
+        return this.getGson().fromJson(jsonObject, ViewRequestsEntity.class);
     }
 
     /***
@@ -129,10 +130,9 @@ public class CardReaderHandler extends BaseHandler {
      * @return
      */
     public ViewRequestEntity parseViewRequestJsonResponse(String response) {
-        Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(response).getAsJsonObject();
-        return gson.fromJson(jsonObject, ViewRequestEntity.class);
+        return this.getGson().fromJson(jsonObject, ViewRequestEntity.class);
     }
 
 }
