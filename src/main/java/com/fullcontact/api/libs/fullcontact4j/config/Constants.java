@@ -2,22 +2,24 @@ package com.fullcontact.api.libs.fullcontact4j.config;
 
 public class Constants {
 
-    public static final String API_URL_PERSON = "https://api.fullcontact.com/v2/person.json?";
-    public static final String API_URL_PERSON_ENHANCED_DATA = "https://api.fullcontact.com/v2/enhanced.json?";
-    public static final String API_URL_NAME_NORMALIZATION = "https://api.fullcontact.com/v2/name/normalizer.json?";
-    public static final String API_URL_NAME_DEDUCER = "https://api.fullcontact.com/v2/name/deducer.json?";
-    public static final String API_URL_NAME_SIMILARITY = "https://api.fullcontact.com/v2/name/similarity.json?";
-    public static final String API_URL_NAME_STATS = "https://api.fullcontact.com/v2/name/stats.json?";
-    public static final String API_URL_NAME_PARSER = "https://api.fullcontact.com/v2/name/parser.json?";
-    public static final String API_URL_LOCATION_NORMALIZATION = "https://api.fullcontact.com/v2/address/locationNormalizer.json?";
-    public static final String API_URL_LOCATION_ENRICHMENT = "https://api.fullcontact.com/v2/address/locationEnrichment.json?";
-    public static final String API_URL_CARDREADER_UPLOAD = "https://api.fullcontact.com/v2/cardReader?";
-    public static final String API_URL_CARDREADER_VIEW_REQUEST = "https://api.fullcontact.com/v2/cardReader/{0}?";
-    public static final String API_URL_CARDREADER_VIEW_REQUESTS = "https://api.fullcontact.com/v2/cardReader?";
-    public static final String API_URL_BATCH_PROCESS = "https://api.fullcontact.com/v2/batch.json?";
-    public static final String API_URL_EMAIL_DISPOSABLE_DOMAIN = "https://api.fullcontact.com/v2/email/disposable.json?";
-    public static final String API_URL_ICON = "https://api.fullcontact.com/v2/icon?";
-    public static final String API_URL_ICON_TYPE_ID = "https://api.fullcontact.com/v2/icon/{0}/{1}/{2}?";
+    public static final String API_BASE = "https://api.fullcontact.com";
+    
+    public static final String API_URL_PERSON = API_BASE + "/v2/person.json?";
+    public static final String API_URL_PERSON_ENHANCED_DATA = API_BASE + "/v2/enhanced.json?";
+    public static final String API_URL_NAME_NORMALIZATION = API_BASE + "/v2/name/normalizer.json?";
+    public static final String API_URL_NAME_DEDUCER = API_BASE + "/v2/name/deducer.json?";
+    public static final String API_URL_NAME_SIMILARITY = API_BASE + "/v2/name/similarity.json?";
+    public static final String API_URL_NAME_STATS = API_BASE + "/v2/name/stats.json?";
+    public static final String API_URL_NAME_PARSER = API_BASE + "/v2/name/parser.json?";
+    public static final String API_URL_LOCATION_NORMALIZATION = API_BASE + "/v2/address/locationNormalizer.json?";
+    public static final String API_URL_LOCATION_ENRICHMENT = API_BASE + "/v2/address/locationEnrichment.json?";
+    public static final String API_URL_CARDREADER_UPLOAD = API_BASE + "/v2/cardReader?";
+    public static final String API_URL_CARDREADER_VIEW_REQUEST = API_BASE + "/v2/cardReader/{0}?";
+    public static final String API_URL_CARDREADER_VIEW_REQUESTS = API_BASE + "/v2/cardReader?";
+    public static final String API_URL_BATCH_PROCESS = API_BASE + "/v2/batch.json?";
+    public static final String API_URL_EMAIL_DISPOSABLE_DOMAIN = API_BASE + "/v2/email/disposable.json?";
+    public static final String API_URL_ICON = API_BASE + "/v2/icon?";
+    public static final String API_URL_ICON_TYPE_ID = API_BASE + "/v2/icon/{0}/{1}/{2}?";
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
