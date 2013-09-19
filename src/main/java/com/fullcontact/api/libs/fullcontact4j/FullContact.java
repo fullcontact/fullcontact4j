@@ -6,7 +6,6 @@ import com.fullcontact.api.libs.fullcontact4j.http.FullContactHttpRequest;
 public class FullContact {
     private String apiKey;
     private PersonHandler _personHandler;
-    private PersonEnhancedHandler _personEnhancedHandler;
     private NameHandler _nameHandler;
     private LocationHandler _locationHandler;
     private CardSharkHandler _cardSharkHandler;
@@ -42,13 +41,6 @@ public class FullContact {
             _personHandler =  new PersonHandler(apiKey);
         }
         return _personHandler;
-    }
-
-    public PersonEnhancedHandler getPersonEnhancedHandler(){
-        if(_personEnhancedHandler == null){
-            _personEnhancedHandler =  new PersonEnhancedHandler(apiKey);
-        }
-        return _personEnhancedHandler;
     }
 
     public NameHandler getNameHandler(){
