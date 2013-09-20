@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.entity.batch.BatchResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationEnrichmentEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationNormalizerEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
@@ -67,10 +66,6 @@ public class BatchTest extends AbstractApiTest {
         assertEquals(0.9, personResults.get(0).getLikelihood());
         assertEquals(200, personResults.get(0).getStatusCode());
 
-        List<PersonEnhancedEntity> enhancedResults = response.getEnhancedDataResults();
-
-        assertEquals("Dan", enhancedResults.get(0).getContactInfo().getGivenName());
-        assertEquals(200, enhancedResults.get(0).getStatusCode());
 
         List<LocationNormalizerEntity> locationNormalizerResults = response.getLocationNormalizerResults();
 

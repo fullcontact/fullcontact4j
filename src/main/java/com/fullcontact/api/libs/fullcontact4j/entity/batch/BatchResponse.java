@@ -2,7 +2,6 @@ package com.fullcontact.api.libs.fullcontact4j.entity.batch;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.enhanced.PersonEnhancedEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationEnrichmentEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.location.LocationNormalizerEntity;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.NameEntity;
@@ -105,17 +104,6 @@ public class BatchResponse {
         PersonHandler personHandler = getClient().getPersonHandler();
         for (String apiUrl : results.keySet()) {
             if (apiUrl.startsWith(Constants.API_URL_PERSON)) {
-                entities.add(personHandler.parseJsonResponse(results.get(apiUrl)));
-            }
-        }
-        return entities;
-    }
-
-    public List<PersonEnhancedEntity> getEnhancedDataResults() {
-        List<PersonEnhancedEntity> entities = new ArrayList<PersonEnhancedEntity>();
-        PersonEnhancedHandler personHandler = getClient().getPersonEnhancedHandler();
-        for (String apiUrl : results.keySet()) {
-            if (apiUrl.startsWith(Constants.API_URL_PERSON_ENHANCED_DATA)) {
                 entities.add(personHandler.parseJsonResponse(results.get(apiUrl)));
             }
         }
