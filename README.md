@@ -39,7 +39,6 @@ dependencies {
 ##Usage:
 
 * [Person API](/docs/person/)
-* [Person Enhanced Data API](/docs/enhancedData/)
 * [Name API](/docs/name/)
 * [Location API](/docs/location/)
 * [CardReader API](/docs/cardReader/)
