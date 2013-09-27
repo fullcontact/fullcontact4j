@@ -42,6 +42,7 @@ public class CardReaderUploadRequestBuilder {
         // since these become query String parameters, instead of leaving it to the library to
         // stringify and encode, leading to who knows what kind of issues on the client
         private HashMap<String,String> customParams = new HashMap<String, String>();
+        private String accessToken;
 
         public String getWebhookUrl() {
             return webhookUrl;
@@ -123,6 +124,13 @@ public class CardReaderUploadRequestBuilder {
             this.customParams = customParams;
         }
 
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
     }
 
     private CardReaderUploadRequest _request;
@@ -252,6 +260,11 @@ public class CardReaderUploadRequestBuilder {
         for (String s : toRemove) {
             params.remove(s);
         }
+    }
+
+    public CardReaderUploadRequestBuilder setAccessToken(String accessToken) {
+        this._request.setAccessToken(accessToken);
+        return this;
     }
 
     /***

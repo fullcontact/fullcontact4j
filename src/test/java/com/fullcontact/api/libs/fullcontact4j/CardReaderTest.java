@@ -151,10 +151,10 @@ public class CardReaderTest extends AbstractApiTest {
     public void test_basic_usage_of_custom_params() {
         CardReaderUploadRequestBuilder builder = new CardReaderUploadRequestBuilder();
         HashMap<String,String> params = new HashMap<String, String>();
-        params.put("test","value");
-        params.put("name","FullContact");
-        params.put("apiKey","notAllowedHere");
-        params.put("accessToken","notAllowedHere");
+        params.put("test", "value");
+        params.put("name", "FullContact");
+        params.put("apiKey", "notAllowedHere");
+        params.put("accessToken", "notAllowedHere");
         CardReaderUploadRequestBuilder.CardReaderUploadRequest request =
                 builder.setCustomParams(params)
                 .setCasing(CardReaderCasing.TitleCase)
@@ -171,11 +171,35 @@ public class CardReaderTest extends AbstractApiTest {
             fail("Exception occured processing query params");
         }
         assertFalse(queryParams.containsKey("accessToken"));
-        assertEquals("testApiKey",queryParams.get("apiKey"));
+        assertEquals("testApiKey", queryParams.get("apiKey"));
         assertTrue(queryParams.containsKey("test"));
         assertEquals("value", queryParams.get("test"));
         assertTrue(queryParams.containsKey("name"));
         assertEquals("FullContact", queryParams.get("name"));
+        assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
+                queryParams.get("casing"));
+        assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
+                queryParams.get("format"));
+    }
+
+    public void test_access_token() {
+        CardReaderUploadRequestBuilder builder = new CardReaderUploadRequestBuilder();
+        CardReaderUploadRequestBuilder.CardReaderUploadRequest request =
+                builder.setAccessToken("TestToken")
+                        .setCasing(CardReaderCasing.TitleCase)
+                        .setFormat(ResponseFormat.JSON)
+                        .setWebhookUrl("fullcontact.com")
+                        .build();
+        assertNotNull(request.getAccessToken());
+        HashMap<String,String> queryParams = null;
+        try {
+            queryParams = FullContactHttpRequest.generateQueryParams("testApiKey",request);
+        } catch (FullContactException e) {
+            fail("Exception occured processing query params");
+        }
+        assertTrue(queryParams.containsKey("accessToken"));
+        assertEquals("testApiKey", queryParams.get("apiKey"));
+        assertEquals("TestToken", queryParams.get("accessToken"));
         assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
                 queryParams.get("casing"));
         assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
