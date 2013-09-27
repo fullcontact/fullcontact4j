@@ -4,6 +4,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class UploadRequestResult {
 
@@ -36,6 +37,10 @@ public class UploadRequestResult {
 
     @SerializedName("webhookUrl")
     private String webhookUrl;
+
+    // Custom param support. These are pass-through values
+    @SerializedName("params")
+    private HashMap<String,String> params;
 
     public String getStatusCode() {
         return statusCode;
@@ -115,5 +120,13 @@ public class UploadRequestResult {
 
     public void setWebhookUrl(String webhookUrl) {
         this.webhookUrl = webhookUrl;
+    }
+
+    public HashMap<String, String> getParams() {
+        return params;
+    }
+
+    public void setParams(HashMap<String, String> params) {
+        this.params = params;
     }
 }
