@@ -8,6 +8,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.ResponseFormat;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class CardReaderUploadRequestBuilder {
 
@@ -248,17 +249,14 @@ public class CardReaderUploadRequestBuilder {
     }
 
     private void removeRestrictedParams(HashMap<String, String> params) {
-        ArrayList<String> toRemove = new ArrayList<String>();
-        // Not the greatest way to remove the keys, but the restrictions list is short
+        Iterator<String> iterator;
         for (String s : CUSTOM_PARAM_RESTRICTIONS) {
-            for (String key : params.keySet()) {
-                if (key.toLowerCase().equals(s)) {
-                    toRemove.add(key); // avoid concurrent modifications
-                }
+            iterator = params.keySet().iterator();
+            while(iterator.hasNext()) {
+                String value = iterator.next();
+                if (value.toLowerCase().equals(s))
+                    iterator.remove();
             }
-        }
-        for (String s : toRemove) {
-            params.remove(s);
         }
     }
 
