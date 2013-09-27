@@ -55,6 +55,7 @@ public class Constants {
     public static final String PARAM_RETURNED_DATA = "returnedData";
     public static final String PARAM_CASING = "casing";
     public static final String PARAM_SANDBOX = "sandbox";
+    public static final String PARAM_ACCESS_TOKEN = "accessToken";
 
     public static final String UTF_8_CHARSET = "UTF-8";
 }

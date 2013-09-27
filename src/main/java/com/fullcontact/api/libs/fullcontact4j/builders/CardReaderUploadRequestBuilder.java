@@ -6,10 +6,30 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;
 import com.fullcontact.api.libs.fullcontact4j.enums.ResponseFormat;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class CardReaderUploadRequestBuilder {
 
+    // lower case for comparison
+    private static final String[] CUSTOM_PARAM_RESTRICTIONS = {
+            "apikey",
+            "webhookurl",
+            "front",
+            "back",
+            "casing",
+            "format",
+            "verified",
+            "returneddata",
+            "sandbox",
+            "accesstoken",
+            "controller",
+            "action"
+    };
+
     public class CardReaderUploadRequest {
+        // These are all documented in the corresponding builder methods for setting them below *
         private String webhookUrl;
         private InputStream frontImage;
         private InputStream backImage;
@@ -19,6 +39,11 @@ public class CardReaderUploadRequestBuilder {
         private CardReaderCasing casing = CardReaderCasing.Default;
         private Boolean sandbox = false;
         private CardReaderSandboxStatus sandboxStatus;
+        // To prevent unnecessary complexity, you must use the String version of data
+        // since these become query String parameters, instead of leaving it to the library to
+        // stringify and encode, leading to who knows what kind of issues on the client
+        private HashMap<String,String> customParams = new HashMap<String, String>();
+        private String accessToken;
 
         public String getWebhookUrl() {
             return webhookUrl;
@@ -90,6 +115,22 @@ public class CardReaderUploadRequestBuilder {
 
         private void setSandboxStatus(CardReaderSandboxStatus sandboxStatus) {
             this.sandboxStatus = sandboxStatus;
+        }
+
+        public HashMap<String, String> getCustomParams() {
+            return customParams;
+        }
+
+        public void setCustomParams(HashMap<String, String> customParams) {
+            this.customParams = customParams;
+        }
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
         }
     }
 
@@ -192,6 +233,35 @@ public class CardReaderUploadRequestBuilder {
      */
     public CardReaderUploadRequestBuilder setSandboxStatus(CardReaderSandboxStatus sandboxStatus) {
         this._request.sandboxStatus = sandboxStatus;
+        return this;
+    }
+
+    /**
+     * Custom params come back in the response under the 'params' key as pass along values
+     * This method removes all restricted params from custom params
+     * See docs section "Custom Params" for restrictions and usage
+     * http://www.fullcontact.com/developer/docs/card-reader/#upload-card
+     */
+    public CardReaderUploadRequestBuilder setCustomParams(HashMap<String,String> params) {
+        removeRestrictedParams(params);
+        this._request.setCustomParams(params);
+        return this;
+    }
+
+    private void removeRestrictedParams(HashMap<String, String> params) {
+        Iterator<String> iterator;
+        for (String s : CUSTOM_PARAM_RESTRICTIONS) {
+            iterator = params.keySet().iterator();
+            while(iterator.hasNext()) {
+                String value = iterator.next();
+                if (value.toLowerCase().equals(s))
+                    iterator.remove();
+            }
+        }
+    }
+
+    public CardReaderUploadRequestBuilder setAccessToken(String accessToken) {
+        this._request.setAccessToken(accessToken);
         return this;
     }
 
