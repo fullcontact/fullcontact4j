@@ -39,5 +39,9 @@
                 "type":"work"
             }
         ]
+    },
+    "params" : {
+        "category": "sales-leads",
+        "APNS": "12345"
     }
 }

@@ -145,11 +145,27 @@ public class FullContactHttpRequest {
 
     public static String postCardReaderRequest(String apiKey, CardReaderUploadRequestBuilder.CardReaderUploadRequest request)
             throws FullContactException {
-        Map<String, String> queryParams = new HashMap<String, String>();
+        Map<String, String> queryParams = generateQueryParams(apiKey, request);
+        JsonObject jsonObject = new JsonObject();
+        try {
+            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getFrontImage()))));
+            if (request.getBackImage() != null)
+                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getBackImage()))));
+        } catch (Throwable throwable) {
+            throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
+        }
+
+        byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
+        return postWithGZip(Constants.API_URL_CARDREADER_UPLOAD, queryParams, payload, "application/json");
+    }
+
+    public static HashMap<String, String> generateQueryParams(String apiKey, CardReaderUploadRequestBuilder.CardReaderUploadRequest request) throws FullContactException {
+        HashMap<String, String> queryParams = new HashMap<String, String>();
         queryParams.put(Constants.PARAM_API_KEY, apiKey);
         queryParams.put(Constants.PARAM_WEBHOOK_URL, request.getWebhookUrl());
         queryParams.put(Constants.PARAM_FORMAT, request.getFormat().toString().toLowerCase());
         queryParams.put(Constants.PARAM_VERIFIED, request.getFormat().toString().toLowerCase());
+        queryParams.putAll(request.getCustomParams());
         if(request.isVerifiedOnly())
             queryParams.put(Constants.PARAM_RETURNED_DATA, "verifiedOnly");
         queryParams.put(Constants.PARAM_VERIFIED, request.getVerification().toString().toLowerCase());
@@ -162,17 +178,7 @@ public class FullContactHttpRequest {
             else
                 throw new FullContactException("sandboxStatus is required if request isSandbox");
         }
-        JsonObject jsonObject = new JsonObject();
-        try {
-            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getFrontImage()))));
-            if (request.getBackImage() != null)
-                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getBackImage()))));
-        } catch (Throwable throwable) {
-            throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
-        }
-
-        byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
-        return postWithGZip(Constants.API_URL_CARDREADER_UPLOAD, queryParams, payload, "application/json");
+        return queryParams;
     }
 
     @Deprecated
