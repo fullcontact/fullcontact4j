@@ -25,7 +25,8 @@ public class CardReaderUploadRequestBuilder {
             "sandbox",
             "accesstoken",
             "controller",
-            "action"
+            "action",
+            "URID" // Unique Request Identifier (for slow connections/timeouts to prevent duplicate requests for clients)
     };
 
     public class CardReaderUploadRequest {
@@ -44,6 +45,11 @@ public class CardReaderUploadRequestBuilder {
         // stringify and encode, leading to who knows what kind of issues on the client
         private HashMap<String,String> customParams = new HashMap<String, String>();
         private String accessToken;
+        /**
+         * Ensures that the server only makes one job per URID
+         * (Provided by the client)
+         */
+        private String URID;
 
         public String getWebhookUrl() {
             return webhookUrl;
@@ -131,6 +137,14 @@ public class CardReaderUploadRequestBuilder {
 
         public void setAccessToken(String accessToken) {
             this.accessToken = accessToken;
+        }
+
+        public String getURID() {
+            return URID;
+        }
+
+        public void setURID(String URID) {
+            this.URID = URID;
         }
     }
 
@@ -262,6 +276,11 @@ public class CardReaderUploadRequestBuilder {
 
     public CardReaderUploadRequestBuilder setAccessToken(String accessToken) {
         this._request.setAccessToken(accessToken);
+        return this;
+    }
+
+    public CardReaderUploadRequestBuilder setURID(String urid) {
+        this._request.setURID(urid);
         return this;
     }
 
