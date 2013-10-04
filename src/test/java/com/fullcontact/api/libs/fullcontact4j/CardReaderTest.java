@@ -206,4 +206,51 @@ public class CardReaderTest extends AbstractApiTest {
                 queryParams.get("format"));
     }
 
+    public void test_urid() {
+        CardReaderUploadRequestBuilder builder = new CardReaderUploadRequestBuilder();
+        CardReaderUploadRequestBuilder.CardReaderUploadRequest request =
+                builder.setURID("Foobar")
+                        .setAccessToken("sdlfkj")
+                        .setCasing(CardReaderCasing.TitleCase)
+                        .setFormat(ResponseFormat.JSON)
+                        .setWebhookUrl("fullcontact.com")
+                        .build();
+        assertNotNull(request.getURID());
+        HashMap<String,String> queryParams = null;
+        try {
+            queryParams = FullContactHttpRequest.generateQueryParams("testApiKey",request);
+        } catch (FullContactException e) {
+            fail("Exception occured processing query params");
+        }
+        assertTrue(queryParams.containsKey("URID"));
+        assertEquals("testApiKey", queryParams.get("apiKey"));
+        assertEquals("Foobar", queryParams.get("URID"));
+        assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
+                queryParams.get("casing"));
+        assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
+                queryParams.get("format"));
+    }
+
+    public void test_urid_optional() {
+        CardReaderUploadRequestBuilder builder = new CardReaderUploadRequestBuilder();
+        CardReaderUploadRequestBuilder.CardReaderUploadRequest request =
+                builder.setCasing(CardReaderCasing.TitleCase)
+                        .setFormat(ResponseFormat.JSON)
+                        .setWebhookUrl("fullcontact.com")
+                        .build();
+        assertNull(request.getURID());
+        HashMap<String,String> queryParams = null;
+        try {
+            queryParams = FullContactHttpRequest.generateQueryParams("testApiKey",request);
+        } catch (FullContactException e) {
+            fail("Exception occured processing query params");
+        }
+        assertFalse(queryParams.containsKey("URID"));
+        assertEquals("testApiKey", queryParams.get("apiKey"));
+        assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
+                queryParams.get("casing"));
+        assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
+                queryParams.get("format"));
+    }
+
 }

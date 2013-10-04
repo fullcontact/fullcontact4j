@@ -167,6 +167,8 @@ public class FullContactHttpRequest {
         queryParams.put(Constants.PARAM_VERIFIED, request.getFormat().toString().toLowerCase());
         if (request.getAccessToken() != null)
             queryParams.put(Constants.PARAM_ACCESS_TOKEN, request.getAccessToken());
+        if (request.getURID() != null)
+            queryParams.put(Constants.PARAM_URID, request.getURID());
         queryParams.putAll(request.getCustomParams());
         if(request.isVerifiedOnly())
             queryParams.put(Constants.PARAM_RETURNED_DATA, "verifiedOnly");
