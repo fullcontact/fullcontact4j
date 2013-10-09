@@ -2,7 +2,10 @@ package com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Name {
+import java.io.Serializable;
+
+public class Name implements Serializable {
+    private static final long serialVersionUID = 2280620035191291965L;
 
     @SerializedName("familyName")
     private String familyName;

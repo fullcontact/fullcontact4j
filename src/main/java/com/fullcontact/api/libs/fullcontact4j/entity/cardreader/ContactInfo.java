@@ -5,9 +5,11 @@ import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.Name
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.Organization;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ContactInfo {
+    private static final long serialVersionUID = 7385077336995988963L;
 
     @SerializedName("name")
     private Name name;
