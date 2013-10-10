@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class ContactInfo {
+public class ContactInfo implements Serializable {
     private static final long serialVersionUID = 7385077336995988963L;
 
     @SerializedName("name")
