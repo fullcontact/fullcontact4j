@@ -246,7 +246,6 @@ public class FullContactHttpRequest {
         return postWithGZip(Constants.API_URL_BATCH_PROCESS, queryParams, payload, "application/json");
     }
 
-    /* Default GZIP post with FullContact4j request headers (not custom) */
     private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
             throws FullContactException {
         try {
