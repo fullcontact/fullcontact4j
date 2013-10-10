@@ -22,6 +22,35 @@ import java.util.zip.GZIPOutputStream;
 
 public class FullContactHttpRequest {
 
+    /**
+     * customRequestProperties
+     *
+     * If populated, these will be added as request properties on the Http connection
+     *
+     * For example:
+     *
+     * HashMap<String,String> headers = new HashMap<String,String>();
+     * headers.put("My-Header","My-Value");
+     *
+     * FullContactHttpRequest.setCustomRequestProperties(headers);
+     *
+     * Now <b>every</b> request will have the properties added to 'headers' in the connection
+     *
+     * Note: User-Agent by default is already added
+     *      To override, use {@link FullContactHttpRequest#setUserAgent}
+     *
+     *
+     * Important: As mentioned, setting these request parameters sets them for good
+     * and they will be present in every request.
+     *
+     *
+     * **/
+    private static HashMap<String,String> customRequestProperties = new HashMap<String, String>();
+    public static void setCustomRequestProperties(HashMap<String,String> requestProperties) throws NullPointerException {
+        if (requestProperties == null) throw new NullPointerException("requestProperties");
+        customRequestProperties = requestProperties;
+    }
+
     public static String sendPersonRequest(String paramString)
             throws FullContactException {
         return sendRequest((Constants.API_URL_PERSON + paramString));
@@ -220,50 +249,69 @@ public class FullContactHttpRequest {
     private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
             throws FullContactException {
         try {
-            String qs = toQueryString(params);
-            String fullUrl = baseUrl;
-            if (qs.length() > 0) {
-                if (!fullUrl.endsWith("?")) {
-                    fullUrl += "?";
-                }
-                fullUrl += qs;
-            }
-            URL url = new URL(fullUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setConnectTimeout(6000);
-            connection.setConnectTimeout(60000);
-            connection.setRequestProperty("Accept-Encoding", "gzip");
-            connection.setRequestProperty("Content-Encoding", "gzip");
-            connection.setRequestProperty("Content-Type", contentType);
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            GZIPOutputStream wr = new GZIPOutputStream(byteStream);
-            wr.write(data);
-            wr.finish();
-            wr.flush();
-            connection.setRequestProperty("Content-Length", "" + Integer.toString(byteStream.size()));
-            OutputStream out = connection.getOutputStream();
-            byteStream.writeTo(out);
-            out.flush();
-            out.close();
-            byteStream.close();
-            GZIPInputStream stream = new GZIPInputStream(connection.getInputStream());
-            InputStreamReader reader = new InputStreamReader(stream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
-            bufferedReader.close();
-            return sb.toString();
+            HttpURLConnection connection = createHttpConnectionForQuery(baseUrl, params);
+            addConnectionProperties(contentType, connection);
+            writeDataForConnection(data, connection);
+            return readResponse(connection);
         } catch (Throwable throwable) {
             throw new FullContactException("Failed to execute API Request", throwable);
         }
+    }
+
+    private static HttpURLConnection createHttpConnectionForQuery(String baseUrl, Map<String, String> params) throws IOException {
+        String qs = toQueryString(params);
+        String fullUrl = baseUrl;
+        if (qs.length() > 0) {
+            if (!fullUrl.endsWith("?")) {
+                fullUrl += "?";
+            }
+            fullUrl += qs;
+        }
+        URL url = new URL(fullUrl);
+        return (HttpURLConnection) url.openConnection();
+    }
+
+    private static void addConnectionProperties(String contentType, HttpURLConnection connection) throws ProtocolException {
+        connection.setRequestMethod("POST");
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+        connection.setConnectTimeout(6000);
+        connection.setConnectTimeout(60000);
+        connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
+        for (Map.Entry<String,String> requestProperty : customRequestProperties.entrySet()) {
+            connection.setRequestProperty(requestProperty.getKey(), requestProperty.getValue());
+        }
+        connection.setRequestProperty("Accept-Encoding", "gzip");
+        connection.setRequestProperty("Content-Encoding", "gzip");
+        connection.setRequestProperty("Content-Type", contentType);
+    }
+
+    private static String readResponse(HttpURLConnection connection) throws IOException {
+        GZIPInputStream stream = new GZIPInputStream(connection.getInputStream());
+        InputStreamReader reader = new InputStreamReader(stream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String line = null;
+        StringBuilder sb = new StringBuilder();
+        while ((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+            sb.append("\n");
+        }
+        bufferedReader.close();
+        return sb.toString();
+    }
+
+    private static void writeDataForConnection(byte[] data, HttpURLConnection connection) throws IOException {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        GZIPOutputStream wr = new GZIPOutputStream(byteStream);
+        wr.write(data);
+        wr.finish();
+        wr.flush();
+        connection.setRequestProperty("Content-Length", "" + Integer.toString(byteStream.size()));
+        OutputStream out = connection.getOutputStream();
+        byteStream.writeTo(out);
+        out.flush();
+        out.close();
+        byteStream.close();
     }
 
     private static String toQueryString(Map<String, String> params) throws UnsupportedEncodingException {
