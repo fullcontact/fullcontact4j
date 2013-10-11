@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.builders.CardReaderUploadRequestBuilder;
+import com.fullcontact.api.libs.fullcontact4j.builders.CardReaderViewResultsRequestBuilder;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadRequestResult;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadResponse;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ViewRequestEntity;
@@ -264,6 +265,16 @@ public class CardReaderTest extends AbstractApiTest {
                 queryParams.get("casing"));
         assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
                 queryParams.get("format"));
+    }
+
+    public void test_view_results_builder_extra_query_string() {
+        CardReaderViewResultsRequestBuilder.CardReaderViewResultsRequest request =
+                new CardReaderViewResultsRequestBuilder("request-id")
+                .setDiagnostics(true)
+                .setVerifiedOnly(true)
+                .build();
+        assertEquals(request.getRequestId(), "request-id");
+        assertEquals(request.toQueryString(),"&diagnostics=true&returnedData=verifiedOnly");
     }
 
 }

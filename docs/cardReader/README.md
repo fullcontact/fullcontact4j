@@ -207,6 +207,15 @@
 
         UploadRequestResult requestResult = viewRequestEntity.getResult();
 
+* More advanced get request (Specify other params from Card Reader docs View Requests feature)
+
+        String requestId = "123-abc-def-456";
+        CardReaderViewResultsRequest request = new CardReaderViewResultsRequestBuilder(requestId)
+                                                    .setDiagnostics(true)
+                                                    .setVerifiedOnly(true)
+                                                    .build();
+        cardReaderHandler.viewRequestResults(request)
+
 ##Other API
 
 * [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)

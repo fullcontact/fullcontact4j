@@ -2,6 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.handlers;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.builders.CardReaderUploadRequestBuilder;
+import com.fullcontact.api.libs.fullcontact4j.builders.CardReaderViewResultsRequestBuilder;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadRequestResult;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.UploadResponse;
@@ -80,6 +81,21 @@ public class CardReaderHandler extends BaseHandler {
         String paramString = MessageFormat.format(Constants.FORMAT, format) + "&" +
                 MessageFormat.format(Constants.API_KEY_FORMAT, apiKey);
         return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardReaderViewRequest(requestId, paramString));
+    }
+
+    /**
+     * View a single result using reqest builder and added parameters (see {@link CardReaderViewResultsRequestBuilder})
+     * @param request
+     * @return
+     * @throws FullContactException
+     */
+    public ViewRequestEntity viewRequestResult(CardReaderViewResultsRequestBuilder.CardReaderViewResultsRequest request) throws FullContactException {
+        StringBuilder params = new StringBuilder(MessageFormat.format(Constants.FORMAT, "json"));
+        params.append("&");
+        params.append(MessageFormat.format(Constants.API_KEY_FORMAT, apiKey));
+        params.append(request.toQueryString());
+        String paramString = params.toString();
+        return parseViewRequestJsonResponse(FullContactHttpRequest.sendCardReaderViewRequest(request.getRequestId(), paramString));
     }
 
     /***
