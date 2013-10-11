@@ -43,6 +43,19 @@ public class CardReaderTest extends AbstractApiTest {
         assertNull(requestResult.getParams());
     }
 
+    public void test_upload_webhook_response_urid_and_diognostics() throws Exception {
+        String json = loadJson("cardshark.upload.webhook.response2.json");
+        UploadRequestResult requestResult = new FullContact("fake_api_key").getCardReaderHandler().parseUploadWebhookJsonResponse(json);
+        assertNotNull(requestResult);
+        basicContactDataTests(requestResult);
+        assertEquals(requestResult.getRequestId(), "xxxxxxxxxxxxx");
+        assertTrue(requestResult.getClientServerResponseCode() == 404);
+        assertEquals(requestResult.getClientServerResponseBody(), "{ \"message\":\"Not found\" }");
+        assertEquals(requestResult.getURID(), "unique-request-id");
+        assertNotNull(requestResult.getParams());
+        assertNotNull(requestResult.getParams().get("my-custom-param"));
+    }
+
     public void test_upload_card_webhook_response_with_params() throws IOException, FullContactException {
         String json = loadJson("cardshark.upload.webhook.response.params.json");
         UploadRequestResult requestResult = new FullContact("fake_api_key").getCardReaderHandler().parseUploadWebhookJsonResponse(json);

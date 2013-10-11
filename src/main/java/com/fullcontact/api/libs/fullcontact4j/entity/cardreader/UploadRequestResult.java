@@ -42,6 +42,16 @@ public class UploadRequestResult {
     @SerializedName("params")
     private HashMap<String,String> params;
 
+    @SerializedName("clientServerResponseCode")
+    private Integer clientServerResponseCode;
+
+    // First 512 characters of the response body client server responds with
+    @SerializedName("clientServerResponseBody")
+    private String clientServerResponseBody;
+
+    @SerializedName("URID")
+    private String URID;
+
     public String getStatusCode() {
         return statusCode;
     }
@@ -129,4 +139,29 @@ public class UploadRequestResult {
     public void setParams(HashMap<String, String> params) {
         this.params = params;
     }
+
+    public Integer getClientServerResponseCode() {
+        return clientServerResponseCode;
+    }
+
+    public void setClientServerResponseCode(Integer clientServerResponseCode) {
+        this.clientServerResponseCode = clientServerResponseCode;
+    }
+
+    public String getClientServerResponseBody() {
+        return clientServerResponseBody;
+    }
+
+    public void setClientServerResponseBody(String clientServerResponseBody) {
+        this.clientServerResponseBody = clientServerResponseBody;
+    }
+
+    public String getURID() {
+        return URID;
+    }
+
+    public void setURID(String URID) {
+        this.URID = URID;
+    }
+
 }
