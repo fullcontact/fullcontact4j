@@ -46,6 +46,27 @@
 
     <build>
         <plugins>
+			<plugin>
+			  <groupId>org.codehaus.gmaven</groupId>
+			  <artifactId>groovy-maven-plugin</artifactId>
+			    <executions>
+			      <execution>
+			        <phase>deploy</phase>
+			        <goals>
+			          <goal>execute</goal>
+			        </goals>
+			        <configuration>
+			          <source>
+						def authString = "fullcontact:${bintray-api-key}".getBytes().encodeBase64().toString()
+			            def conn = 'https://api.bintray.com/content/fullcontact/fullcontact-oss/fullcontact4j/${project.version}/publish'.toURL().openConnection()
+						conn.requestMethod = "POST"
+						conn.setRequestProperty("Authorization", "Basic ${authString}")
+						println "Published artifacts: " + conn.responseCode
+			          </source>
+			        </configuration>
+			      </execution>
+			  </executions>
+			</plugin>
         </plugins>
     </build>
 
