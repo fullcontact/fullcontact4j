@@ -97,6 +97,26 @@ public class CardReaderTest extends AbstractApiTest {
         assertEquals(1, requestResult.getContact().getUrls().size());
         assertEquals("www.fullcontact.com", requestResult.getContact().getUrls().get(0).getValue());
         assertEquals("other", requestResult.getContact().getUrls().get(0).getType());
+
+        assertEquals(1, requestResult.getContact().getAccounts().size());
+        assertEquals("facebook.com", requestResult.getContact().getAccounts().get(0).getDomain());
+        assertEquals("http://facebook.com/zuck", requestResult.getContact().getAccounts().get(0).getUrlString());
+        assertEquals("123",requestResult.getContact().getAccounts().get(0).getUserId());
+        assertEquals("zuck", requestResult.getContact().getAccounts().get(0).getUserName());
+
+        assertEquals(1, requestResult.getContact().getAddresses().size());
+        assertEquals("United States", requestResult.getContact().getAddresses().get(0).getCountry());
+        assertEquals("Work", requestResult.getContact().getAddresses().get(0).getType());
+        assertEquals("Beverly Hills", requestResult.getContact().getAddresses().get(0).getLocality());
+        assertEquals("90210", requestResult.getContact().getAddresses().get(0).getPostalCode());
+        assertEquals("blank", requestResult.getContact().getAddresses().get(0).getFormatted());
+        assertEquals("ext", requestResult.getContact().getAddresses().get(0).getExtendedAddress());
+        assertEquals("CA", requestResult.getContact().getAddresses().get(0).getRegion());
+        assertEquals("1234 Main Street", requestResult.getContact().getAddresses().get(0).getStreetAddress());
+
+        assertEquals(1, requestResult.getContact().getIms().size());
+        assertEquals("matt.skype", requestResult.getContact().getIms().get(0).getValue());
+        assertEquals("Skype", requestResult.getContact().getIms().get(0).getType());
     }
 
     public void test_view_requests() throws IOException, FullContactException {

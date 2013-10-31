@@ -1,10 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.BasicContactInfo;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.Name;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.Organization;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.*;
 import com.google.gson.annotations.SerializedName;
 
+import javax.security.auth.login.AccountException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,6 +27,17 @@ public class ContactInfo implements Serializable {
 
     @SerializedName("organizations")
     private List<Organization> organizations;
+
+    // Twitter, Facebook, etc...
+    @SerializedName("accounts")
+    private List<Account> accounts;
+
+    // Skype, etc..
+    @SerializedName("ims")
+    private List<BasicContactInfo> ims;
+
+    @SerializedName("addresses")
+    private List<Address> addresses;
 
     public Name getName() {
         return name;
@@ -75,6 +85,30 @@ public class ContactInfo implements Serializable {
 
     public void setUrls(List<BasicContactInfo> urls) {
         this.urls = urls;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<BasicContactInfo> getIms() {
+        return ims;
+    }
+
+    public void setIms(List<BasicContactInfo> ims) {
+        this.ims = ims;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }
 

@@ -38,6 +38,32 @@
                 "type": "other",
                 "value": "www.fullcontact.com"
             }
+        ],
+        "ims": [
+            {
+                "type": "Skype",
+                "value": "matt.skype"
+            }
+        ],
+        "accounts": [
+            {
+                "urlString": "http://facebook.com/zuck",
+                "domain": "facebook.com",
+                "userid": "123",
+                "username": "zuck"
+            }
+        ],
+        "addresses": [
+            {
+                "country": "United States",
+                "type": "Work",
+                "locality": "Beverly Hills",
+                "extendedAddress": "ext",
+                "postalCode": "90210",
+                "formatted": "blank",
+                "region": "CA",
+                "streetAddress": "1234 Main Street"
+            }
         ]
     },
     "id": "b23bb2dd-fe7c-4d83-ab8d-f23792b8e4cf",
