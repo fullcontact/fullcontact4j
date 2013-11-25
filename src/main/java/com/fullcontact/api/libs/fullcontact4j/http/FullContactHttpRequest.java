@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -308,7 +309,7 @@ public class FullContactHttpRequest {
             wr.finish();
             wr.flush();
         }
-        catch(Exception ex) {
+        catch(IOException ex) {
             byteStream.write(data, 0, data.length);
         }
         connection.setRequestProperty("Content-Length", "" + Integer.toString(byteStream.size()));
