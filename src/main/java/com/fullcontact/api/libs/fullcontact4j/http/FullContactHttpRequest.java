@@ -302,10 +302,15 @@ public class FullContactHttpRequest {
 
     private static void writeDataForConnection(byte[] data, HttpURLConnection connection) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        GZIPOutputStream wr = new GZIPOutputStream(byteStream);
-        wr.write(data);
-        wr.finish();
-        wr.flush();
+        try {
+            GZIPOutputStream wr = new GZIPOutputStream(byteStream);
+            wr.write(data);
+            wr.finish();
+            wr.flush();
+        }
+        catch(Exception ex) {
+            byteStream.write(data, 0, data.length);
+        }
         connection.setRequestProperty("Content-Length", "" + Integer.toString(byteStream.size()));
         OutputStream out = connection.getOutputStream();
         byteStream.writeTo(out);
