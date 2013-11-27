@@ -258,6 +258,30 @@ public class FullContactHttpRequest {
             throw new FullContactException("Failed to execute API Request", throwable);
         }
     }
+    private static Boolean _shouldCompressTested = false;
+    private static Boolean _shouldCompress = true;
+
+    private static Boolean shouldCompress(byte[] data) {
+        if (!_shouldCompressTested) {
+            GZIPOutputStream gzipOutputStream = null;
+            try {
+                ByteArrayOutputStream output = new ByteArrayOutputStream(data.length);
+                gzipOutputStream = new GZIPOutputStream(output);
+                gzipOutputStream.write(data);
+                gzipOutputStream.finish();
+                gzipOutputStream.flush(); // Throws exception on Android KitKat
+            }
+            catch (Exception ex) {
+                _shouldCompress = false;
+            }
+            finally {
+                try { gzipOutputStream.close(); } catch (Exception ignored) { }
+                _shouldCompressTested = true;
+            }
+        }
+
+        return _shouldCompress;
+    }
 
     private static HttpURLConnection createHttpConnectionForQuery(String baseUrl, Map<String, String> params) throws IOException {
         String qs = toQueryString(params);
@@ -288,7 +312,21 @@ public class FullContactHttpRequest {
     }
 
     private static String readResponse(HttpURLConnection connection) throws IOException {
-        GZIPInputStream stream = new GZIPInputStream(connection.getInputStream());
+        InputStream connectionInput = connection.getInputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream(connectionInput.available());
+        byte[] buffer = new byte[1024];
+        int read = 0;
+        while((read = connectionInput.read(buffer, 0, buffer.length)) > 0) {
+            output.write(buffer, 0, read);
+        }
+        byte[] data = output.toByteArray();
+        InputStream stream = null;
+        if(shouldCompress(data)) {
+            InputStream inpt = new ByteArrayInputStream(data);
+            stream = new GZIPInputStream(inpt);
+        } else {
+            stream = new ByteArrayInputStream(data);
+        }
         InputStreamReader reader = new InputStreamReader(stream);
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line = null;
@@ -303,13 +341,12 @@ public class FullContactHttpRequest {
 
     private static void writeDataForConnection(byte[] data, HttpURLConnection connection) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        try {
+        if(shouldCompress(data)) {
             GZIPOutputStream wr = new GZIPOutputStream(byteStream);
             wr.write(data);
             wr.finish();
             wr.flush();
-        }
-        catch(IOException ex) {
+        } else {
             byteStream.write(data, 0, data.length);
         }
         connection.setRequestProperty("Content-Length", "" + Integer.toString(byteStream.size()));
