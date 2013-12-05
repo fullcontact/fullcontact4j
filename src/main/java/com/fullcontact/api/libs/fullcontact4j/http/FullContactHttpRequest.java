@@ -306,8 +306,6 @@ public class FullContactHttpRequest {
         for (Map.Entry<String,String> requestProperty : customRequestProperties.entrySet()) {
             connection.setRequestProperty(requestProperty.getKey(), requestProperty.getValue());
         }
-        connection.setRequestProperty("Accept-Encoding", "gzip");
-        connection.setRequestProperty("Content-Encoding", "gzip");
         connection.setRequestProperty("Content-Type", contentType);
     }
 
@@ -346,6 +344,8 @@ public class FullContactHttpRequest {
             wr.write(data);
             wr.finish();
             wr.flush();
+            connection.setRequestProperty("Accept-Encoding", "gzip");
+            connection.setRequestProperty("Content-Encoding", "gzip");
         } else {
             byteStream.write(data, 0, data.length);
         }
