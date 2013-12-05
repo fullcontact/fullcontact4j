@@ -18,18 +18,25 @@
 
         InputStream frontImageStream = new FileInputStream("/path/to/the/front-image-file.png");
         String webhookUrl = "http://example.com/webhookurl";
-        UploadResponse uploadResponse = cardSharkHandler.uploadCardImage(
+        HashMap<String, String> customParams = new HashMap<String, String>();
+        customParams.put("customNotes","Met at conference, was a nice fellow");
+        UploadResponse uploadResponse = cardReaderHandler.uploadCardImage(
         		 new CardReaderUploadRequestBuilder()
         		 		.setFrontImage(frontImageStream)
         		 		.setWebhookUrl(webhookUrl)
-        		 		.setBackImage(backImageStream) //optional
-        		 		.setVerification(CardReaderVerification.Medium) //optional
-        		 		.setVerifiedOnly(true) //optional
-        		 		.setCasing(CardReaderCasing.TitleCase) //optional
-        		 		.setSandbox(true) //optional
-        		 		.setSandboxStatus(CardReaderSandboxStatus.CALLBACK_MADE) //optional
+        		 		.setBackImage(backImageStream)                              // optional
+        		 		.setVerification(CardReaderVerification.Medium)             // optional
+        		 		.setVerifiedOnly(true)                                      // optional
+        		 		.setCasing(CardReaderCasing.TitleCase)                      // optional
+        		 		.setFormat(ResponseFormat.JSON)                             // optional
+        		 		.setCustomParams(customParams)                              // optional - advanced
+        		 		.setURID(UUID.randomUUID())                                 // optional - advanced
+        		 		.setSandbox(true)                                           // optional - for testing
+        		 		.setSandboxStatus(CardReaderSandboxStatus.CALLBACK_MADE)    // optional - for testing
         		 		.build()
         );
+
+To learn more about the optional, advanced, and testing parameters, [check out our docs page!](http://www.fullcontact.com/developer/docs/card-reader/)
 
 * Getting the upload response status code
 
@@ -42,7 +49,7 @@
 * Getting the request queued status from the upload response
 
         System.out.println("is Queued: " + uploadResponse.isQueued());
-        
+
 * Getting the estimated wait time:
 
 		System.out.println("Estimated time: " + uploadResponse.getEstimatedWaitTimeMinutes());
@@ -67,9 +74,13 @@
 
 ### Retrieving the contact information
 
+* Obtain the ContactInfo object (re-referenced below)
+
+        ContactInfo contactInfo = requestResult.getContact();
+
 * Getting the Name object
 
-        Name name = requestResult.getContact().getName();
+        Name name = contactInfo.getName();
 
 * Getting the givenName
 
@@ -158,6 +169,66 @@
 * Checking if the organization is primary?
 
         System.out.println("Is primary organization: " + contactInfo.getOrganizations().get(0).isPrimary());
+
+* Getting the addresses count (Currently always 1 or less)
+
+        System.out.println("Address count: " + contactInfo.getAddresses().size());
+
+* Getting the address country (if address is present! (Count > 0)
+
+        System.out.println("Country is: " + contactInfo.getAddresses().get(0).getCountry());
+
+* Getting the address type
+
+        System.out.println("Address type is: " + contactInfo.getAddresses().get(0).getType());
+
+* Getting the address locality
+
+        System.out.println("Locality is: " + contactInfo.getAddresses().get(0).getLocality()); // City
+
+* Getting the address region
+
+        System.out.println("Region is: " + contactInfo.getAddresses().get(0).getRegion()); // State
+
+* Getting the address postal code
+
+        System.out.println("Postal code is: " + contactInfo.getAddresses().get(0).getPostalCode());
+
+* Getting the address street address
+
+        System.out.println("Street address is: " + contactInfo.getAddresses().get(0).getStreetAddress());
+
+* Getting the Accounts size
+
+        System.out.println("Accounts count: " + contactInfo.getAccounts().size());
+
+* Getting the first account's domain
+
+        System.out.println("Domain is: " + contactInfo.getAccounts().get(0).getDomain());
+
+* Getting the first account's entire url
+
+        System.out.println("URL is: " + contactInfo.getAccounts().get(0).getUrlString());
+
+* Getting the first account's userId
+
+        System.out.println("UserId is: " + contactInfo.getAccounts().get(0).getUserId());
+
+* Getting the first account's username
+
+        System.out.println("Domain is: " + contactInfo.getAccounts().get(0).getUserName());
+
+* Getting the IMs size (Instant Messenger accounts like Skype)
+
+        System.out.println("IMs count: " + contactInfo.getIms().size());
+
+* Getting the first IM's value
+
+        System.out.println("IM value is: " + contactInfo.getIms().get(0).getValue());  // joe.schmoe
+
+* Getting the first IM's type
+
+        System.out.println("IM type is: " + contactInfo.getIms().get(0).getType());  // Skype
 
 
 ## View requests
