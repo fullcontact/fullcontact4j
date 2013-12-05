@@ -20,7 +20,7 @@
         String webhookUrl = "http://example.com/webhookurl";
         HashMap<String, String> customParams = new HashMap<String, String>();
         customParams.put("customNotes","Met at conference, was a nice fellow");
-        UploadResponse uploadResponse = cardReaderHandler.uploadCardImage(
+        UploadResponse uploadResponse = cardReaderHandler.uploadCard(
         		 new CardReaderUploadRequestBuilder()
         		 		.setFrontImage(frontImageStream)
         		 		.setWebhookUrl(webhookUrl)
