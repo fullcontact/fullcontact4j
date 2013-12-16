@@ -279,7 +279,6 @@ public class FullContactHttpRequest {
                 _shouldCompressTested = true;
             }
         }
-
         return _shouldCompress;
     }
 
@@ -310,21 +309,18 @@ public class FullContactHttpRequest {
     }
 
     private static String readResponse(HttpURLConnection connection) throws IOException {
-        InputStream connectionInput = connection.getInputStream();
-        ByteArrayOutputStream output = new ByteArrayOutputStream(connectionInput.available());
-        byte[] buffer = new byte[1024];
-        int read = 0;
-        while((read = connectionInput.read(buffer, 0, buffer.length)) > 0) {
-            output.write(buffer, 0, read);
+        InputStream inputStream = connection.getInputStream();
+        // If the client supports compressing *any* data, then we know we are compressing it
+        // and we should expect compressed data coming back
+        if (shouldCompress("compress".getBytes())) {
+            try {
+                inputStream =  new GZIPInputStream(inputStream);
+            } catch (Exception e) { /* If we were wrong, just read it as a normal IS */ }
         }
-        byte[] data = output.toByteArray();
-        InputStream stream = null;
-        if(shouldCompress(data)) {
-            InputStream inpt = new ByteArrayInputStream(data);
-            stream = new GZIPInputStream(inpt);
-        } else {
-            stream = new ByteArrayInputStream(data);
-        }
+        return readInputStream(inputStream);
+    }
+
+    private static String readInputStream(InputStream stream) throws IOException {
         InputStreamReader reader = new InputStreamReader(stream);
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line = null;
