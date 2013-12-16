@@ -58,5 +58,7 @@ public class Constants {
     public static final String PARAM_ACCESS_TOKEN = "accessToken";
     public static final String PARAM_URID = "URID";
 
+    public static final String API_KEY_HEADER_NAME = "X-FullContact-APIKey";
+
     public static final String UTF_8_CHARSET = "UTF-8";
 }

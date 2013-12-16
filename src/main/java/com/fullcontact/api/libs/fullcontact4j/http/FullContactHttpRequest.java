@@ -191,7 +191,6 @@ public class FullContactHttpRequest {
 
     public static HashMap<String, String> generateQueryParams(String apiKey, CardReaderUploadRequestBuilder.CardReaderUploadRequest request) throws FullContactException {
         HashMap<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put(Constants.PARAM_API_KEY, apiKey);
         queryParams.put(Constants.PARAM_WEBHOOK_URL, request.getWebhookUrl());
         queryParams.put(Constants.PARAM_FORMAT, request.getFormat().toString().toLowerCase());
         queryParams.put(Constants.PARAM_VERIFIED, request.getFormat().toString().toLowerCase());
@@ -252,6 +251,7 @@ public class FullContactHttpRequest {
         try {
             HttpURLConnection connection = createHttpConnectionForQuery(baseUrl, params);
             addConnectionProperties(contentType, connection);
+            connection.setRequestProperty(Constants.API_KEY_HEADER_NAME, params.get(Constants.PARAM_API_KEY));
             writeDataForConnection(data, connection);
             return readResponse(connection);
         } catch (Throwable throwable) {
