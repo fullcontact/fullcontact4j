@@ -157,7 +157,6 @@
 
 ##Other API
 
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
 * [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
 * [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
 * [CardReader API](/fullcontact/fullcontact4j/tree/master/docs/cardShark/)
