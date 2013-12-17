@@ -290,7 +290,6 @@ To learn more about the optional, advanced, and testing parameters, [check out o
 ##Other API
 
 * [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
 * [Name API](/fullcontact/fullcontact4j/tree/master/docs/name/)
 * [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
 * [Batch API](/fullcontact/fullcontact4j/tree/master/docs/batch/)
