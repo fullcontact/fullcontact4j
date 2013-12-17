@@ -260,7 +260,6 @@
 ##Other API
 
 * [Person API](/fullcontact/fullcontact4j/tree/master/docs/person/)
-* [Person Enhanced Data API](/fullcontact/fullcontact4j/tree/master/docs/enhancedData/)
 * [Location API](/fullcontact/fullcontact4j/tree/master/docs/location/)
 * [CardReader API](/fullcontact/fullcontact4j/tree/master/docs/cardReader/)
 * [Batch API](/fullcontact/fullcontact4j/tree/master/docs/batch/)
