@@ -205,7 +205,8 @@ public class CardReaderTest extends AbstractApiTest {
             fail("Exception occured processing query params");
         }
         assertFalse(queryParams.containsKey("accessToken"));
-        assertEquals("testApiKey", queryParams.get("apiKey"));
+        // Api Key moved to header
+        assertNull(queryParams.get("apiKey"));
         assertTrue(queryParams.containsKey("test"));
         assertEquals("value", queryParams.get("test"));
         assertTrue(queryParams.containsKey("name"));
@@ -232,7 +233,8 @@ public class CardReaderTest extends AbstractApiTest {
             fail("Exception occured processing query params");
         }
         assertTrue(queryParams.containsKey("accessToken"));
-        assertEquals("testApiKey", queryParams.get("apiKey"));
+        // Api Key moved to header
+        assertNull(queryParams.get("apiKey"));
         assertEquals("TestToken", queryParams.get("accessToken"));
         assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
                 queryParams.get("casing"));
@@ -257,7 +259,8 @@ public class CardReaderTest extends AbstractApiTest {
             fail("Exception occured processing query params");
         }
         assertTrue(queryParams.containsKey("URID"));
-        assertEquals("testApiKey", queryParams.get("apiKey"));
+        // Api Key moved to header
+        assertNull(queryParams.get("apiKey"));
         assertEquals("Foobar", queryParams.get("URID"));
         assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
                 queryParams.get("casing"));
@@ -280,7 +283,8 @@ public class CardReaderTest extends AbstractApiTest {
             fail("Exception occured processing query params");
         }
         assertFalse(queryParams.containsKey("URID"));
-        assertEquals("testApiKey", queryParams.get("apiKey"));
+        // Api Key moved to header
+        assertNull(queryParams.get("apiKey"));
         assertEquals(CardReaderCasing.TitleCase.toString().toLowerCase(),
                 queryParams.get("casing"));
         assertEquals(ResponseFormat.JSON.toString().toLowerCase(),
