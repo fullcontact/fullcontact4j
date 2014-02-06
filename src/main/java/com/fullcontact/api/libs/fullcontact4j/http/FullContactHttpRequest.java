@@ -308,16 +308,21 @@ public class FullContactHttpRequest {
         connection.setRequestProperty("Content-Type", contentType);
     }
 
-    private static String readResponse(HttpURLConnection connection) throws IOException {
+    protected static String readResponse(HttpURLConnection connection) throws IOException {
         InputStream inputStream = connection.getInputStream();
         // If the client supports compressing *any* data, then we know we are compressing it
         // and we should expect compressed data coming back
-        if (shouldCompress("compress".getBytes())) {
+        if (connectionIsGzipped(connection) && shouldCompress("compress".getBytes())) {
             try {
                 inputStream =  new GZIPInputStream(inputStream);
             } catch (Exception e) { /* If we were wrong, just read it as a normal IS */ }
         }
         return readInputStream(inputStream);
+    }
+
+    private static boolean connectionIsGzipped(HttpURLConnection connection) {
+        String encoding = connection.getHeaderField("Content-Encoding");
+        return encoding != null && "gzip".equals(encoding.toLowerCase());
     }
 
     private static String readInputStream(InputStream stream) throws IOException {
