@@ -299,8 +299,8 @@ public class FullContactHttpRequest {
         connection.setRequestMethod("POST");
         connection.setDoInput(true);
         connection.setDoOutput(true);
-        connection.setConnectTimeout(10000);
-        connection.setReadTimeout(60000);
+        connection.setConnectTimeout(60000);
+        connection.setReadTimeout(120000);
         connection.setRequestProperty(STR_USER_AGENT, FC_USER_AGENT);
         for (Map.Entry<String,String> requestProperty : customRequestProperties.entrySet()) {
             connection.setRequestProperty(requestProperty.getKey(), requestProperty.getValue());
