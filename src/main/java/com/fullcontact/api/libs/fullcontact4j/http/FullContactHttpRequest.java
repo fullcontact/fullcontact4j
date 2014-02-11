@@ -178,15 +178,19 @@ public class FullContactHttpRequest {
         Map<String, String> queryParams = generateQueryParams(apiKey, request);
         JsonObject jsonObject = new JsonObject();
         try {
-            jsonObject.addProperty("front", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getFrontImage()))));
+            jsonObject.addProperty("front", new String(encodeStreamAsBase64(request.getFrontImage())));
             if (request.getBackImage() != null)
-                jsonObject.addProperty("back", new String(Base64.encodeBase64(Utils.getBytesFromInputStream(request.getBackImage()))));
+                jsonObject.addProperty("back", new String(encodeStreamAsBase64(request.getBackImage())));
         } catch (Throwable throwable) {
             throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
         }
 
         byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
-        return postWithGZip(Constants.API_URL_CARDREADER_UPLOAD, queryParams, payload, "application/json");
+        return postWithGZip(apiKey, Constants.API_URL_CARDREADER_UPLOAD, queryParams, payload, "application/json");
+    }
+
+    private static byte[] encodeStreamAsBase64(InputStream is) throws IOException {
+        return Base64.encodeBase64(Utils.getBytesFromInputStream(is));
     }
 
     public static HashMap<String, String> generateQueryParams(String apiKey, CardReaderUploadRequestBuilder.CardReaderUploadRequest request) throws FullContactException {
@@ -243,15 +247,15 @@ public class FullContactHttpRequest {
             throw new FullContactException("Failed to encode inputstream content to Base64", throwable);
         }
         byte[] payload = jsonObject.toString().replace("\\r\\n", "").getBytes();
-        return postWithGZip(Constants.API_URL_BATCH_PROCESS, queryParams, payload, "application/json");
+        return postWithGZip(queryParams.get(Constants.PARAM_API_KEY), Constants.API_URL_BATCH_PROCESS, queryParams, payload, "application/json");
     }
 
-    private static String postWithGZip(String baseUrl, Map<String, String> params, byte[] data, String contentType)
+    private static String postWithGZip(String apiKey, String baseUrl, Map<String, String> params, byte[] data, String contentType)
             throws FullContactException {
         try {
             HttpURLConnection connection = createHttpConnectionForQuery(baseUrl, params);
             addConnectionProperties(contentType, connection);
-            connection.setRequestProperty(Constants.API_KEY_HEADER_NAME, params.get(Constants.PARAM_API_KEY));
+            connection.setRequestProperty(Constants.API_KEY_HEADER_NAME, apiKey);
             writeDataForConnection(data, connection);
             return readResponse(connection);
         } catch (Throwable throwable) {
@@ -282,7 +286,7 @@ public class FullContactHttpRequest {
         return _shouldCompress;
     }
 
-    private static HttpURLConnection createHttpConnectionForQuery(String baseUrl, Map<String, String> params) throws IOException {
+    public static HttpURLConnection createHttpConnectionForQuery(String baseUrl, Map<String, String> params) throws IOException {
         String qs = toQueryString(params);
         String fullUrl = baseUrl;
         if (qs.length() > 0) {
@@ -308,7 +312,7 @@ public class FullContactHttpRequest {
         connection.setRequestProperty("Content-Type", contentType);
     }
 
-    protected static String readResponse(HttpURLConnection connection) throws IOException {
+    public static String readResponse(HttpURLConnection connection) throws IOException {
         InputStream inputStream = connection.getInputStream();
         // If the client supports compressing *any* data, then we know we are compressing it
         // and we should expect compressed data coming back
@@ -338,7 +342,7 @@ public class FullContactHttpRequest {
         return sb.toString();
     }
 
-    private static void writeDataForConnection(byte[] data, HttpURLConnection connection) throws IOException {
+    public static void writeDataForConnection(byte[] data, HttpURLConnection connection) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         if(shouldCompress(data)) {
             GZIPOutputStream wr = new GZIPOutputStream(byteStream);
