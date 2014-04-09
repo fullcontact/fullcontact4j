@@ -77,9 +77,11 @@ To learn more about the optional, advanced, and testing parameters, [check out o
         ContactInfo unverifiedContactInfo = requestResult.getUnverifiedContact();
 
 * Getting list of Unverified Field references (the unverifiedFields)
+
         ArrayList<UnverifiedField> unverifiedFields = requestResult.getUnverifiedFields();
 
 * See key and index of an unverifiedField (if unverifiedFields json was ["urls[1]"]
+
         assertEquals("urls", unverifiedFields.get(0).getKey())
         assertEquals(1, unverifiedFields.get(0).getIndex())
 
