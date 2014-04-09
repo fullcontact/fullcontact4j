@@ -65,9 +65,30 @@ public class CardReaderTest extends AbstractApiTest {
         assertEquals("https://d1h3f0foa0xzdz.cloudfront.net/1/2I63W5XH0JPPYKTRWFGL0P75N9OEK7.vcf", requestResult.getvCardUrl());
 
         basicContactDataTests(requestResult);
-
+        assertEquals(0, requestResult.getUnverifiedFields().size());
         assertEquals("sales-leads", requestResult.getParams().get("category"));
         assertEquals("12345", requestResult.getParams().get("APNS"));
+    }
+
+
+    public void test_upload_webhook_response_unverified_contact() throws Exception {
+        String json = loadJson("cardshark.upload.webhook.unverified.json");
+        UploadRequestResult requestResult = new FullContact("fake_api_key").getCardReaderHandler().parseUploadWebhookJsonResponse(json);
+        assertNotNull(requestResult);
+        assertEquals(2, requestResult.getUnverifiedContact().getPhoneNumbers().size());
+        assertEquals(2, requestResult.getUnverifiedContact().getEmails().size());
+        assertEquals("Mat", requestResult.getUnverifiedContact().getName().getGivenName());
+        assertEquals(1, requestResult.getContact().getPhoneNumbers().size());
+        assertEquals(1, requestResult.getContact().getEmails().size());
+        assertEquals("Matt", requestResult.getContact().getName().getGivenName());
+        assertEquals(3, requestResult.getUnverifiedFields().size());
+        assertEquals("emails", requestResult.getUnverifiedFields().get(0).getKey());
+        assertTrue(1 == requestResult.getUnverifiedFields().get(0).getIndex());
+        assertEquals("phoneNumbers", requestResult.getUnverifiedFields().get(1).getKey());
+        assertTrue(1 == requestResult.getUnverifiedFields().get(1).getIndex());
+        assertEquals("givenName", requestResult.getUnverifiedFields().get(2).getKey());
+        assertNull(requestResult.getUnverifiedFields().get(2).getIndex());
+        assertEquals("https://link-to-unverified-vcard.vcf", requestResult.getUnverifiedVCardUrl());
     }
 
     private void basicContactDataTests(UploadRequestResult requestResult) {

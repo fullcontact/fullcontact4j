@@ -72,6 +72,21 @@ To learn more about the optional, advanced, and testing parameters, [check out o
 
         ContactInfo contactInfo = requestResult.getContact();
 
+* Getting the Unverified ContactInfo object (Not all data is verified to be accurate)
+
+        ContactInfo unverifiedContactInfo = requestResult.getUnverifiedContact();
+
+* Getting list of Unverified Field references (the unverifiedFields)
+        ArrayList<UnverifiedField> unverifiedFields = requestResult.getUnverifiedFields();
+
+* See key and index of an unverifiedField (if unverifiedFields json was ["urls[1]"]
+        assertEquals("urls", unverifiedFields.get(0).getKey())
+        assertEquals(1, unverifiedFields.get(0).getIndex())
+
+* Getting the unverified vCard url
+
+        System.out.println("Unverified VCard URL: " + requestResult.getUnverifiedVCardUrl());
+
 ### Retrieving the contact information
 
 * Obtain the ContactInfo object (re-referenced below)

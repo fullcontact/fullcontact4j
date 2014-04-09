@@ -1,8 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.UnverifiedField;
+import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.exception.InvalidUnverifiedFieldException;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,6 +22,15 @@ public class UploadRequestResult {
 
     @SerializedName("vCardUrl")
     private String vCardUrl;
+
+    @SerializedName("unverifiedFields")
+    private ArrayList<String> unverifiedFields;
+
+    @SerializedName("unverifiedVCardUrl")
+    private String unverifiedVCardUrl;
+
+    @SerializedName("unverifiedContact")
+    private ContactInfo unverifiedContact;
 
     @SerializedName("contact")
     private ContactInfo contact;
@@ -162,6 +174,57 @@ public class UploadRequestResult {
 
     public void setURID(String URID) {
         this.URID = URID;
+    }
+
+    /**
+     * Attempts to parse the unverifiedFields list
+     * of Strings and return a more structured
+     * object collection of {@link com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.UnverifiedField} items
+     *
+     * @return
+     */
+    public ArrayList<UnverifiedField> getUnverifiedFields() throws InvalidUnverifiedFieldException {
+        ArrayList<UnverifiedField> typedFields = new ArrayList<UnverifiedField>();
+        if (unverifiedFields == null) return typedFields;
+        UnverifiedField unverifiedField;
+        for (String field : unverifiedFields) {
+            unverifiedField = UnverifiedField.parse(field);
+            if (unverifiedField != null)
+                typedFields.add(unverifiedField);
+        }
+        return typedFields;
+    }
+
+    /**
+     * In case {@link UploadRequestResult#getUnverifiedFields()}
+     * has issue, this can be used for debugging. Also, any errors that occur
+     * disregard the field in {@link UploadRequestResult#getUnverifiedFields()}
+     * So this ensures you can see everything that comes from the api if
+     * you need.
+     * @return
+     */
+    public ArrayList<String> getRawUnverifiedFields() {
+        return unverifiedFields;
+    }
+
+    public void setUnverifiedFields(ArrayList<String> unverifiedFields) {
+        this.unverifiedFields = unverifiedFields;
+    }
+
+    public String getUnverifiedVCardUrl() {
+        return unverifiedVCardUrl;
+    }
+
+    public void setUnverifiedVCardUrl(String unverifiedVCardUrl) {
+        this.unverifiedVCardUrl = unverifiedVCardUrl;
+    }
+
+    public ContactInfo getUnverifiedContact() {
+        return unverifiedContact;
+    }
+
+    public void setUnverifiedContact(ContactInfo unverifiedContact) {
+        this.unverifiedContact = unverifiedContact;
     }
 
 }
