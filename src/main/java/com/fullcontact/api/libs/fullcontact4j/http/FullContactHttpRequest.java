@@ -253,6 +253,8 @@ public class FullContactHttpRequest {
     private static String postWithGZip(String apiKey, String baseUrl, Map<String, String> params, byte[] data, String contentType)
             throws FullContactException {
         try {
+            // Remove API key from params, and put it in the header
+            params.remove(Constants.PARAM_API_KEY);
             HttpURLConnection connection = createHttpConnectionForQuery(baseUrl, params);
             addConnectionProperties(contentType, connection);
             connection.setRequestProperty(Constants.API_KEY_HEADER_NAME, apiKey);
