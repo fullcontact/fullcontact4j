@@ -2,7 +2,28 @@ package com.fullcontact.api.libs.fullcontact4j.config;
 
 public class Constants {
 
-    public static final String API_BASE = "https://api.fullcontact.com";
+    public static final String API_BASE = "https://api.fullcontact.com/";
+    public static final String API_VERSION  = "v2";
+    public static final String LOG_PREFIX = "[fc4j]";
+
+    public static final String API_ENDPOINT_PERSON = "/person.json";
+    public static final String API_ENDPOINT_CARDREADER = "/cardReader";
+    public static final String API_ENDPOINT_DISPOSABLE_EMAIL = "/disposable.json";
+    public static final String API_ENDPOINT_NAME_NORMALIZER = "/normalizer.json";
+    public static final String API_ENDPOINT_LOCATION_NORMALIZER = "/locationNormalizer.json";
+    public static final String API_ENDPOINT_BATCH = "/batch.json";
+    public static final String API_ENDPOINT_ICON = "/icon";
+    public static final String API_ENDPOINT_ACCOUNT_STATS = "/stats.json";
+
+    public static final String HEADER_RATE_LIMIT_PER_MINUTE = "X-Rate-Limit-Limit";
+    public static final String HEADER_RATE_LIMIT_REMAINING = "X-Rate-Limit-Remaining";
+    public static final String HEADER_RATE_LIMIT_RESET_TIME = "X-Rate-Limit-Reset";
+    public static final String HEADER_AUTH_API_KEY = "X-FullContact-APIKey";
+    public static final String HEADER_AUTH_ACCESS_TOKEN = "X-FullContact-AccessToken";
+    public static final String HEADER_USER_AGENT = "User-Agent";
+    public static final String HEADER_DEFAULT_AGENT = "FullContact4j";
+
+    public static final String API_WEBHOOK = "webhookUrl";
     
     public static final String API_URL_PERSON = API_BASE + "/v2/person.json?";
     public static final String API_URL_PERSON_ENHANCED_DATA = API_BASE + "/v2/enhanced.json?";
