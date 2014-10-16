@@ -4,7 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
+import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
+import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
+import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
@@ -33,7 +37,7 @@ public class FullContactHttpInterface {
     protected String authString;
 
     public FullContactHttpInterface(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
-                                    Boolean useThreadPool) {
+                                    Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -41,7 +45,7 @@ public class FullContactHttpInterface {
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
         //when we intercept a request, this object adds the proper auth headers
-        requestExecutorHandler = new RequestExecutorHandler(policy, useThreadPool);
+        requestExecutorHandler = new RequestExecutorHandler(policy, threadPoolCount);
         RequestExecutorHandler.FCRequestInterceptor requestInterceptor = requestExecutorHandler.getInterceptor(authString);
 
         jsonConverter = new JacksonConverter(mapper);
@@ -54,17 +58,36 @@ public class FullContactHttpInterface {
         this.baseUrl = baseUrl;
     }
 
-    public String getBaseUrl() { return baseUrl; }
-
-    public RequestExecutorHandler getRequestExecutorHandler() {
-        return requestExecutorHandler;
+    public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
+        final SyncFCCallback<T> callback = new SyncFCCallback<T>();
+        callback.setHttpInterface(this);
+        sendRequest(req, callback);
+        try {
+            return callback.get();
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+            throw new FullContactException("Interrupted while waiting for a result!", e);
+        }
     }
+
+    public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
+        if(callback == null) {
+            if(!req.hasParam(Constants.API_WEBHOOK)) {
+                throw new IllegalArgumentException(
+                        "Cannot make an asynchronous request without either a callback or a webhook");
+            }
+        } else {
+            callback.setHttpInterface(this);
+        }
+        requestExecutorHandler.sendRequestAsync(fullContactApi, req, callback);
+    }
+
+    public RequestExecutorHandler getRequestExecutorHandler() { return requestExecutorHandler; }
+
+    public String getBaseUrl() { return baseUrl; }
 
     public Converter getJsonConverter() {
         return jsonConverter;
     }
 
-    public FullContactApi getFullContactApi() {
-        return fullContactApi;
-    }
 }

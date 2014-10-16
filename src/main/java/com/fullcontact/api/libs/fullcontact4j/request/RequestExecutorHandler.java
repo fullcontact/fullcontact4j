@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContact;
+import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
@@ -26,9 +27,9 @@ public class RequestExecutorHandler {
     private final RateLimiterPolicy policy;
     private volatile FCRequest lastHandledRequest;
 
-    public RequestExecutorHandler(RateLimiterPolicy policy, Boolean useThreadPool) {
+    public RequestExecutorHandler(RateLimiterPolicy policy, Integer threadPoolCount) {
         this.policy = policy;
-        executorService = useThreadPool?Executors.newCachedThreadPool():Executors.newSingleThreadExecutor();
+        executorService = Executors.newFixedThreadPool(threadPoolCount);
     }
 
     /**
@@ -49,35 +50,15 @@ public class RequestExecutorHandler {
         }
     }
 
-    public <T extends FCResponse> T sendRequestSync(final FCRequest<T> req) throws FullContactException {
-        lastHandledRequest = req;
-        try {
-            final SyncFCCallback<T> callback = new SyncFCCallback<T>();
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
-                    waitForPermit();
-                    //make the request -- when we get any results, place them in the queue
-                    Utils.verbose("Sending a new synchronous " + req.getClass().getSimpleName());
-                    req.makeRequest(callback);
-                }
-            });
-
-            return callback.get();
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-            throw new FullContactException("Interrupted while waiting for a result!", e);
-        }
-    }
-
-    public <T extends FCResponse> void sendRequestAsync(final FCRequest<T> req, final FCCallback<T> callback) {
+    public <T extends FCResponse> void sendRequestAsync(final FullContactApi api, final FCRequest<T> req,
+                                                        final FCCallback<T> callback) {
         lastHandledRequest = req;
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 waitForPermit();
                 Utils.verbose("Sending a new asynchronous " + req.getClass().getSimpleName());
-                req.makeRequest(callback);
+                req.makeRequest(api, callback.getCoreCallback());
             }
         });
     }

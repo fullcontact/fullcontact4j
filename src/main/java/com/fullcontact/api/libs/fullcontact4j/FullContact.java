@@ -3,7 +3,10 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
+import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.request.GenericRequest;
+import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
@@ -21,8 +24,8 @@ public class FullContact {
     protected FullContactHttpInterface httpInterface;
 
     private FullContact(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
-                        Boolean useThreadPool) {
-        httpInterface = new FullContactHttpInterface(httpClient, authString, policy, baseUrl, useThreadPool);
+                        Integer threadPoolCount) {
+        httpInterface = new FullContactHttpInterface(httpClient, authString, policy, baseUrl, threadPoolCount);
         Utils.info("Created new FullContact client.");
     }
 
@@ -46,6 +49,7 @@ public class FullContact {
     }
 
     //TODO update /developer/docs/libraries/
+    //TODO force utf8
 
     /////API Methods//////
 
@@ -54,10 +58,36 @@ public class FullContact {
      * @return
      */
     public GenericRequest.Builder buildGenericRequest() {
-        return new GenericRequest.Builder(httpInterface);
+        return new GenericRequest.Builder();
     }
 
 
+    /**
+     * Makes a synchronous request to the FullContact APIs.
+     * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
+     * @param req the request, generated with a call to build____Request().
+     * @param <T> the Response type
+     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.response.FCResponse}.
+     */
+    public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
+        return httpInterface.sendRequest(req);
+    }
+
+    /**
+     * Makes an asynchronous request to the FullContact APIs.
+     * Exceptions will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#failure(FullContactException)}.
+     * Successful responses will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#success(com.fullcontact.api.libs.fullcontact4j.response.FCResponse)}
+     * @param req the request, generated with a call to build____Request().
+     * @param callback your callback
+     * @param <T> the Response type
+     */
+    public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
+        if(callback == null && !req.hasParam(Constants.API_WEBHOOK)) {
+                throw new IllegalArgumentException(
+                        "Cannot make an asynchronous request without either a callback or a webhook");
+        }
+        httpInterface.sendRequest(req, callback);
+    }
 
 
     /////////////////////
@@ -67,7 +97,7 @@ public class FullContact {
 
         private String authKey;
         private Client httpClient;
-        private boolean useThreadPool = false;
+        private Integer threadPoolCount = 1;
         private OkHttpClient defaultClient = new OkHttpClient();
         private String baseUrl = Constants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
@@ -89,13 +119,12 @@ public class FullContact {
         }
 
         /**
-         * If false (default), asynchronous api requests will be made on a single thread.
-         * If true, a thread pool will be used.
-         * @param use
+         * How many threads to use to execute API queries (default 1).
+         * @param threads
          * @return
          */
-        public Builder useThreadPool(Boolean use) {
-            useThreadPool = use;
+        public Builder threadCount(Integer threads) {
+            threadPoolCount = threads;
             return this;
         }
 
@@ -151,7 +180,7 @@ public class FullContact {
             if(httpClient == null) {
                 httpClient = new OkClient(defaultClient);
             }
-            return new FullContact(httpClient, authKey, ratePolicy, baseUrl, useThreadPool);
+            return new FullContact(httpClient, authKey, ratePolicy, baseUrl, threadPoolCount);
         }
     }
 
