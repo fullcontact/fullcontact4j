@@ -52,37 +52,18 @@ public class RequestExecutorHandler {
     public <T extends FCResponse> T sendRequestSync(final FCRequest<T> req) throws FullContactException {
         lastHandledRequest = req;
         try {
-            //this is functional and fairly safe, but dirty
-            final BlockingQueue asyncResult = new SynchronousQueue();
+            final SyncFCCallback<T> callback = new SyncFCCallback<T>();
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     waitForPermit();
                     //make the request -- when we get any results, place them in the queue
                     Utils.verbose("Sending a new synchronous " + req.getClass().getSimpleName());
-                    req.makeRequest(new FCCallback<T>() {
-                        @Override
-                        public void success(T response) {
-                            try {
-                                asyncResult.put(response);
-                            } catch(InterruptedException e) { e.printStackTrace(); }
-                        }
-
-                        @Override
-                        public void failure(FullContactException exception) {
-                            try {
-                                asyncResult.put(exception);
-                            } catch(InterruptedException e) { e.printStackTrace(); }
-                        }
-                    });
+                    req.makeRequest(callback);
                 }
             });
 
-            Object result = asyncResult.take();
-            if (result instanceof Exception) {
-                throw (FullContactException) result;
-            }
-            return (T) result;
+            return callback.get();
         } catch(InterruptedException e) {
             e.printStackTrace();
             throw new FullContactException("Interrupted while waiting for a result!", e);
