@@ -9,7 +9,6 @@ import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
 import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.converter.Converter;
@@ -34,9 +33,9 @@ public class FullContactHttpInterface {
      * Handles communication (using Retrofit) with the FullContact api
      */
     private FullContactApi fullContactApi;
-    protected String authString;
+    protected String apiKey;
 
-    public FullContactHttpInterface(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
+    public FullContactHttpInterface(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
                                     Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
@@ -46,7 +45,7 @@ public class FullContactHttpInterface {
 
         //when we intercept a request, this object adds the proper auth headers
         requestExecutorHandler = new RequestExecutorHandler(policy, threadPoolCount);
-        RequestExecutorHandler.FCRequestInterceptor requestInterceptor = requestExecutorHandler.getInterceptor(authString);
+        RequestExecutorHandler.FCRequestInterceptor requestInterceptor = requestExecutorHandler.getInterceptor(apiKey);
 
         jsonConverter = new JacksonConverter(mapper);
         //create the API from a template interface using Retrofit
@@ -54,7 +53,7 @@ public class FullContactHttpInterface {
                 .setClient(httpClient)
                 .setRequestInterceptor(requestInterceptor).setConverter(jsonConverter).build();
         fullContactApi = adapter.create(FullContactApi.class);
-        this.authString = authString;
+        this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 

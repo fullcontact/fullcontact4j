@@ -23,9 +23,9 @@ public class FullContact {
      */
     protected FullContactHttpInterface httpInterface;
 
-    private FullContact(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
+    private FullContact(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
                         Integer threadPoolCount) {
-        httpInterface = new FullContactHttpInterface(httpClient, authString, policy, baseUrl, threadPoolCount);
+        httpInterface = new FullContactHttpInterface(httpClient, apiKey, policy, baseUrl, threadPoolCount);
         Utils.info("Created new FullContact client.");
     }
 
