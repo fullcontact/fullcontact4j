@@ -24,6 +24,7 @@ public class FullContactHttpInterface {
      */
     private final RequestExecutorHandler requestExecutorHandler;
     private final Converter jsonConverter;
+    private final String baseUrl;
 
     /**
      * Handles communication (using Retrofit) with the FullContact api
@@ -31,7 +32,8 @@ public class FullContactHttpInterface {
     private FullContactApi fullContactApi;
     protected String authString;
 
-    public FullContactHttpInterface(Client httpClient, String authString, RateLimiterPolicy policy) {
+    public FullContactHttpInterface(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
+                                    Boolean useThreadPool) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -39,17 +41,20 @@ public class FullContactHttpInterface {
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
         //when we intercept a request, this object adds the proper auth headers
-        requestExecutorHandler = new RequestExecutorHandler(policy);
+        requestExecutorHandler = new RequestExecutorHandler(policy, useThreadPool);
         RequestExecutorHandler.FCRequestInterceptor requestInterceptor = requestExecutorHandler.getInterceptor(authString);
 
         jsonConverter = new JacksonConverter(mapper);
         //create the API from a template interface using Retrofit
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(Constants.API_BASE + Constants.API_VERSION)
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl)
                 .setClient(httpClient)
                 .setRequestInterceptor(requestInterceptor).setConverter(jsonConverter).build();
         fullContactApi = adapter.create(FullContactApi.class);
         this.authString = authString;
+        this.baseUrl = baseUrl;
     }
+
+    public String getBaseUrl() { return baseUrl; }
 
     public RequestExecutorHandler getRequestExecutorHandler() {
         return requestExecutorHandler;

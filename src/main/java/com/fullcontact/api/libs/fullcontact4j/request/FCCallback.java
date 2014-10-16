@@ -37,6 +37,7 @@ public abstract class FCCallback<T extends FCResponse> {
             } catch(NumberFormatException e) {
                 //rate limit per minute wasn't a number (???), don't set any limits
                 e.printStackTrace();
+                Utils.info("FullContact response had a rate limit that was not a number.");
             }
 
             FCCallback.this.success(t);
@@ -44,7 +45,7 @@ public abstract class FCCallback<T extends FCResponse> {
 
         @Override
         public void failure(RetrofitError retrofitError) {
-
+            Throwable ex = retrofitError;
             //do some logic to figure out why this error occured
             String reason = "Unknown reason for exception, see stack trace";
             Integer errorCode = null;
@@ -59,25 +60,27 @@ public abstract class FCCallback<T extends FCResponse> {
                     break;
 
                 case HTTP:
-                    ErrorResponse errorResponse;
                     try {
-                        errorResponse = (ErrorResponse) httpInterface.getJsonConverter().fromBody(response.getBody(),
+                        ErrorResponse errorResponse = (ErrorResponse) httpInterface.getJsonConverter()
+                                .fromBody(response.getBody(),
                                 ErrorResponse.class);
+                        reason = errorResponse.message;
+                        errorCode = errorResponse.status;
                     } catch(ConversionException e) {
                         //response did not have a formatted error response...should not happen
-                        FCCallback.this.failure(new FullContactException("Exception when parsing response json"));
-                        return;
+                        ex = e;
+                        reason = "Although the FullContact API responded with an error, " +
+                                "the response was not in the proper format.";
                     } catch(ClassCastException e) {
-                        FCCallback.this.failure(new FullContactException("Exception when parsing response json"));
-                        return;
+                        ex = e;
+                        reason = "Although the FullContact API responded with an error, " +
+                                "the response was not in the proper format.";
                     }
-                    reason = errorResponse.message;
-                    errorCode = errorResponse.status;
                 case UNEXPECTED:
                 default:
                     break;
             }
-            FCCallback.this.failure(new FullContactException(reason, errorCode, retrofitError));
+            FCCallback.this.failure(new FullContactException(reason, errorCode, ex));
         }
     };
 

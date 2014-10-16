@@ -2,8 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.config;
 
 public class Constants {
 
-    public static final String API_BASE = "https://api.fullcontact.com/";
-    public static final String API_VERSION  = "v2";
+    public static final String API_BASE_DEFAULT = "https://api.fullcontact.com/v2";
     public static final String LOG_PREFIX = "[fc4j]";
 
     public static final String API_ENDPOINT_PERSON = "/person.json";
@@ -24,7 +23,7 @@ public class Constants {
     public static final String HEADER_DEFAULT_AGENT = "FullContact4j";
 
     public static final String API_WEBHOOK = "webhookUrl";
-    
+    /*
     public static final String API_URL_PERSON = API_BASE + "/v2/person.json?";
     public static final String API_URL_PERSON_ENHANCED_DATA = API_BASE + "/v2/enhanced.json?";
     public static final String API_URL_NAME_NORMALIZATION = API_BASE + "/v2/name/normalizer.json?";
@@ -41,6 +40,7 @@ public class Constants {
     public static final String API_URL_EMAIL_DISPOSABLE_DOMAIN = API_BASE + "/v2/email/disposable.json?";
     public static final String API_URL_ICON = API_BASE + "/v2/icon?";
     public static final String API_URL_ICON_TYPE_ID = API_BASE + "/v2/icon/{0}/{1}/{2}?";
+    */
 
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";

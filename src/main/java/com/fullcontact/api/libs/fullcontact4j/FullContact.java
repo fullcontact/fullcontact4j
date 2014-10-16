@@ -1,11 +1,14 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
+import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.GenericRequest;
+import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class FullContact {
@@ -17,8 +20,9 @@ public class FullContact {
      */
     protected FullContactHttpInterface httpInterface;
 
-    private FullContact(Client httpClient, String authString, RateLimiterPolicy policy) {
-        httpInterface = new FullContactHttpInterface(httpClient, authString, policy);
+    private FullContact(Client httpClient, String authString, RateLimiterPolicy policy, String baseUrl,
+                        Boolean useThreadPool) {
+        httpInterface = new FullContactHttpInterface(httpClient, authString, policy, baseUrl, useThreadPool);
         Utils.info("Created new FullContact client.");
     }
 
@@ -63,11 +67,13 @@ public class FullContact {
 
         private String authKey;
         private Client httpClient;
+        private boolean useThreadPool = false;
+        private OkHttpClient defaultClient = new OkHttpClient();
+        private String baseUrl = Constants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
 
         public Builder(String apiKey) {
             //default client is OkHttpClient
-            httpClient = new OkClient();
             this.authKey = apiKey;
         }
 
@@ -82,6 +88,52 @@ public class FullContact {
             return this;
         }
 
+        /**
+         * If false (default), asynchronous api requests will be made on a single thread.
+         * If true, a thread pool will be used.
+         * @param use
+         * @return
+         */
+        public Builder useThreadPool(Boolean use) {
+            useThreadPool = use;
+            return this;
+        }
+
+        /**
+         * Sets the read timeout for the default client.
+         * If a custom httpClient is specified with {@link #httpClient}, this method will have no effect.
+         * Configure a custom client beforehand.
+         * @param timeoutMs
+         * @return
+         */
+        public Builder setReadTimeout(Integer timeoutMs) {
+            defaultClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            return this;
+        }
+
+        /**
+         * Sets the connect timeout for the default client.
+         * If a custom httpClient is specified with {@link #httpClient}, this method will have no effect.
+         * Configure a custom client beforehand.
+         * @param timeoutMs
+         * @return
+         */
+        public Builder setConnectTimeout(Integer timeoutMs) {
+            defaultClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            return this;
+        }
+
+        /**
+         * Sets the base URL that the client accesses FullContact's endpoints from.
+         * This defaults to the standard api.fullcontact.com/v2/.
+         * @param url
+         * @return
+         */
+        public Builder baseUrl(String url) {
+            baseUrl = url;
+            return this;
+        }
+
         public Builder rateLimiterPolicy(RateLimiterPolicy policy) {
             this.ratePolicy = policy;
             return this;
@@ -92,10 +144,14 @@ public class FullContact {
          * @return a new, fully configured, FullContact client.
          */
         public FullContact build() {
-            if(httpClient == null || authKey == null) {
-                throw new IllegalArgumentException("Authentication token/keys and HTTP client cannot be null");
+            if(authKey == null || authKey.isEmpty()) {
+                throw new IllegalArgumentException("Authentication key cannot be null");
             }
-            return new FullContact(httpClient, authKey, ratePolicy);
+            //if a custom client wasn't specified, use ours
+            if(httpClient == null) {
+                httpClient = new OkClient(defaultClient);
+            }
+            return new FullContact(httpClient, authKey, ratePolicy, baseUrl, useThreadPool);
         }
     }
 

@@ -27,15 +27,9 @@ public abstract class FCRequest<T extends FCResponse> {
      */
     protected abstract void makeRequest(FCCallback<T> callback);
 
-    /**
-     * Returns the URL for the request, up to the parameters section
-     * @return
-     */
-    protected abstract String getBaseURL();
-
     private String getFullURL() {
         StringBuilder builder = new StringBuilder();
-        String result = getBaseURL() + "?";
+        String result = httpInterface.getBaseUrl() + "?";
         for(Map.Entry<String, String> entry : params.entrySet()) {
             if(builder.length() != 0) {
                 builder.append("&");

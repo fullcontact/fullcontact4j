@@ -26,9 +26,9 @@ public class RequestExecutorHandler {
     private final RateLimiterPolicy policy;
     private volatile FCRequest lastHandledRequest;
 
-    public RequestExecutorHandler(RateLimiterPolicy policy) {
+    public RequestExecutorHandler(RateLimiterPolicy policy, Boolean useThreadPool) {
         this.policy = policy;
-        executorService = Executors.newSingleThreadExecutor();
+        executorService = useThreadPool?Executors.newCachedThreadPool():Executors.newSingleThreadExecutor();
     }
 
     /**
@@ -52,7 +52,7 @@ public class RequestExecutorHandler {
     public <T extends FCResponse> T sendRequestSync(final FCRequest<T> req) throws FullContactException {
         lastHandledRequest = req;
         try {
-            //TODO this is functional and fairly safe, but dirty
+            //this is functional and fairly safe, but dirty
             final BlockingQueue asyncResult = new SynchronousQueue();
             executorService.execute(new Runnable() {
                 @Override

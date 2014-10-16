@@ -20,10 +20,6 @@ public class GenericRequest extends FCRequest<GenericResponse> {
         httpInterface.getFullContactApi().genericGet(path, params, callback.getCoreCallback());
     }
 
-    protected String getBaseURL() {
-        return Constants.API_BASE + Constants.API_VERSION;
-    }
-
     public static class Builder extends BaseBuilder<GenericRequest> {
         private String path;
 
