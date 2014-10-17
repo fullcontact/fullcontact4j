@@ -1,9 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
+import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import retrofit.Callback;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
@@ -11,25 +13,33 @@ import java.util.Map;
 
 public abstract class FCRequest<T extends FCResponse> {
 
-
-    protected final FullContactHttpInterface httpInterface;
     protected final Map<String, String> params;
 
-    protected FCRequest(FullContactHttpInterface httpInterface, Map<String, String> params) {
-        this.httpInterface = httpInterface;
+    protected FCRequest(Map<String, String> params) {
+        for(Map.Entry<String, String> ents: params.entrySet()) {
+            Boolean badKey = ents.getKey() == null || ents.getKey().isEmpty();
+            Boolean badValue = ents.getValue() == null || ents.getValue().isEmpty();
+            if(badKey || badValue) {
+                throw new IllegalArgumentException("A parameter is null or empty. Parameter: \"" + ents.getKey() +
+                "\", Value: \"" + ents.getValue() + "\"");
+            }
+        }
         this.params = params;
     }
 
+    public boolean hasParam(String key) {
+        return params.containsKey(key);
+    }
     /**
      * This and the builders are the only things that should be overridden for any request class.
      * This method should do exactly one thing: make an api call through the FullContactHttpInterface object.
      * @param callback the callback supplied by the client
      */
-    protected abstract void makeRequest(FCCallback<T> callback);
+    protected abstract void makeRequest(FullContactApi api, Callback<T> callback);
 
-    private String getFullURL() {
+    private String getFullURL(String baseUrl) {
         StringBuilder builder = new StringBuilder();
-        String result = httpInterface.getBaseUrl() + "?";
+        String result = baseUrl + "?";
         for(Map.Entry<String, String> entry : params.entrySet()) {
             if(builder.length() != 0) {
                 builder.append("&");
@@ -39,52 +49,19 @@ public abstract class FCRequest<T extends FCResponse> {
         return result + builder.toString();
     }
 
-    public void setParam(String key, String value) {
-        params.put(key, value);
-    }
-
-    /**
-     * Makes a synchronous request to the FullContact APIs.
-     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.response.FCResponse}.
-     * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
-     */
-    public final T send() throws FullContactException {
-        return httpInterface.getRequestExecutorHandler().sendRequestSync(this);
-    }
-
-    /**
-     * Makes an asynchronous request to the FullContact APIs.
-     * callback.success() will be called on a good (code 200/202) response. Otherwise callback.failure() is called.
-     * @param callback the callback, or can be null if a webhook is specified and all logic is handled on the webhook.
-     */
-    public final void send(FCCallback<T> callback) {
-        if(callback == null) {
-            if(params.get(Constants.API_WEBHOOK) == null) {
-                throw new IllegalArgumentException(
-                        "Cannot make an asynchronous request without either a callback or a webhook");
-            }
-        } else {
-            callback.setHttpInterface(httpInterface);
-        }
-        httpInterface.getRequestExecutorHandler().sendRequestAsync(this, callback);
-    }
-
-    protected static class BaseBuilder<T extends FCRequest> {
-        protected FullContactHttpInterface httpInterface;
+    protected abstract static class BaseBuilder<T extends FCRequest> {
         protected Map<String, String> params;
 
-        public BaseBuilder(FullContactHttpInterface httpInterface) {
-            this.httpInterface = httpInterface;
+        public BaseBuilder() {
             params = new HashMap<String, String>();
         }
 
         /**
-         * Actually builds the request. If there are missing/bad parameters, an IllegalArgumentException will be thrown.
+         * Actually validates and builds the request.
+         * If there are missing/bad parameters, an IllegalArgumentException will be thrown.
          * @return
          */
-        public T build() {
-            throw new NotImplementedException();
-        }
+        public abstract T build();
 
     }
 

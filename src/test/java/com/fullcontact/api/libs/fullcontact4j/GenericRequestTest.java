@@ -17,7 +17,7 @@ public class GenericRequestTest extends TestCase {
         FullContact.setLogLevel(Level.FINEST);
         FullContact fc = FullContact.withApiKey("3a5316706b189050").build();
         GenericRequest r = fc.buildGenericRequest().path("person.json").param("email","bart@fullcontact.com").build();
-        r.send(new FCCallback<GenericResponse>() {
+        fc.sendRequest(r, new FCCallback<GenericResponse>() {
             @Override
             public void success(GenericResponse response) {
                 System.out.println("Got response back 1");
@@ -30,10 +30,10 @@ public class GenericRequestTest extends TestCase {
             }
         });
         Thread.sleep(1000);
-        r.send(new FCCallback<GenericResponse>() {
+        fc.sendRequest(r, new FCCallback<GenericResponse>() {
             @Override
             public void success(GenericResponse response) {
-                System.out.println("Got response back 2 ");
+                System.out.println("Got response back 2");
             }
 
             @Override
@@ -43,18 +43,7 @@ public class GenericRequestTest extends TestCase {
             }
         });
         Thread.sleep(1000);
-        r.send(new FCCallback<GenericResponse>() {
-            @Override
-            public void success(GenericResponse response) {
-                System.out.println("Got response back 3");
-            }
-
-            @Override
-            public void failure(FullContactException exception) {
-                System.out.println("Printing failure exception:");
-                exception.printStackTrace();
-            }
-        });
+        fc.sendRequest(r);
         Thread.sleep(8000);
     }
 

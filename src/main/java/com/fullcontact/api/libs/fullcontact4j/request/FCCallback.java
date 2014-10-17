@@ -84,7 +84,7 @@ public abstract class FCCallback<T extends FCResponse> {
         }
     };
 
-    protected void setHttpInterface(FullContactHttpInterface httpInterface) {
+    public void setHttpInterface(FullContactHttpInterface httpInterface) {
         this.httpInterface = httpInterface;
     }
 

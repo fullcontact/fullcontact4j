@@ -42,6 +42,10 @@ public class Constants {
     public static final String API_URL_ICON_TYPE_ID = API_BASE + "/v2/icon/{0}/{1}/{2}?";
     */
 
+    public static final String PARAM_PERSON_EMAIL = "email";
+    public static final String PARAM_PERSON_EMAIL_MD5 = "emailMD5";
+    public static final String PARAM_PERSON_QUEUE = "queue";
+
     public static final String API_KEY_FORMAT = "apiKey={0}";
     public static final String EMAIL_FORMAT = "email={0}";
     public static final String USERNAME_FORMAT = "username={0}";
