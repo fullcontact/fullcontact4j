@@ -1,18 +1,18 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.location;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class LocationEnrichmentEntity {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("requestId")
+
     private String requestId;
 
-    @SerializedName("locations")
+
     private List<LocationInfo> locations;
 
     public int getStatusCode() {

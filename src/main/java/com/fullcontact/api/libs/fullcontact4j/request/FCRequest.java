@@ -1,12 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.FullContactException;
-import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.Callback;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,8 +57,18 @@ public abstract class FCRequest<T extends FCResponse> {
          * If there are missing/bad parameters, an IllegalArgumentException will be thrown.
          * @return
          */
-        public abstract T build();
+        public T build() {
+            validate();
+            return createInstance();
+        }
 
+        protected abstract T createInstance();
+
+        protected abstract void validate();
+
+        protected boolean hasParam(String param) {
+            return params.containsKey(param);
+        }
     }
 
 

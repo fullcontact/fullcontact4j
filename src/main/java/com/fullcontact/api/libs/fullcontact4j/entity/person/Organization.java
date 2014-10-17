@@ -1,50 +1,36 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.person;
-
-import com.google.gson.annotations.SerializedName;
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+@JsonAutoDetect
 public class Organization {
 
-	@SerializedName("name")
 	private String name;
-
-	@SerializedName("startDate")
 	private String startDate;
-
-	@SerializedName("title")
+    private boolean current;
+    private String endDate;
 	private String title;
+	private boolean isPrimary;
 
-	@SerializedName("isPrimary")
-	private boolean primary;
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public boolean isCurrent() {
+        return current;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getEndDate() {
+        return endDate;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-
-	public boolean isPrimary() {
-		return primary;
-	}
-
-	public void setPrimary(boolean primary) {
-		this.primary = primary;
-	}
+    public boolean getIsPrimary() {
+        return isPrimary;
+    }
 }

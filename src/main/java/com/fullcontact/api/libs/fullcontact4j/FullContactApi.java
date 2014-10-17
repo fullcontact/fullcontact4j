@@ -1,11 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.GenericResponse;
-import com.fullcontact.api.libs.fullcontact4j.entity.person.PersonEntity;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.GenericResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
 import retrofit.Callback;
-import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
@@ -22,4 +20,7 @@ public interface FullContactApi {
 
     @GET("/{path}")
     public void genericGet(@Path("path") String path, @QueryMap Map<String, String> opts, Callback<GenericResponse> response);
+
+    @GET(Constants.API_ENDPOINT_PERSON)
+    public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
 }

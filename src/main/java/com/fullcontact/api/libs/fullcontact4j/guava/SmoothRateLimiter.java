@@ -16,10 +16,10 @@ package com.fullcontact.api.libs.fullcontact4j.guava;/*
  * This file has been modified for use in the FullContact4j library.
  */
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.util.concurrent.TimeUnit;
 
 abstract class SmoothRateLimiter extends RateLimiter {
   /*

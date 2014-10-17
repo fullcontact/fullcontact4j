@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BasicNameStats {
 
-    @SerializedName("likelihood")
+
     private double likelihood;
 
-    @SerializedName("count")
+
     private long count;
 
-    @SerializedName("rank")
+
     private int rank;
 
-    @SerializedName("frequencyRatio")
+
     private double frequencyRatio;
 
     public double getLikelihood() {

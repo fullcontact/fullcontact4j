@@ -1,9 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.UnverifiedField;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.exception.InvalidUnverifiedFieldException;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,57 +11,57 @@ import java.util.HashMap;
 
 public class UploadRequestResult {
 
-    @SerializedName("status")
+
     private String statusCode;
 
-    @SerializedName("id")
+
     private String requestId;
 
-    @SerializedName("message")
+
     private String message;
 
-    @SerializedName("vCardUrl")
+
     private String vCardUrl;
 
-    @SerializedName("unverifiedFields")
+
     private ArrayList<String> unverifiedFields;
 
-    @SerializedName("unverifiedVCardUrl")
+
     private String unverifiedVCardUrl;
 
-    @SerializedName("unverifiedContact")
+
     private ContactInfo unverifiedContact;
 
-    @SerializedName("contact")
+
     private ContactInfo contact;
 
-    @SerializedName("submitted")
+
     private Date submitted;
 
-    @SerializedName("lastWebhookAttempt")
+
     private Date lastWebhookAttempt;
 
-    @SerializedName("webhookAttempts")
+
     private Integer webhookAttempts;
 
-    @SerializedName("quality")
+
     private CardReaderVerification quality;
 
-    @SerializedName("webhookUrl")
+
     private String webhookUrl;
 
     // Custom param support. These are pass-through values
-    @SerializedName("params")
+
     private HashMap<String,String> params;
 
-    @SerializedName("clientServerResponseCode")
+
     private Integer clientServerResponseCode;
 
     // First 512 characters of the response body client server responds with
-    @SerializedName("clientServerResponseBody")
+
     private String clientServerResponseBody;
 
-    @SerializedName("URID")
+
     private String URID;
 
     public String getStatusCode() {

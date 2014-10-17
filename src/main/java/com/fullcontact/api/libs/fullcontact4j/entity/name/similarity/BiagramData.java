@@ -1,10 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.similarity;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BiagramData {
 
-    @SerializedName("dice")
+
     private SimilarityInfo diceInfo;
 
     public SimilarityInfo getDiceInfo() {

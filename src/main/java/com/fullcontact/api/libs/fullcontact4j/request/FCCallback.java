@@ -1,6 +1,5 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
-import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import com.fullcontact.api.libs.fullcontact4j.Utils;

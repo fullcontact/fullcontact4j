@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.similarity;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimilarityData {
 
-    @SerializedName("jaroWinkler")
+
     private SimilarityInfo jaroWinklerInfo;
 
-    @SerializedName("levenshtein")
+
     private SimilarityInfo levenshteinInfo;
 
-    @SerializedName("level2levenshtein")
+
     private SimilarityInfo level2levenshteinInfo;
 
-    @SerializedName("level2jaroWinkler")
+
     private SimilarityInfo level2jaroWinklerInfo;
 
     public SimilarityInfo getJaroWinklerInfo() {

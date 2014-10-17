@@ -1,15 +1,15 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class AgeModStats {
 
-    @SerializedName("count")
+
     private long count;
 
-    @SerializedName("modeAge")
+
     private List<Integer> modeAge;
 
     public long getCount() {

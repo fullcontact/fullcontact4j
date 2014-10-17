@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.email;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DisposableResponse {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("usernameSubAddressing")
+
     private String usernameSubAddressingStatus;
 
-    @SerializedName("disposableEmailDomain")
+
     private String disposableEmailDomainStatus;
 
-    @SerializedName("message")
+
     private String message;
 
     public int getStatusCode() {

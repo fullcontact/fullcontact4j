@@ -1,13 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.GenericResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.GenericResponse;
 import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.request.GenericRequest;
 import junit.framework.TestCase;
-import org.junit.Ignore;
-import org.junit.Test;
-import retrofit.RetrofitError;
-import retrofit.converter.JacksonConverter;
 
 import java.util.logging.Level;
 

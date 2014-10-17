@@ -1,8 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
-import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
@@ -10,7 +8,8 @@ import com.fullcontact.api.libs.fullcontact4j.guava.RateLimiter;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.RequestInterceptor;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class handles requests made by the client.

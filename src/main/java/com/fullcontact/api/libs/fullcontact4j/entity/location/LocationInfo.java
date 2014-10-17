@@ -1,28 +1,28 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.location;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LocationInfo {
 
-    @SerializedName("city")
+
     private String city;
 
-    @SerializedName("county")
+
     private String county;
 
-    @SerializedName("state")
+
     private LocationNameCode state;
 
-    @SerializedName("country")
+
     private LocationNameCode country;
 
-    @SerializedName("continent")
+
     private String continent;
 
-    @SerializedName("normalizedLocation")
+
     private String normalizedLocation;
 
-    @SerializedName("population")
+
     private long population;
 
     public String getCity() {

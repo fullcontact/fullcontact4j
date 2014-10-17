@@ -1,13 +1,13 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.location;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LocationNameCode {
 
-    @SerializedName("name")
+
     private String name;
 
-    @SerializedName("code")
+
     private String code;
 
     public String getName() {

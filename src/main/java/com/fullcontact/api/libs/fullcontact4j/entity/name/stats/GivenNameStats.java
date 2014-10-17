@@ -1,13 +1,13 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GivenNameStats extends BasicNameStats{
 
-    @SerializedName("male")
+
     private GenderStats maleStats;
 
-    @SerializedName("female")
+
     private GenderStats femaleStats;
 
     public GenderStats getMaleStats() {

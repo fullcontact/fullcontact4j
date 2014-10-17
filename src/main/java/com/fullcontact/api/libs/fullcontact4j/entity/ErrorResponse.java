@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonAutoDetect
 /**

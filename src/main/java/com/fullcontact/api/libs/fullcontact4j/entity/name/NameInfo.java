@@ -1,30 +1,30 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class NameInfo {
 
-    @SerializedName("givenName")
+
     private String givenName;
 
-    @SerializedName("familyName")
+
     private String familyName;
 
-    @SerializedName("fullName")
+
     private String fullName;
 
-    @SerializedName("middleNames")
+
     private List<String> middleNames;
 
-    @SerializedName("prefixes")
+
     private List<String> prefixes;
 
-    @SerializedName("suffixes")
+
     private List<String> suffixes;
 
-    @SerializedName("nicknames")
+
     private List<String> nicknames;
 
     public String getGivenName() {

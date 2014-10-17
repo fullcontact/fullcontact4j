@@ -1,16 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NameStatsInfo {
 
-    @SerializedName("value")
+
     private String value;
 
-    @SerializedName("given")
+
     private GivenNameStats givenNameStats;
 
-    @SerializedName("family")
+
     private BasicNameStats familyNameStats;
 
     public String getValue() {

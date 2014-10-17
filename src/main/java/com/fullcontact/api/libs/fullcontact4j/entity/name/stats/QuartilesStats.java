@@ -1,16 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QuartilesStats {
 
-    @SerializedName("q1")
+
     private double quartile1;
 
-    @SerializedName("q2")
+
     private double quartile2;
 
-    @SerializedName("q3")
+
     private double quartile3;
 
     public double getQuartile1() {

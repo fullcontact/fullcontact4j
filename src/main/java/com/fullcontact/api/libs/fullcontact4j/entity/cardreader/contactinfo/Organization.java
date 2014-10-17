@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1277016352898379358L;
 
-	@SerializedName("name")
+
 	private String name;
 
-    @SerializedName("title")
+
     private String title;
 
-    @SerializedName("isPrimary")
+
     private boolean isPrimary;
 
     public String getName() {

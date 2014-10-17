@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
@@ -15,28 +15,28 @@ public class Address implements Serializable {
 
     private static final long serialVersionUID = 440365357105542572L;
 
-    @SerializedName("country")
+
     private String country;
 
-    @SerializedName("type")
+
     private String type;
 
-    @SerializedName("locality")
+
     private String locality;
 
-    @SerializedName("extendedAddress")
+
     private String extendedAddress;
 
-    @SerializedName("postalCode")
+
     private String postalCode;
 
-    @SerializedName("formatted")
+
     private String formatted;
 
-    @SerializedName("region")
+
     private String region;
 
-    @SerializedName("streetAddress")
+
     private String streetAddress;
 
     public String getCountry() {

@@ -6,6 +6,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.request.GenericRequest;
+import com.fullcontact.api.libs.fullcontact4j.request.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
@@ -50,6 +51,9 @@ public class FullContact {
 
     //TODO update /developer/docs/libraries/
     //TODO force utf8
+    //TODO deduced location
+    //TODO schema docs is missing SocialProfile.type.
+    //why do we have type, typeId, typeName...? type = typeId
 
     /////API Methods//////
 
@@ -61,6 +65,10 @@ public class FullContact {
         return new GenericRequest.Builder();
     }
 
+    /**
+     * Creates a new Person search.
+     */
+    public PersonRequest.Builder buildPersonRequest() { return new PersonRequest.Builder(); }
 
     /**
      * Makes a synchronous request to the FullContact APIs.
@@ -82,10 +90,6 @@ public class FullContact {
      * @param <T> the Response type
      */
     public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
-        if(callback == null && !req.hasParam(Constants.API_WEBHOOK)) {
-                throw new IllegalArgumentException(
-                        "Cannot make an asynchronous request without either a callback or a webhook");
-        }
         httpInterface.sendRequest(req, callback);
     }
 

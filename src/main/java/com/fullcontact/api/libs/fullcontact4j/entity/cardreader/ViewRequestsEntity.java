@@ -1,27 +1,27 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class ViewRequestsEntity {
 
-    @SerializedName("count")
+
     private int count;
 
-    @SerializedName("status")
+
     private int status;
 
-    @SerializedName("totalRecords")
+
     private int totalRecords;
 
-    @SerializedName("currentPage")
+
     private int currentPage;
 
-    @SerializedName("totalPages")
+
     private int totalPages;
 
-    @SerializedName("results")
+
     private List<UploadRequestResult> results;
 
     public int getCount() {
