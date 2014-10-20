@@ -13,7 +13,7 @@ public class PersonResponse extends FCResponse {
     private DigitalFootPrints digitalFootprint;
     private List<Organization> organizations;
     private List<Photo> photos;
-    private int statusCode;
+    private int status;
     private double likelihood;
     private List<SocialProfile> socialProfiles;
     private String requestId;
@@ -52,8 +52,8 @@ public class PersonResponse extends FCResponse {
         return photos;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
     public double getLikelihood() {

@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertTrue;
+
 public class ResponseModelTests {
 
     public static FullContact client = FullContact.withApiKey("bad-key").build();
@@ -21,8 +23,8 @@ public class ResponseModelTests {
     @Test
     public void personDeserializationTest() throws IOException {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response.json"), PersonResponse.class);
-        System.out.print(r);
-        //assertEquals(r.getStatusCode(), 200);
+        assertTrue(r.getDemographics().getGender().equals("Male"));
+        assertTrue("Status Code", r.getStatus() == 200);
         //assertEquals(r.getLikelihood(), .89d);
     }
 }
