@@ -1,16 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.icon;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IconListResponse {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("valid_icons")
+
     List<String> validIconTypes = new ArrayList<String>();
 
     public int getStatusCode() {

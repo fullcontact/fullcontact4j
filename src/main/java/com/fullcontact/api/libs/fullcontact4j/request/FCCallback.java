@@ -1,11 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
-import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.ErrorResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -30,7 +29,7 @@ public abstract class FCCallback<T extends FCResponse> {
                 for (Header h : response.getHeaders()) {
                     if (Constants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
                         httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
-                        //TODO break;
+                        break;
                     }
                     Utils.verbose(h.getName() + " : " + h.getValue());
                 }

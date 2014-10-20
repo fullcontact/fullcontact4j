@@ -1,22 +1,22 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GenderStats {
 
-    @SerializedName("likelihood")
+
     private double likelihood;
 
-    @SerializedName("rank")
+
     private int rank;
 
-    @SerializedName("count")
+
     private long count;
 
-    @SerializedName("frequencyRatio")
+
     private double frequencyRatio;
 
-    @SerializedName("age")
+
     private AgeStats ageStats;
 
     public double getLikelihood() {

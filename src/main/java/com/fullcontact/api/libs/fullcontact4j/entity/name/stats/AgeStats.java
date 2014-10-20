@@ -1,10 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AgeStats {
 
-    @SerializedName("densityCurve")
+
     private AgeDensityCurveStats densityCurve;
 
     public AgeDensityCurveStats getDensityCurve() {

@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
@@ -15,16 +15,16 @@ public class Account implements Serializable {
 
     private static final long serialVersionUID = 4448757332560161860L;
 
-    @SerializedName("urlString")
+
     private String urlString;
 
-    @SerializedName("domain")
+
     private String domain;
 
-    @SerializedName("userid")
+
     private String userId;
 
-    @SerializedName("username")
+
     private String userName;
 
     public String getUrlString() {

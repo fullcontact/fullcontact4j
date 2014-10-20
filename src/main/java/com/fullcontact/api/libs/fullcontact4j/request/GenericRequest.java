@@ -1,10 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
-import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.GenericResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.GenericResponse;
 import retrofit.Callback;
 
 import java.util.Map;
@@ -36,10 +33,13 @@ public class GenericRequest extends FCRequest<GenericResponse> {
             return this;
         }
 
-        public GenericRequest build() {
+        protected void validate() {
             if(path == null) {
-                throw new IllegalArgumentException("Generic Requests need to specify a relative URL.");
+                throw new IllegalArgumentException("Generic request must specify a path");
             }
+        }
+
+        protected GenericRequest createInstance() {
             return new GenericRequest(path, params);
         }
     }

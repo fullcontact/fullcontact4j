@@ -1,22 +1,22 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.similarity;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimilarityInfo {
 
-    @SerializedName("similarity")
+
     private Double similarity;
 
-    @SerializedName("distance")
+
     private Double distance;
 
-    @SerializedName("timeTaken")
+
     private String timeTaken;
 
-    @SerializedName("timeActual")
+
     private Double timeActual;
 
-    @SerializedName("timeEstimated")
+
     private Double timeEstimated;
 
     public Double getSimilarity() {

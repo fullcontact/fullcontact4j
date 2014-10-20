@@ -1,10 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.similarity;
 
-import com.google.gson.annotations.SerializedName;
+public class BigramData {
 
-public class BiagramData {
+    //TODO spelling
 
-    @SerializedName("dice")
     private SimilarityInfo diceInfo;
 
     public SimilarityInfo getDiceInfo() {

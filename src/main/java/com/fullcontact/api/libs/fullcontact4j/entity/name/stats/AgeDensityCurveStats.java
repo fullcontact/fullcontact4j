@@ -1,16 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.stats;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AgeDensityCurveStats {
 
-    @SerializedName("meanAge")
+
     private double meanAge;
 
-    @SerializedName("quartiles")
+
     private QuartilesStats quartiles;
 
-    @SerializedName("mode")
+
     private AgeModStats mode;
 
     public double getMeanAge() {

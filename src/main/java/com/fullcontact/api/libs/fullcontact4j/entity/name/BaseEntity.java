@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BaseEntity {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("likelihood")
+
     private double likelihood;
 
-    @SerializedName("requestId")
+
     private String requestId;
 
-    @SerializedName("region")
+
     private String region;
 
     public int getStatusCode() {

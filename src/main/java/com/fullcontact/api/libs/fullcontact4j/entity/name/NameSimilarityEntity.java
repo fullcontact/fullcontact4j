@@ -1,22 +1,21 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.BiagramData;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.BigramData;
 import com.fullcontact.api.libs.fullcontact4j.entity.name.similarity.SimilarityData;
-import com.google.gson.annotations.SerializedName;
 
 public class NameSimilarityEntity {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("SimMetrics")
+
     private SimilarityData SimMetricsData;
 
-    @SerializedName("SecondString")
+
     private SimilarityData SecondStringData;
 
-    @SerializedName("BigramAnalysis")
-    private BiagramData biagramData;
+
+    private BigramData bigramData;
 
     public int getStatusCode() {
         return statusCode;
@@ -42,12 +41,12 @@ public class NameSimilarityEntity {
         SecondStringData = secondStringData;
     }
 
-    public BiagramData getBiagramData() {
-        return biagramData;
+    public BigramData getBigramData() {
+        return bigramData;
     }
 
-    public void setBiagramData(BiagramData biagramData) {
-        this.biagramData = biagramData;
+    public void setBigramData(BigramData bigramData) {
+        this.bigramData = bigramData;
     }
 
 }

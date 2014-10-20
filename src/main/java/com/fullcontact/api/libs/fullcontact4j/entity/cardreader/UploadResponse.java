@@ -1,19 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UploadResponse {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("id")
+
     private String requestId;
 
-    @SerializedName("queued")
+
     private boolean queued;
 
-    @SerializedName("estimatedWaitTimeMinutes")
+
     private int estimatedWaitTimeMinutes;
 
     public int getStatusCode() {

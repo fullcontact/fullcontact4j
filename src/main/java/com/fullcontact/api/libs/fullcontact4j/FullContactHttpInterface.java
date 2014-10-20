@@ -25,7 +25,7 @@ public class FullContactHttpInterface {
      * When a request is made, it is sent to an ExecutorService which
      * accounts for rate limiting and then sends the request.
      */
-    private final RequestExecutorHandler requestExecutorHandler;
+    private RequestExecutorHandler requestExecutorHandler;
     private final Converter jsonConverter;
     private final String baseUrl;
 
@@ -39,7 +39,8 @@ public class FullContactHttpInterface {
                                     Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        //TODO put back in in release
+        //mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         //An empty string ("") is interpreted as null
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
@@ -71,7 +72,7 @@ public class FullContactHttpInterface {
 
     public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
         if(callback == null) {
-            if(!req.hasParam(Constants.API_WEBHOOK)) {
+            if(!req.hasParam(Constants.PARAM_WEBHOOK_URL)) {
                 throw new IllegalArgumentException(
                         "Cannot make an asynchronous request without either a callback or a webhook");
             }
@@ -87,6 +88,10 @@ public class FullContactHttpInterface {
 
     public Converter getJsonConverter() {
         return jsonConverter;
+    }
+
+    protected void setRequestExecutorHandler(RequestExecutorHandler handler) {
+        requestExecutorHandler = handler;
     }
 
 }

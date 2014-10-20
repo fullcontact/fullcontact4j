@@ -1,5 +1,4 @@
-package com.fullcontact.api.libs.fullcontact4j.entity.person.socialprofiles;
-
+package com.fullcontact.api.libs.fullcontact4j.entity.person;
 /**
  * Created by IntelliJ IDEA.
  * User: salil
@@ -60,15 +59,12 @@ public enum SocialProfileType {
     yahoo("yahoo", "yahoo"),
     peerindex("peerindex", "peerindex");
     // rainmaker("rainmaker", "Rainmaker")
-
     public final String typeId;
     public final String typeName;
-
     SocialProfileType(String typeId, String typeName) {
         this.typeId = typeId;
         this.typeName = typeName;
     }
-
     public static SocialProfileType fromString(String profileType) {
         if (profileType != null) {
             return Enum.valueOf(SocialProfileType.class, profileType);
@@ -76,6 +72,5 @@ public enum SocialProfileType {
             return null;
         }
     }
-
 
 }

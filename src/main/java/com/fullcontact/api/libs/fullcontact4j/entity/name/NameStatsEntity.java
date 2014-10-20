@@ -1,11 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.name.stats.*;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fullcontact.api.libs.fullcontact4j.entity.name.stats.NameStatsInfo;
 
 public class NameStatsEntity extends BaseEntity{
 
-    @SerializedName("name")
+
     private NameStatsInfo nameStatsInfo;
 
     public NameStatsInfo getNameStatsInfo() {

@@ -1,13 +1,13 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NameParserInfo {
 
-    @SerializedName("givenName")
+
     private String givenName;
 
-    @SerializedName("familyName")
+
     private String familyName;
 
     public String getGivenName() {

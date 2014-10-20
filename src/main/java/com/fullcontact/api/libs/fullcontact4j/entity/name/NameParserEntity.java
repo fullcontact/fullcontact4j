@@ -1,13 +1,13 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NameParserEntity extends BaseEntity{
 
-    @SerializedName("result")
+
     private NameParserInfo nameInfo;
 
-    @SerializedName("ambiguousName")
+
     private String ambiguousName;
 
     public NameParserInfo getNameInfo() {

@@ -1,8 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
-import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
@@ -10,7 +8,8 @@ import com.fullcontact.api.libs.fullcontact4j.guava.RateLimiter;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.RequestInterceptor;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class handles requests made by the client.
@@ -20,12 +19,11 @@ import java.util.concurrent.*;
 public class RequestExecutorHandler {
 
     //will execute the requests on a separate thread.
-    private final ExecutorService executorService;
+    protected final ExecutorService executorService;
 
     //if not null, will limit the request rate.
     private RateLimiter rateLimiter;
     private final RateLimiterPolicy policy;
-    private volatile FCRequest lastHandledRequest;
 
     public RequestExecutorHandler(RateLimiterPolicy policy, Integer threadPoolCount) {
         this.policy = policy;
@@ -52,7 +50,6 @@ public class RequestExecutorHandler {
 
     public <T extends FCResponse> void sendRequestAsync(final FullContactApi api, final FCRequest<T> req,
                                                         final FCCallback<T> callback) {
-        lastHandledRequest = req;
         executorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -67,7 +64,7 @@ public class RequestExecutorHandler {
      * Waits until the rate limiter will permit the request, or under RateLimiterPolicy.REJECT,
      * will throw an exception if a request can't be made.
      */
-    private void waitForPermit() {
+    protected void waitForPermit() {
         if(rateLimiter != null) {
             Utils.verbose("Waiting for ratelimiter to allow a request...");
             rateLimiter.acquire();

@@ -1,16 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.location;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LocationNormalizerEntity {
 
-    @SerializedName("status")
+
     private int statusCode;
 
-    @SerializedName("likelihood")
+
     private double likelihood;
 
-    @SerializedName("requestId")
+
     private String requestId;
 
     private LocationInfo locationInfo;
