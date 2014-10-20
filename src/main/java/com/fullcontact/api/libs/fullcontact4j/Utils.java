@@ -2,10 +2,45 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import sun.misc.BASE64Encoder;
 
+import java.io.*;
 import java.util.logging.Level;
 
 public class Utils {
+
+    public static String encodeToStringAndClose(ByteArrayOutputStream image) {
+        String imageString = null;
+
+        try {
+            byte[] imageBytes = image.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+            imageString = encoder.encode(imageBytes);
+
+            image.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageString;
+    }
+    public static String loadJson(InputStream stream, String fileName) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(loadFile(fileName))));
+
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public static File loadFile(String fileName) throws IOException {
+        return new File("src/test/resources/" + fileName);
+    }
+
 
     public static void log(Level l, String log) {
         if(l.intValue() >= FullContact.logLevel.intValue()) {

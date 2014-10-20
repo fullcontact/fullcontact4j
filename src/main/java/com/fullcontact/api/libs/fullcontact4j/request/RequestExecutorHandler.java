@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 public class RequestExecutorHandler {
 
     //will execute the requests on a separate thread.
-    private final ExecutorService executorService;
+    protected final ExecutorService executorService;
 
     //if not null, will limit the request rate.
     private RateLimiter rateLimiter;
@@ -66,7 +66,7 @@ public class RequestExecutorHandler {
      * Waits until the rate limiter will permit the request, or under RateLimiterPolicy.REJECT,
      * will throw an exception if a request can't be made.
      */
-    private void waitForPermit() {
+    protected void waitForPermit() {
         if(rateLimiter != null) {
             Utils.verbose("Waiting for ratelimiter to allow a request...");
             rateLimiter.acquire();

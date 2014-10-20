@@ -25,7 +25,7 @@ public class FullContactHttpInterface {
      * When a request is made, it is sent to an ExecutorService which
      * accounts for rate limiting and then sends the request.
      */
-    private final RequestExecutorHandler requestExecutorHandler;
+    private RequestExecutorHandler requestExecutorHandler;
     private final Converter jsonConverter;
     private final String baseUrl;
 
@@ -88,6 +88,10 @@ public class FullContactHttpInterface {
 
     public Converter getJsonConverter() {
         return jsonConverter;
+    }
+
+    protected void setRequestExecutorHandler(RequestExecutorHandler handler) {
+        requestExecutorHandler = handler;
     }
 
 }

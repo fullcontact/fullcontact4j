@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.person;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-@JsonAutoDetect
+
 public class DeducedLocation {
     private double likelihood;
     private String normalizedLocation;

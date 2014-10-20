@@ -1,8 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.person;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import java.util.List;
-@JsonAutoDetect
+
 public class ContactInfo {
 	private String familyName;
 	private String fullName;

@@ -31,6 +31,12 @@ public class Constants {
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
 
+    public static final String PARAM_CARD_VERIFIED = "verified";
+    public static final String PARAM_CARD_RETURNED_DATA = "returnedData";
+    public static final String PARAM_CARD_CASING = "casing";
+    public static final String PARAM_CARD_SANDBOX = "sandbox";
+    public static final String PARAM_CARD_URID = "URID";
+    public static final String PARAM_CARD_DIAGNOSTICS = "diagnostics";
 
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";

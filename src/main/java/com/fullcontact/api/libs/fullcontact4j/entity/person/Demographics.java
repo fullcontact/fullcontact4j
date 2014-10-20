@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.person;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-@JsonAutoDetect
+
 public class Demographics {
     private String age;
     private String ageRange;

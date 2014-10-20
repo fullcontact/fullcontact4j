@@ -4,7 +4,7 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.entity.ErrorResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import retrofit.Callback;
 import retrofit.RetrofitError;

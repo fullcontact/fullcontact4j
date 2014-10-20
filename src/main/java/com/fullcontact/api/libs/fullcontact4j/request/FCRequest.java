@@ -26,6 +26,10 @@ public abstract class FCRequest<T extends FCResponse> {
     public boolean hasParam(String key) {
         return params.containsKey(key);
     }
+
+    public String getParam(String key) {
+        return params.get(key);
+    }
     /**
      * This and the builders are the only things that should be overridden for any request class.
      * This method should do exactly one thing: make an api call through the FullContactHttpInterface object.
