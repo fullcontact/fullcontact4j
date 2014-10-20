@@ -1,9 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name.similarity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class BigramData {
 
-public class BiagramData {
-
+    //TODO spelling
 
     private SimilarityInfo diceInfo;
 

@@ -3,10 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.GenericRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.PersonRequest;
+import com.fullcontact.api.libs.fullcontact4j.request.*;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
@@ -24,7 +21,7 @@ public class FullContact {
      */
     protected FullContactHttpInterface httpInterface;
 
-    private FullContact(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
+    protected FullContact(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
                         Integer threadPoolCount) {
         httpInterface = new FullContactHttpInterface(httpClient, apiKey, policy, baseUrl, threadPoolCount);
         Utils.info("Created new FullContact client.");
@@ -49,9 +46,10 @@ public class FullContact {
         return new Builder(apiKey);
     }
 
+
+
     //TODO update /developer/docs/libraries/
     //TODO force utf8
-    //TODO deduced location
     //TODO schema docs is missing SocialProfile.type.
     //why do we have type, typeId, typeName...? type = typeId
 

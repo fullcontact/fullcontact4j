@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ResponseModelTests {
 
@@ -25,6 +25,5 @@ public class ResponseModelTests {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response.json"), PersonResponse.class);
         assertTrue(r.getDemographics().getGender().equals("Male"));
         assertTrue("Status Code", r.getStatus() == 200);
-        //assertEquals(r.getLikelihood(), .89d);
     }
 }

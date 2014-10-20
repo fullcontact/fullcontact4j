@@ -1,6 +1,4 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.person;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 public class SocialProfile {
     private String typeId;
     private String type;
@@ -13,6 +11,7 @@ public class SocialProfile {
     private int following;
     private int followers;
 
+    @Deprecated
     public String getType() {
         return type;
     }

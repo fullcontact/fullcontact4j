@@ -32,11 +32,6 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
-        public Builder queue(boolean queue) {
-            params.put(Constants.PARAM_PERSON_QUEUE, String.valueOf(queue?1:0));
-            return this;
-        }
-
         public Builder phone(String phone) {
             params.put(Constants.PARAM_PERSON_PHONE, phone);
             return this;
@@ -62,7 +57,10 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
-        //TODO JSONP callback
+        public Builder jsonpCallback(String function) {
+            params.put(Constants.PARAM_PERSON_CALLBACK, function);
+            return this;
+        }
 
         protected void validate() {
             super.validate();
@@ -77,7 +75,6 @@ public class PersonRequest extends FCRequest<PersonResponse> {
                             "search parameters: email, emailMd5, facebook, facebookId, twitter handle, phone.");
                 }
             }
-            //todo emailmd5 is hex
         }
 
         @Override

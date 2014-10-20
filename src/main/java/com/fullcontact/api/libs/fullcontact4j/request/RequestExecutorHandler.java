@@ -24,7 +24,6 @@ public class RequestExecutorHandler {
     //if not null, will limit the request rate.
     private RateLimiter rateLimiter;
     private final RateLimiterPolicy policy;
-    private volatile FCRequest lastHandledRequest;
 
     public RequestExecutorHandler(RateLimiterPolicy policy, Integer threadPoolCount) {
         this.policy = policy;
@@ -51,7 +50,6 @@ public class RequestExecutorHandler {
 
     public <T extends FCResponse> void sendRequestAsync(final FullContactApi api, final FCRequest<T> req,
                                                         final FCCallback<T> callback) {
-        lastHandledRequest = req;
         executorService.execute(new Runnable() {
             @Override
             public void run() {

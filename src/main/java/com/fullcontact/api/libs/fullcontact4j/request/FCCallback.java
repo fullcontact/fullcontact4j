@@ -29,7 +29,7 @@ public abstract class FCCallback<T extends FCResponse> {
                 for (Header h : response.getHeaders()) {
                     if (Constants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
                         httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
-                        //TODO break;
+                        break;
                     }
                     Utils.verbose(h.getName() + " : " + h.getValue());
                 }

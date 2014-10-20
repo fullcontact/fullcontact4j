@@ -30,6 +30,7 @@ public class Constants {
     public static final String PARAM_PERSON_FACEBOOK_ID = "facebookId";
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
+    public static final String PARAM_PERSON_CALLBACK = "callback";
 
     public static final String PARAM_CARD_VERIFIED = "verified";
     public static final String PARAM_CARD_RETURNED_DATA = "returnedData";
