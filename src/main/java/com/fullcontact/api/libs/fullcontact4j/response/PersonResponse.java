@@ -52,10 +52,6 @@ public class PersonResponse extends FCResponse {
         return photos;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
     public double getLikelihood() {
         return likelihood;
     }

@@ -1,12 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
-import com.fullcontact.api.libs.fullcontact4j.response.GenericResponse;
-import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
+import com.fullcontact.api.libs.fullcontact4j.request.UploadCardRequest;
+import com.fullcontact.api.libs.fullcontact4j.response.*;
 import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.QueryMap;
+import retrofit.http.*;
 
 import java.util.Map;
 
@@ -23,4 +21,14 @@ public interface FullContactApi {
 
     @GET(Constants.API_ENDPOINT_PERSON)
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
+
+    @POST(Constants.API_ENDPOINT_CARDREADER)
+    public void uploadCard(@Header(Constants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body UploadCardRequest.RequestBodyJson bodyJson, Callback<UploadCardConfirmResponse> callback);
+
+    @GET(Constants.API_ENDPOINT_CARDREADER + "/{id}")
+    public void viewCard(@QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);
+
+    @GET(Constants.API_ENDPOINT_CARDREADER)
+    public void viewAll(@QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
+
 }

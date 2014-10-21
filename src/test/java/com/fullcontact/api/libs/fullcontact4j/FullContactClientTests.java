@@ -18,6 +18,7 @@ import retrofit.client.OkClient;
 
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -35,10 +36,9 @@ public class FullContactClientTests extends EasyMockSupport {
         String baseUrl = "not.fullcontact.com";
         int maxThreads = 5;
 
-        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), apiKey, null, baseUrl, maxThreads);
+        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), null, baseUrl, maxThreads);
         FullContact client2 = FullContact.withApiKey(apiKey)
                 .baseUrl(baseUrl).threadCount(maxThreads).build();
-        assertEquals(client1.httpInterface.apiKey, client2.httpInterface.apiKey);
         assertEquals(client1.httpInterface.getBaseUrl(), client2.httpInterface.getBaseUrl());
     }
 
@@ -96,9 +96,18 @@ public class FullContactClientTests extends EasyMockSupport {
                 throw new AssertionError("Request threw an error");
             }
         }
+}
+
+    @Test
+    public void headerCheck() throws Exception {
+        FullContact.setLogLevel(Level.FINEST);
+        FullContact client = FullContact.withApiKey("bad-api-key").build();
+        PersonRequest re = client.buildPersonRequest().email("bart@fullcontact.com").build();
+        client.sendRequest(re);
     }
 
     @Test
+    //make sure client parses FC errors properly
     public void fullContactExceptionParseTest() throws Exception {
         ErrorResponse r = (new ObjectMapper()).readValue(Utils.loadFile("example-error-response.json"), ErrorResponse.class);
         assertTrue(r.status == 403);

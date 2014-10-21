@@ -9,10 +9,14 @@ import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
 import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.squareup.okhttp.OkHttpClient;
 import retrofit.RestAdapter;
-import retrofit.client.Client;
+import retrofit.client.*;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
 
 /**
  * This interface holds references to all the objects used by a FullContact client to communicate with the api,
@@ -33,9 +37,8 @@ public class FullContactHttpInterface {
      * Handles communication (using Retrofit) with the FullContact api
      */
     private FullContactApi fullContactApi;
-    protected String apiKey;
 
-    public FullContactHttpInterface(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
+    public FullContactHttpInterface(Client httpClient, RateLimiterPolicy policy, String baseUrl,
                                     Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
@@ -46,15 +49,12 @@ public class FullContactHttpInterface {
 
         //when we intercept a request, this object adds the proper auth headers
         requestExecutorHandler = new RequestExecutorHandler(policy, threadPoolCount);
-        RequestExecutorHandler.FCRequestInterceptor requestInterceptor = requestExecutorHandler.getInterceptor(apiKey);
 
         jsonConverter = new JacksonConverter(mapper);
         //create the API from a template interface using Retrofit
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl)
-                .setClient(httpClient)
-                .setRequestInterceptor(requestInterceptor).setConverter(jsonConverter).build();
+                .setClient(httpClient).setConverter(jsonConverter).build();
         fullContactApi = adapter.create(FullContactApi.class);
-        this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 
@@ -94,4 +94,30 @@ public class FullContactHttpInterface {
         requestExecutorHandler = handler;
     }
 
+
+    //a regular OkClient that assures that only the API key OR the auth token are sent as a header.
+    public static class DynamicHeaderOkClient extends OkClient {
+        private String apiKey;
+        public DynamicHeaderOkClient(OkHttpClient client, String apiKey) {
+            super(client);
+            this.apiKey = apiKey;
+        }
+
+        @Override protected HttpURLConnection openConnection(Request request) throws IOException {
+            HttpURLConnection connection = super.openConnection(request);
+            Boolean hasAuthToken = false;
+            for(Header header : request.getHeaders()) {
+                if(header.getName().equals(Constants.HEADER_AUTH_ACCESS_TOKEN)) {
+                    hasAuthToken = true;
+                }
+            }
+            if(!hasAuthToken) {
+                connection.addRequestProperty(Constants.HEADER_AUTH_API_KEY, apiKey);
+                Utils.verbose("Added API key to headers");
+            } else {
+                Utils.verbose("Added auth token instead of API key to headers");
+            }
+            return connection;
+        }
+    }
 }

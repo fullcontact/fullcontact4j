@@ -7,9 +7,9 @@ package com.fullcontact.api.libs.fullcontact4j.response;
 
 public abstract class FCResponse {
 
-    public int status;
+    public String status;
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 }

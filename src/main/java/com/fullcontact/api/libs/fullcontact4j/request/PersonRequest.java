@@ -62,6 +62,25 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
+        public Builder webhookUrl(String url) {
+            params.put(Constants.PARAM_WEBHOOK_URL, url);
+            return this;
+        }
+
+        public Builder webhookId(String id) {
+            params.put(Constants.PARAM_WEBHOOK_ID, id);
+            return this;
+        }
+
+        public Builder webhookBody(Boolean responseInBody) {
+            if(responseInBody) {
+                params.put(Constants.PARAM_WEBHOOK_BODY, "json");
+            } else {
+                params.remove(Constants.PARAM_WEBHOOK_BODY);
+            }
+            return this;
+        }
+
         protected void validate() {
             super.validate();
             //for want of a java 8!
@@ -78,7 +97,7 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         }
 
         @Override
-        public PersonRequest createInstance() {
+        protected PersonRequest createInstance() {
             return new PersonRequest(params);
         }
 
