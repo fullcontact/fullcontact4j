@@ -9,8 +9,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.response.UploadCardConfirmResponse;
 import retrofit.Callback;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 public class UploadCardRequest extends FCRequest<UploadCardConfirmResponse> {
@@ -44,21 +43,13 @@ public class UploadCardRequest extends FCRequest<UploadCardConfirmResponse> {
             return this;
         }
 
-        public Builder cardFront(ByteArrayOutputStream stream) {
-            try {
-                cardFront = Utils.encodeToStringAndClose(stream);
-            } catch(IOException e) {
-                throw new IllegalArgumentException(e);
-            }
+        public Builder cardFront(InputStream stream) {
+            cardFront = Utils.encodeToStringAndClose(stream);
             return this;
         }
 
-        public Builder cardBack(ByteArrayOutputStream stream) {
-            try {
-                cardBack = Utils.encodeToStringAndClose(stream);
-            } catch(IOException e) {
-                throw new IllegalArgumentException(e);
-            }
+        public Builder cardBack(InputStream stream) {
+            cardBack = Utils.encodeToStringAndClose(stream);
             return this;
         }
 

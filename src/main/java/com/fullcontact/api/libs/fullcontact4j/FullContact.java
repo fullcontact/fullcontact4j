@@ -8,7 +8,7 @@ import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 
-import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -68,7 +68,7 @@ public class FullContact {
      * Upload a new card to be processed by Card Reader.
      * @param front a ByteArrayOutputStream representing the picture of the front of the card
      */
-    public UploadCardRequest.Builder buildUploadCardRequest(ByteArrayOutputStream front) { return new UploadCardRequest.Builder().cardFront(front); }
+    public UploadCardRequest.Builder buildUploadCardRequest(InputStream front) { return new UploadCardRequest.Builder().cardFront(front); }
 
     /**
      * View a single card.

@@ -18,7 +18,6 @@ import retrofit.client.OkClient;
 
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
@@ -97,14 +96,6 @@ public class FullContactClientTests extends EasyMockSupport {
             }
         }
 }
-
-    @Test
-    public void headerCheck() throws Exception {
-        FullContact.setLogLevel(Level.FINEST);
-        FullContact client = FullContact.withApiKey("bad-api-key").build();
-        PersonRequest re = client.buildPersonRequest().email("bart@fullcontact.com").build();
-        client.sendRequest(re);
-    }
 
     @Test
     //make sure client parses FC errors properly

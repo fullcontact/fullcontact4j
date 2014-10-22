@@ -45,6 +45,7 @@ public class ResponseModelTests {
         CardReaderFullResponse conf = mapper.readValue(Utils.loadFile("example-card-full-response.json"), CardReaderFullResponse.class);
         assertEquals(conf.getQuality(), CardReaderQuality.MEDIUM);
         assertEquals(conf.getContact().getOrganizations().size(), 1);
+
     }
     @Test
     public void cardReaderViewAllDeserializationTest() throws Exception {
