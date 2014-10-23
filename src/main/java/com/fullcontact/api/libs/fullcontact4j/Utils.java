@@ -9,14 +9,29 @@ import java.util.logging.Level;
 
 public class Utils {
 
-    public static String encodeToStringAndClose(ByteArrayOutputStream image) throws IOException {
-        String imageString = null;
-        byte[] imageBytes = image.toByteArray();
+    public static String encodeToStringAndClose(InputStream in) {
+        BASE64Encoder encoder = null;
+        ByteArrayOutputStream buffer = null;
+        try {
+            int nRead;
+            byte[] data = new byte[16384];
+            buffer = new ByteArrayOutputStream();
 
-        BASE64Encoder encoder = new BASE64Encoder();
-        imageString = encoder.encode(imageBytes);
-        image.close();
-        return imageString;
+            while ((nRead = in.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            encoder = new BASE64Encoder();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            return encoder.encode(buffer.toByteArray());
+        }
     }
 
     public static String loadJson(InputStream stream, String fileName) throws IOException {

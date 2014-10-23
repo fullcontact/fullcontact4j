@@ -2,11 +2,9 @@ package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.guava.RateLimiter;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
-import retrofit.RequestInterceptor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,23 +69,4 @@ public class RequestExecutorHandler {
         }
     }
 
-    public FCRequestInterceptor getInterceptor(String apikey) {
-        return new FCRequestInterceptor(apikey);
-    }
-
-    public class FCRequestInterceptor implements RequestInterceptor {
-        private String apiKey;
-
-        public FCRequestInterceptor(String apikey) {
-            apiKey = apikey;
-        }
-
-        @Override
-        public void intercept(RequestFacade requestFacade) {
-            //add the proper auth headers to every request made
-            //if(!(lastHandledRequest instanceof CardReaderRequest)) {
-                requestFacade.addHeader(Constants.HEADER_AUTH_API_KEY, apiKey);
-            //}
-        }
-    }
 }
