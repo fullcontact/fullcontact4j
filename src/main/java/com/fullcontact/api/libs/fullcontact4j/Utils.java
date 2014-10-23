@@ -43,6 +43,14 @@ public class Utils {
         }
     }
 
+    public static boolean isValidEmail(String email) {
+        return email.matches("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+");
+    }
+
+    public static boolean isAlphabeticalOnly(String str) {
+        return str.matches("[a-zA-z]*");
+    }
+
     /**
      * Log important events like client startup, exceptions, etc.
      * @param log string to log

@@ -69,6 +69,33 @@ public class FullContact {
     public PersonRequest.Builder buildPersonRequest() { return new PersonRequest.Builder(); }
 
     /**
+     * Creates a new disposable email check.
+     */
+    public DisposableEmailRequest.Builder buildDisposableEmailCheck(String email) { return new DisposableEmailRequest.Builder().email(email); }
+
+    /**
+     * Tries to create a formatted name from a more vague email or username.
+     */
+    public NameDeduceRequest.Builder buildNameDeduceRequest() { return new NameDeduceRequest.Builder(); }
+
+    /**
+     * Tries to normalize (computer-format) a vague string.
+     * @return a builder pre-configured with the query specified.
+     */
+    public NameNormalizationRequest.Builder buildNameNormalizationRequest(String query) { return new NameNormalizationRequest.Builder().query(query); }
+
+    /**
+     * Uses multiple algorithms to determine the similarity of two names.
+     * @return a builder pre-configured with the two strings being compared.
+     */
+    public NameSimilarityRequest.Builder buildNameSimilarityRequest(String name1, String name2) { return new NameSimilarityRequest.Builder().name1(name1).name2(name2); }
+
+    /**
+     * Given two names, which one is the family name and which one is the given name?
+     * @return a builder pre-configured with the name to parse.
+     */
+    public NameParseRequest.Builder buildNameParseRequest(String name) { return new NameParseRequest.Builder().name(name); }
+    /**
      * Makes a synchronous request to the FullContact APIs.
      * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
      * @param req the request, generated with a call to build____Request().

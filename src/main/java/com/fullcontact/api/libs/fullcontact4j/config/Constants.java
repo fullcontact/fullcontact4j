@@ -8,7 +8,11 @@ public class Constants {
     public static final String API_ENDPOINT_PERSON = "/person.json";
     public static final String API_ENDPOINT_CARDREADER = "/cardReader";
     public static final String API_ENDPOINT_DISPOSABLE_EMAIL = "/disposable.json";
-    public static final String API_ENDPOINT_NAME_NORMALIZER = "/normalizer.json";
+    public static final String API_ENDPOINT_NAME_NORMALIZER = "name/normalizer.json";
+    public static final String API_ENDPOINT_NAME_DEDUCER = "name/deducer.json";
+    public static final String API_ENDPOINT_NAME_SIMILARITY = "name/similarity.json";
+    public static final String API_ENDPOINT_NAME_STATS = "name/stats.json";
+    public static final String API_ENDPOINT_NAME_PARSER = "name/parser.json";
     public static final String API_ENDPOINT_LOCATION_NORMALIZER = "/locationNormalizer.json";
     public static final String API_ENDPOINT_BATCH = "/batch.json";
     public static final String API_ENDPOINT_ICON = "/icon";
@@ -38,6 +42,13 @@ public class Constants {
     public static final String PARAM_CARD_SANDBOX = "sandbox";
     public static final String PARAM_CARD_URID = "URID";
     public static final String PARAM_CARD_DIAGNOSTICS = "diagnostics";
+
+    public static final String PARAM_NAME_QUERY = "q";
+    public static final String PARAM_NAME_EMAIL = "email";
+    public static final String PARAM_NAME_USERNAME = "username";
+    public static final String PARAM_NAME_CASING = "casing";
+    public static final String PARAM_NAME_NAME1 = "q1";
+    public static final String PARAM_NAME_NAME2 = "q2";
 
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";
