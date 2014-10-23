@@ -17,6 +17,7 @@ public class PersonResponse extends FCResponse {
     private double likelihood;
     private List<SocialProfile> socialProfiles;
     private String requestId;
+    private String message;
 
     /**
      * Gets the social profile of a certain type
@@ -52,10 +53,6 @@ public class PersonResponse extends FCResponse {
         return photos;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
     public double getLikelihood() {
         return likelihood;
     }
@@ -66,6 +63,10 @@ public class PersonResponse extends FCResponse {
 
     public String getRequestId() {
         return requestId;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
 

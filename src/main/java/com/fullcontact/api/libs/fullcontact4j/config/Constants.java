@@ -42,6 +42,7 @@ public class Constants {
     public static final String PARAM_CARD_SANDBOX = "sandbox";
     public static final String PARAM_CARD_URID = "URID";
     public static final String PARAM_CARD_DIAGNOSTICS = "diagnostics";
+    public static final String PARAM_CARD_PAGE = "page";
 
     public static final String PARAM_NAME_QUERY = "q";
     public static final String PARAM_NAME_EMAIL = "email";

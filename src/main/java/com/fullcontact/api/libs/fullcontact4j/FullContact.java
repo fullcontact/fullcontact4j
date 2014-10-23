@@ -7,8 +7,8 @@ import com.fullcontact.api.libs.fullcontact4j.request.*;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
-import retrofit.client.OkClient;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -21,9 +21,9 @@ public class FullContact {
      */
     protected FullContactHttpInterface httpInterface;
 
-    protected FullContact(Client httpClient, String apiKey, RateLimiterPolicy policy, String baseUrl,
+    protected FullContact(Client httpClient, RateLimiterPolicy policy, String baseUrl,
                         Integer threadPoolCount) {
-        httpInterface = new FullContactHttpInterface(httpClient, apiKey, policy, baseUrl, threadPoolCount);
+        httpInterface = new FullContactHttpInterface(httpClient, policy, baseUrl, threadPoolCount);
         Utils.info("Created new FullContact client.");
     }
 
@@ -49,10 +49,6 @@ public class FullContact {
 
 
     //TODO update /developer/docs/libraries/
-    //TODO force utf8
-    //TODO schema docs is missing SocialProfile.type.
-    //why do we have type, typeId, typeName...? type = typeId
-
     /////API Methods//////
 
     /**
@@ -69,32 +65,22 @@ public class FullContact {
     public PersonRequest.Builder buildPersonRequest() { return new PersonRequest.Builder(); }
 
     /**
-     * Creates a new disposable email check.
+     * Upload a new card to be processed by Card Reader.
+     * @param front a ByteArrayOutputStream representing the picture of the front of the card
      */
-    public DisposableEmailRequest.Builder buildDisposableEmailCheck(String email) { return new DisposableEmailRequest.Builder().email(email); }
+    public UploadCardRequest.Builder buildUploadCardRequest(InputStream front) { return new UploadCardRequest.Builder().cardFront(front); }
 
     /**
-     * Tries to create a formatted name from a more vague email or username.
+     * View a single card.
+     * @param id the card's ID
      */
-    public NameDeduceRequest.Builder buildNameDeduceRequest() { return new NameDeduceRequest.Builder(); }
+    public CardReaderViewRequest.Builder buildCardReaderViewRequest(String id) { return new CardReaderViewRequest.Builder().cardId(id); }
 
     /**
-     * Tries to normalize (computer-format) a vague string.
-     * @return a builder pre-configured with the query specified.
+     * View a history of your Card Reader requests with this api key, beginning with the earliest.
      */
-    public NameNormalizationRequest.Builder buildNameNormalizationRequest(String query) { return new NameNormalizationRequest.Builder().query(query); }
+    public CardReaderViewAllRequest.Builder buildCardReaderViewAllRequest() { return new CardReaderViewAllRequest.Builder(); }
 
-    /**
-     * Uses multiple algorithms to determine the similarity of two names.
-     * @return a builder pre-configured with the two strings being compared.
-     */
-    public NameSimilarityRequest.Builder buildNameSimilarityRequest(String name1, String name2) { return new NameSimilarityRequest.Builder().name1(name1).name2(name2); }
-
-    /**
-     * Given two names, which one is the family name and which one is the given name?
-     * @return a builder pre-configured with the name to parse.
-     */
-    public NameParseRequest.Builder buildNameParseRequest(String name) { return new NameParseRequest.Builder().name(name); }
     /**
      * Makes a synchronous request to the FullContact APIs.
      * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
@@ -125,9 +111,8 @@ public class FullContact {
     public static class Builder {
 
         private String authKey;
-        private Client httpClient;
+        private OkHttpClient httpClient = new OkHttpClient();
         private Integer threadPoolCount = 1;
-        private OkHttpClient defaultClient = new OkHttpClient();
         private String baseUrl = Constants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
 
@@ -142,7 +127,7 @@ public class FullContact {
          * @param client the configured http client
          * @return
          */
-        public Builder httpClient(Client client) {
+        public Builder httpClient(OkHttpClient client) {
             httpClient = client;
             return this;
         }
@@ -158,26 +143,20 @@ public class FullContact {
         }
 
         /**
-         * Sets the read timeout for the default client.
-         * If a custom httpClient is specified with {@link #httpClient}, this method will have no effect.
-         * Configure a custom client beforehand.
-         * @param timeoutMs
-         * @return
+         * Sets the read timeout.
          */
         public Builder setReadTimeout(Integer timeoutMs) {
-            defaultClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            httpClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
             return this;
         }
 
         /**
-         * Sets the connect timeout for the default client.
-         * If a custom httpClient is specified with {@link #httpClient}, this method will have no effect.
-         * Configure a custom client beforehand.
+         * Sets the connect timeout.
          * @param timeoutMs
          * @return
          */
         public Builder setConnectTimeout(Integer timeoutMs) {
-            defaultClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            httpClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
             return this;
         }
 
@@ -192,6 +171,9 @@ public class FullContact {
             return this;
         }
 
+        /**
+         * @see com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy
+         */
         public Builder rateLimiterPolicy(RateLimiterPolicy policy) {
             this.ratePolicy = policy;
             return this;
@@ -205,11 +187,8 @@ public class FullContact {
             if(authKey == null || authKey.isEmpty()) {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
-            //if a custom client wasn't specified, use ours
-            if(httpClient == null) {
-                httpClient = new OkClient(defaultClient);
-            }
-            return new FullContact(httpClient, authKey, ratePolicy, baseUrl, threadPoolCount);
+
+            return new FullContact(new FullContactHttpInterface.DynamicHeaderOkClient(httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
         }
     }
 

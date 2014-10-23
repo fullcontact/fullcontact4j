@@ -1,12 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.request.UploadCardRequest;
 import com.fullcontact.api.libs.fullcontact4j.response.*;
 import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Query;
-import retrofit.http.QueryMap;
+import retrofit.http.*;
 
 import java.util.Map;
 
@@ -24,23 +22,13 @@ public interface FullContactApi {
     @GET(Constants.API_ENDPOINT_PERSON)
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
 
-    @GET(Constants.API_ENDPOINT_DISPOSABLE_EMAIL)
-    public void getDisposableEmail(@Query("email") String email, Callback<DisposableResponse> response);
+    @POST(Constants.API_ENDPOINT_CARDREADER)
+    public void uploadCard(@Header(Constants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body UploadCardRequest.RequestBodyJson bodyJson, Callback<UploadCardConfirmResponse> callback);
 
-    @GET(Constants.API_ENDPOINT_NAME_NORMALIZER)
-    public void getNormalizedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);
+    @GET(Constants.API_ENDPOINT_CARDREADER + "/{id}")
+    public void viewCard(@QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);
 
-    @GET(Constants.API_ENDPOINT_NAME_DEDUCER)
-    public void getDeducedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);
-
-    @GET(Constants.API_ENDPOINT_NAME_SIMILARITY)
-    public void getNameSimilarity(@QueryMap Map<String, String> opts, Callback<NameSimilarityResponse> response);
-
-    @GET(Constants.API_ENDPOINT_NAME_STATS)
-    public void getNameStats(@QueryMap Map<String, String> opts, Callback<NameStatsResponse> response);
-
-    @GET(Constants.API_ENDPOINT_NAME_PARSER)
-    public void getParsedName(@QueryMap Map<String, String> opts, Callback<NameParseResponse> response);
-
+    @GET(Constants.API_ENDPOINT_CARDREADER)
+    public void viewAll(@QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
 
 }

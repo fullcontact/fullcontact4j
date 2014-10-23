@@ -6,6 +6,7 @@ import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.config.Constants;
 import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Header;
@@ -64,7 +65,11 @@ public abstract class FCCallback<T extends FCResponse> {
                                 .fromBody(response.getBody(),
                                 ErrorResponse.class);
                         reason = errorResponse.message;
-                        errorCode = errorResponse.status;
+                        if(errorCode == 404) {
+                            //on a 404 (person not found), return an empty PersonResponse as opposed to an exception
+                            FCCallback.this.success((T)httpInterface.getJsonConverter().
+                                    fromBody(response.getBody(), PersonResponse.class));
+                        }
                     } catch(ConversionException e) {
                         //response did not have a formatted error response...should not happen
                         ex = e;
