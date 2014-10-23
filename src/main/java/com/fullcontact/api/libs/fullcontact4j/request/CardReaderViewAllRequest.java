@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.response.CardReaderViewAllResponse;
 import retrofit.Callback;
 
@@ -23,15 +23,15 @@ public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllRespons
 
 
         public Builder page(int page) {
-            params.put(Constants.PARAM_CARD_PAGE, String.valueOf(page));
+            params.put(FCConstants.PARAM_CARD_PAGE, String.valueOf(page));
             return this;
         }
 
-        public Builder verifiedOnly(Boolean verifiedOnly) {
+        public Builder verifiedOnly(boolean verifiedOnly) {
             if(verifiedOnly) {
-                params.put(Constants.PARAM_CARD_RETURNED_DATA, "verifiedOnly");
+                params.put(FCConstants.PARAM_CARD_RETURNED_DATA, "verifiedOnly");
             } else {
-                params.remove(Constants.PARAM_CARD_RETURNED_DATA);
+                params.remove(FCConstants.PARAM_CARD_RETURNED_DATA);
             }
             return this;
         }

@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.*;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
@@ -113,7 +113,7 @@ public class FullContact {
         private String authKey;
         private OkHttpClient httpClient = new OkHttpClient();
         private Integer threadPoolCount = 1;
-        private String baseUrl = Constants.API_BASE_DEFAULT;
+        private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
 
         public Builder(String apiKey) {

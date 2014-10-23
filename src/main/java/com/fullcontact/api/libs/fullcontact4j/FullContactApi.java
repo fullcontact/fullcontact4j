@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.request.UploadCardRequest;
 import com.fullcontact.api.libs.fullcontact4j.response.*;
 import retrofit.Callback;
@@ -19,16 +19,33 @@ public interface FullContactApi {
     @GET("/{path}")
     public void genericGet(@Path("path") String path, @QueryMap Map<String, String> opts, Callback<GenericResponse> response);
 
-    @GET(Constants.API_ENDPOINT_PERSON)
+    @GET(FCConstants.API_ENDPOINT_PERSON)
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
 
-    @POST(Constants.API_ENDPOINT_CARDREADER)
-    public void uploadCard(@Header(Constants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body UploadCardRequest.RequestBodyJson bodyJson, Callback<UploadCardConfirmResponse> callback);
+    @POST(FCConstants.API_ENDPOINT_CARDREADER)
+    public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body UploadCardRequest.RequestBodyJson bodyJson, Callback<UploadCardConfirmResponse> callback);
 
-    @GET(Constants.API_ENDPOINT_CARDREADER + "/{id}")
+    @GET(FCConstants.API_ENDPOINT_CARDREADER + "/{id}")
     public void viewCard(@QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);
 
-    @GET(Constants.API_ENDPOINT_CARDREADER)
+    @GET(FCConstants.API_ENDPOINT_CARDREADER)
     public void viewAll(@QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
 
+    @GET(FCConstants.API_ENDPOINT_DISPOSABLE_EMAIL)
+    public void getDisposableEmail(@Query("email") String email, Callback<DisposableResponse> callback);
+
+    @GET(FCConstants.API_ENDPOINT_NAME_NORMALIZER)
+    public void getNormalizedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_NAME_PARSER)
+    public void getParsedName(@QueryMap Map<String, String> opts, Callback<NameParseResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_NAME_DEDUCER)
+    public void getDeducedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_NAME_SIMILARITY)
+    public void getNameSimilarity(@QueryMap Map<String, String> opts, Callback<NameSimilarityResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_LOCATION_NORMALIZER)
+    public void getNormalizedLocation(@QueryMap Map<String, String> opts, Callback)
 }

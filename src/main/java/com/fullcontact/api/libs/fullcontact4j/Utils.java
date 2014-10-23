@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;
@@ -54,7 +54,7 @@ public class Utils {
 
     public static void log(Level l, String log) {
         if(l.intValue() >= FullContact.logLevel.intValue()) {
-            System.out.println(Constants.LOG_PREFIX + " " + log);
+            System.out.println(FCConstants.LOG_PREFIX + " " + log);
         }
     }
 

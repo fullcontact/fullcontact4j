@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
@@ -61,7 +61,7 @@ public class FullContactClientTests extends EasyMockSupport {
                 public void success(PersonResponse response) {
                     latch.countDown();
                     String reqID = response.getRequestId();
-                    if (reqID.equals(req.getParam(Constants.PARAM_PERSON_EMAIL))) {
+                    if (reqID.equals(req.getParam(FCConstants.PARAM_PERSON_EMAIL))) {
                         latch.countDown();
                     } else {
                         throw new AssertionError("Request ID from request and response did not match.");
@@ -88,7 +88,7 @@ public class FullContactClientTests extends EasyMockSupport {
             try {
                 PersonResponse res = client.sendRequest(req);
                 String reqID = res.getRequestId();
-                if (!reqID.equals(req.getParam(Constants.PARAM_PERSON_EMAIL))) {
+                if (!reqID.equals(req.getParam(FCConstants.PARAM_PERSON_EMAIL))) {
                     throw new AssertionError("Request ID from request and response did not match.");
                 }
             } catch(FullContactException e) {
@@ -120,7 +120,7 @@ public class FullContactClientTests extends EasyMockSupport {
                 @Override
                 public void run() {
                     waitForPermit();
-                    callback.success((T) newMockResponse(req.getParam(Constants.PARAM_PERSON_EMAIL)));
+                    callback.success((T) newMockResponse(req.getParam(FCConstants.PARAM_PERSON_EMAIL)));
                 }
             });
         }

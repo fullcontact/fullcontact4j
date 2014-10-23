@@ -13,6 +13,7 @@ import java.util.List;
 
 public class CardReaderFullResponse extends FCResponse {
 
+    private static ObjectMapper mapper = new ObjectMapper();
     private String lastWebhookAttempt;
     private int webhookAttempts;
     private String webhookUrl;
@@ -81,7 +82,6 @@ public class CardReaderFullResponse extends FCResponse {
      * @throws FullContactException if there is a parsing/mapping error.
      */
     public static CardReaderFullResponse fromJson(String json) throws FullContactException {
-        ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
         //TODO put back in in release
         //mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

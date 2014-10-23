@@ -3,7 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.request;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
@@ -28,7 +28,7 @@ public abstract class FCCallback<T extends FCResponse> {
             //intercept headers
             try {
                 for (Header h : response.getHeaders()) {
-                    if (Constants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
+                    if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
                         httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
                         break;
                     }

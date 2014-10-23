@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
@@ -72,7 +72,7 @@ public class FullContactHttpInterface {
 
     public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
         if(callback == null) {
-            if(!req.hasParam(Constants.PARAM_WEBHOOK_URL)) {
+            if(!req.hasParam(FCConstants.PARAM_WEBHOOK_URL)) {
                 throw new IllegalArgumentException(
                         "Cannot make an asynchronous request without either a callback or a webhook");
             }
@@ -105,14 +105,14 @@ public class FullContactHttpInterface {
 
         @Override protected HttpURLConnection openConnection(Request request) throws IOException {
             HttpURLConnection connection = super.openConnection(request);
-            Boolean hasAuthToken = false;
+            boolean hasAuthToken = false;
             for(Header header : request.getHeaders()) {
-                if(header.getName().equals(Constants.HEADER_AUTH_ACCESS_TOKEN)) {
+                if(header.getName().equals(FCConstants.HEADER_AUTH_ACCESS_TOKEN)) {
                     hasAuthToken = true;
                 }
             }
             if(!hasAuthToken) {
-                connection.addRequestProperty(Constants.HEADER_AUTH_API_KEY, apiKey);
+                connection.addRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
                 Utils.verbose("Added API key to headers");
             } else {
                 Utils.verbose("Added auth token instead of API key to headers");
