@@ -3,10 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.PersonRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
+import com.fullcontact.api.libs.fullcontact4j.request.*;
 import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
@@ -124,6 +121,13 @@ public class FullContactClientTests extends EasyMockSupport {
                 }
             });
         }
+    }
+
+    @Test
+    public void sameThreadTest() throws Exception {
+        FullContact fc = FullContact.withApiKey("bad").build();
+        GenericRequest r = fc.buildGenericRequest().path("badPath").build();
+        fc.sendRequest(r);
     }
 
     private PersonResponse newMockResponse(final String email) {

@@ -10,6 +10,7 @@ import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
 import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.*;
 import retrofit.converter.Converter;
@@ -53,7 +54,12 @@ public class FullContactHttpInterface {
         jsonConverter = new JacksonConverter(mapper);
         //create the API from a template interface using Retrofit
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl)
-                .setClient(httpClient).setConverter(jsonConverter).build();
+                .setClient(httpClient).setConverter(jsonConverter).setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade requestFacade) {
+                        System.out.println("Intercepted by: " + Thread.currentThread().getName());
+                    }
+                }).build();
         fullContactApi = adapter.create(FullContactApi.class);
         this.baseUrl = baseUrl;
     }

@@ -50,6 +50,8 @@ public class FCConstants {
     public static final String PARAM_NAME_NAME1 = "q1";
     public static final String PARAM_NAME_NAME2 = "q2";
 
+    public static final String PARAM_LOCATION_PLACE = "place";
+
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";
     public static final String PARAM_WEBHOOK_BODY = "webhookBody";

@@ -46,6 +46,12 @@ public interface FullContactApi {
     @GET(FCConstants.API_ENDPOINT_NAME_SIMILARITY)
     public void getNameSimilarity(@QueryMap Map<String, String> opts, Callback<NameSimilarityResponse> response);
 
+    @GET(FCConstants.API_ENDPOINT_LOCATION_ENRICHMENT)
+    public void getEnrichedLocation(@QueryMap Map<String, String> opts, Callback<LocationEnrichmentResponse> response);
+
     @GET(FCConstants.API_ENDPOINT_LOCATION_NORMALIZER)
-    public void getNormalizedLocation(@QueryMap Map<String, String> opts, Callback)
+    public void getNormalizedLocation(@QueryMap Map<String, String> opts, Callback<LocationNormalizationResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_ACCOUNT_STATS)
+    public void getAccountStats(@QueryMap Map<String, String> opts, Callback<AccountStatsResponse> response);
 }
