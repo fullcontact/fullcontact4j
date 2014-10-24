@@ -3,7 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderCasing;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.response.UploadCardConfirmResponse;
@@ -39,7 +39,7 @@ public class UploadCardRequest extends FCRequest<UploadCardConfirmResponse> {
         private String cardBack;
 
         public Builder verified(CardReaderQuality quality) {
-            params.put(Constants.PARAM_CARD_VERIFIED, quality.name());
+            params.put(FCConstants.PARAM_CARD_VERIFIED, quality.name());
             return this;
         }
 
@@ -55,25 +55,25 @@ public class UploadCardRequest extends FCRequest<UploadCardConfirmResponse> {
 
         public Builder verifiedOnly(Boolean verifiedOnly) {
             if(verifiedOnly) {
-                params.put(Constants.PARAM_CARD_RETURNED_DATA, "verifiedOnly");
+                params.put(FCConstants.PARAM_CARD_RETURNED_DATA, "verifiedOnly");
             } else {
-                params.remove(Constants.PARAM_CARD_RETURNED_DATA);
+                params.remove(FCConstants.PARAM_CARD_RETURNED_DATA);
             }
             return this;
         }
 
         public Builder casing(CardReaderCasing casing) {
-            params.put(Constants.PARAM_CARD_CASING, casing.name().toLowerCase());
+            params.put(FCConstants.PARAM_CARD_CASING, casing.name().toLowerCase());
             return this;
         }
 
         public Builder sandbox(String sandboxParam) {
-            params.put(Constants.PARAM_CARD_SANDBOX, sandboxParam);
+            params.put(FCConstants.PARAM_CARD_SANDBOX, sandboxParam);
             return this;
         }
 
         public Builder urid(String urid) {
-            params.put(Constants.PARAM_CARD_URID, urid);
+            params.put(FCConstants.PARAM_CARD_URID, urid);
             return this;
         }
 
@@ -83,27 +83,27 @@ public class UploadCardRequest extends FCRequest<UploadCardConfirmResponse> {
         }
 
         public Builder webhookUrl(String url) {
-            params.put(Constants.PARAM_WEBHOOK_URL, url);
+            params.put(FCConstants.PARAM_WEBHOOK_URL, url);
             return this;
         }
 
         public Builder webhookId(String id) {
-            params.put(Constants.PARAM_WEBHOOK_ID, id);
+            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
             return this;
         }
 
         public Builder webhookBody(Boolean responseInBody) {
             if(responseInBody) {
-                params.put(Constants.PARAM_WEBHOOK_BODY, "json");
+                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
             } else {
-                params.remove(Constants.PARAM_WEBHOOK_BODY);
+                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
             }
             return this;
         }
 
         protected void validate() {
             super.validate();
-            if(!hasParam(Constants.PARAM_WEBHOOK_URL)) {
+            if(!hasParam(FCConstants.PARAM_WEBHOOK_URL)) {
                 throw new IllegalArgumentException("All CardReader requests must specify a webhook.");
             }
             if(cardFront == null) {

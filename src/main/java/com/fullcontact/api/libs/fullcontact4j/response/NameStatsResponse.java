@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("name")
-public class NameStatsResponse {
+public class NameStatsResponse extends FCResponse {
     private String value;
     private String region;
     private GivenNameInfo given;

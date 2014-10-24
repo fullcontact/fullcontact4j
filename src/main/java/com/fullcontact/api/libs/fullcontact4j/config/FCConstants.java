@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.config;
 
-public class Constants {
+public class FCConstants {
 
     public static final String API_BASE_DEFAULT = "https://api.fullcontact.com/v2";
     public static final String LOG_PREFIX = "[fc4j]";
@@ -13,9 +13,8 @@ public class Constants {
     public static final String API_ENDPOINT_NAME_SIMILARITY = "name/similarity.json";
     public static final String API_ENDPOINT_NAME_STATS = "name/stats.json";
     public static final String API_ENDPOINT_NAME_PARSER = "name/parser.json";
-    public static final String API_ENDPOINT_LOCATION_NORMALIZER = "/locationNormalizer.json";
-    public static final String API_ENDPOINT_BATCH = "/batch.json";
-    public static final String API_ENDPOINT_ICON = "/icon";
+    public static final String API_ENDPOINT_LOCATION_NORMALIZER = "address/locationNormalizer.json";
+    public static final String API_ENDPOINT_LOCATION_ENRICHMENT = "/address/locationEnrichment.json";
     public static final String API_ENDPOINT_ACCOUNT_STATS = "/stats.json";
 
     public static final String HEADER_RATE_LIMIT_PER_MINUTE = "X-Rate-Limit-Limit";
@@ -50,6 +49,8 @@ public class Constants {
     public static final String PARAM_NAME_CASING = "casing";
     public static final String PARAM_NAME_NAME1 = "q1";
     public static final String PARAM_NAME_NAME2 = "q2";
+
+    public static final String PARAM_LOCATION_PLACE = "place";
 
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";

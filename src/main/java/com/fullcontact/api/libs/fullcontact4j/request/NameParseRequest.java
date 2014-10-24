@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.response.NameParseResponse;
 import retrofit.Callback;
 
@@ -25,7 +25,7 @@ public class NameParseRequest extends FCRequest<NameParseResponse> {
         }
 
         public Builder name(String name) {
-            params.put(Constants.PARAM_NAME_QUERY, name);
+            params.put(FCConstants.PARAM_NAME_QUERY, name);
             return this;
         }
 

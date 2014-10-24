@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
 import retrofit.Callback;
 
@@ -23,60 +23,60 @@ public class PersonRequest extends FCRequest<PersonResponse> {
     public static class Builder extends WebhookBuilder<PersonRequest> {
 
         public Builder email(String email) {
-            params.put(Constants.PARAM_PERSON_EMAIL, email);
+            params.put(FCConstants.PARAM_PERSON_EMAIL, email);
             return this;
         }
 
         public Builder emailMd5(String emailMd5) {
-            params.put(Constants.PARAM_PERSON_EMAIL_MD5, emailMd5);
+            params.put(FCConstants.PARAM_PERSON_EMAIL_MD5, emailMd5);
             return this;
         }
 
         public Builder phone(String phone) {
-            params.put(Constants.PARAM_PERSON_PHONE, phone);
+            params.put(FCConstants.PARAM_PERSON_PHONE, phone);
             return this;
         }
 
         public Builder phoneCountryCode(String code) {
-            params.put(Constants.PARAM_PERSON_PHONE_COUNTRY_CODE, code);
+            params.put(FCConstants.PARAM_PERSON_PHONE_COUNTRY_CODE, code);
             return this;
         }
 
         public Builder twitterName(String twitterName) {
-            params.put(Constants.PARAM_PERSON_TWITTER, twitterName);
+            params.put(FCConstants.PARAM_PERSON_TWITTER, twitterName);
             return this;
         }
 
         public Builder facebookName(String facebookName) {
-            params.put(Constants.PARAM_PERSON_FACEBOOK, facebookName);
+            params.put(FCConstants.PARAM_PERSON_FACEBOOK, facebookName);
             return this;
         }
         
         public Builder facebookId(String facebookId) {
-            params.put(Constants.PARAM_PERSON_FACEBOOK_ID, facebookId);
+            params.put(FCConstants.PARAM_PERSON_FACEBOOK_ID, facebookId);
             return this;
         }
 
         public Builder jsonpCallback(String function) {
-            params.put(Constants.PARAM_PERSON_CALLBACK, function);
+            params.put(FCConstants.PARAM_PERSON_CALLBACK, function);
             return this;
         }
 
         public Builder webhookUrl(String url) {
-            params.put(Constants.PARAM_WEBHOOK_URL, url);
+            params.put(FCConstants.PARAM_WEBHOOK_URL, url);
             return this;
         }
 
         public Builder webhookId(String id) {
-            params.put(Constants.PARAM_WEBHOOK_ID, id);
+            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
             return this;
         }
 
         public Builder webhookBody(Boolean responseInBody) {
             if(responseInBody) {
-                params.put(Constants.PARAM_WEBHOOK_BODY, "json");
+                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
             } else {
-                params.remove(Constants.PARAM_WEBHOOK_BODY);
+                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
             }
             return this;
         }
@@ -101,8 +101,8 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return new PersonRequest(params);
         }
 
-        public static final List<String> SEARCH_PARAMS = Arrays.asList(Constants.PARAM_PERSON_EMAIL,
-                Constants.PARAM_PERSON_FACEBOOK, Constants.PARAM_PERSON_EMAIL_MD5, Constants.PARAM_PERSON_TWITTER,
-                Constants.PARAM_PERSON_FACEBOOK_ID, Constants.PARAM_PERSON_PHONE);
+        public static final List<String> SEARCH_PARAMS = Arrays.asList(FCConstants.PARAM_PERSON_EMAIL,
+                FCConstants.PARAM_PERSON_FACEBOOK, FCConstants.PARAM_PERSON_EMAIL_MD5, FCConstants.PARAM_PERSON_TWITTER,
+                FCConstants.PARAM_PERSON_FACEBOOK_ID, FCConstants.PARAM_PERSON_PHONE);
     }
 }

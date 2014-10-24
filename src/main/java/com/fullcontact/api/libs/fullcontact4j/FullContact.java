@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.Constants;
+import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.request.*;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
@@ -47,13 +47,16 @@ public class FullContact {
     }
 
 
-
+    //api solution - create new client extends retrofit.Client
+    // public void execute(Request) {
+    // handleHeaders();
+    // coreClient.execute();
+    // }
     //TODO update /developer/docs/libraries/
     /////API Methods//////
 
     /**
      * Creates a new generic request builder, where parameters and endpoint are all customizable.
-     * @return
      */
     public GenericRequest.Builder buildGenericRequest() {
         return new GenericRequest.Builder();
@@ -80,6 +83,54 @@ public class FullContact {
      * View a history of your Card Reader requests with this api key, beginning with the earliest.
      */
     public CardReaderViewAllRequest.Builder buildCardReaderViewAllRequest() { return new CardReaderViewAllRequest.Builder(); }
+
+    /**
+     * Create a new disposable email check
+     * @return a disposable email request builder with a pre-configured email to check
+     */
+    public DisposableEmailRequest.Builder buildDisposableEmailRequest(String email) { return new DisposableEmailRequest.Builder().email(email); }
+
+    /**
+     * Normalize a given name
+     * @return a name normalization request builder
+     */
+    public NameNormalizationRequest.Builder buildNameNormalizationRequest(String name) { return new NameNormalizationRequest.Builder().query(name); }
+
+    /**
+     * Determine, given two names, which was a family name and which was a first name.
+     * @return a parse request builder, pre-configured with the name
+     */
+    public NameParseRequest.Builder buildNameParseRequest(String name) { return new NameParseRequest.Builder().name(name); }
+
+    /**
+     * Deduces someone's real name from a username or email.
+     */
+    public NameDeduceRequest.Builder buildNameDeduceRequest() { return new NameDeduceRequest.Builder(); }
+
+    /**
+     * Use a variety of algorithms to determine the similarity of two names.
+     * @return a name similarity request builder, pre-configured with the two names
+     */
+    public NameSimilarityRequest.Builder buildNameSimilarityRequest(String name1, String name2) { return new NameSimilarityRequest.Builder().name1(name1).name2(name2); }
+
+    public NameStatsRequest.Builder buildNameStatsRequest() { return new NameStatsRequest.Builder(); }
+
+    /**
+     * Normalize a location from a given string
+     * @return a location normalization request builder, pre-configured with the location
+     */
+    public LocationNormalizationRequest.Builder buildLocationNormalizationRequest(String place) { return new LocationNormalizationRequest.Builder().place(place); }
+
+    /**
+     * Enrich (gather more data about) a given location from a string.
+     * @return a location enrichment request builder, pre-configured with the location
+     */
+    public LocationEnrichmentRequest.Builder buildLocationEnrichmentRequest(String place) { return new LocationEnrichmentRequest.Builder().place(place); }
+
+    /**
+     * Request stats about the api key in use.
+     */
+    public AccountStatsRequest.Builder buildAccountStatsRequest() { return new AccountStatsRequest.Builder(); }
 
     /**
      * Makes a synchronous request to the FullContact APIs.
@@ -113,7 +164,7 @@ public class FullContact {
         private String authKey;
         private OkHttpClient httpClient = new OkHttpClient();
         private Integer threadPoolCount = 1;
-        private String baseUrl = Constants.API_BASE_DEFAULT;
+        private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
 
         public Builder(String apiKey) {
