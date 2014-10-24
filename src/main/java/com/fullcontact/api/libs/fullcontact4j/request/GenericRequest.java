@@ -18,7 +18,6 @@ public class GenericRequest extends FCRequest<GenericResponse> {
     @Override
     protected void makeRequest(FullContactApi api, Callback<GenericResponse> callback) {
         api.genericGet(path, params, callback);
-        System.out.println("Thread for making API call from request: " + Thread.currentThread().getName());
     }
 
     public static class Builder extends BaseBuilder<GenericRequest> {
