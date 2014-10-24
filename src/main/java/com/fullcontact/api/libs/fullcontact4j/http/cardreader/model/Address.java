@@ -1,40 +1,14 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Skiggz
- * Date: 10/31/13
- * Time: 10:46 AM
- * To change this template use File | Settings | File Templates.
- */
-public class Address implements Serializable {
-
-    private static final long serialVersionUID = 440365357105542572L;
-
+public class Address {
 
     private String country;
-
-
     private String type;
-
-
     private String locality;
-
-
     private String extendedAddress;
-
-
     private String postalCode;
-
-
     private String formatted;
-
-
     private String region;
-
-
     private String streetAddress;
 
     public String getCountry() {

@@ -1,9 +1,12 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
 import java.util.List;
-public class ContactInfo implements Serializable {
-    private static final long serialVersionUID = 7385077336995988963L;
+
+/**
+ * Conglomeration of internet accounts associated with contact information about a person.
+ */
+public class ContactInfo {
+
     private Name name;
     private List<BasicContactInfo> emails;
     private List<BasicContactInfo> phoneNumbers;

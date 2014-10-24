@@ -89,8 +89,7 @@ public class CardReaderFullResponse extends FCResponse {
      */
     public static CardReaderFullResponse fromJson(String json) throws FullContactException {
         //Properties not present in the POJO are ignored instead of throwing exceptions
-        //TODO put back in in release
-        //mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         //An empty string ("") is interpreted as null
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         try {

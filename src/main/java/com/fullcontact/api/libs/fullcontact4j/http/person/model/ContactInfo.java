@@ -32,4 +32,28 @@ public class ContactInfo {
     public List<Chat> getChats() {
         return chats;
     }
+
+
+    public static class Chat {
+
+        private String client;
+        private String handle;
+
+        public String getClient() {
+            return client;
+        }
+
+        public String getHandle() {
+            return handle;
+        }
+    }
+
+    public static class Website {
+
+        private String url;
+        public String getUrl() {
+            return url;
+        }
+    }
+
 }

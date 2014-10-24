@@ -1,12 +1,20 @@
 package com.fullcontact.api.libs.fullcontact4j.http.person;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public class PersonResponse extends FCResponse {
 
+    private static ObjectMapper mapper = new ObjectMapper();
     private ContactInfo contactInfo;
     private Demographics demographics;
     private DigitalFootPrints digitalFootprint;
@@ -19,12 +27,11 @@ public class PersonResponse extends FCResponse {
 
     /**
      * Gets the social profile of a certain type
-     * @param type the social media website
      * @return the SocialProfile, or null if it doesn't exist.
      */
-    public SocialProfile getSocialProfile(SocialProfileType type) {
+    public SocialProfile getSocialProfile(String typeId) {
         for(SocialProfile p : socialProfiles) {
-            if(type.equals(SocialProfileType.fromString(p.getTypeId()))) {
+            if(typeId.equals(p.getTypeId())) {
                 return p;
             }
         }
@@ -65,6 +72,28 @@ public class PersonResponse extends FCResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    /**
+     * Factory method to create a webhook response from json.
+     * @param json
+     * @return a new PersonResponse represented by the Json string
+     * @throws com.fullcontact.api.libs.fullcontact4j.FullContactException if there is a parsing/mapping error.
+     */
+    public static CardReaderFullResponse fromJson(String json) throws FullContactException {
+        //Properties not present in the POJO are ignored instead of throwing exceptions
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        //An empty string ("") is interpreted as null
+        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        try {
+            return mapper.readValue(json, CardReaderFullResponse.class);
+        } catch(JsonMappingException e) {
+            throw new FullContactException("Failed to convert person json to a response", e);
+        } catch(JsonParseException e) {
+            throw new FullContactException("Json is not valid format", e);
+        } catch(IOException e) {
+            throw new FullContactException("Unexpected exception when parsing json", e);
+        }
     }
 }
 

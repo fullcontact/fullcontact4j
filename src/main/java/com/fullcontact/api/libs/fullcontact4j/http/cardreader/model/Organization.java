@@ -1,17 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
-
-public class Organization implements Serializable {
-    private static final long serialVersionUID = 1277016352898379358L;
-
+public class Organization {
 
 	private String name;
-
-
     private String title;
-
-
     private boolean isPrimary;
 
     public String getName() {

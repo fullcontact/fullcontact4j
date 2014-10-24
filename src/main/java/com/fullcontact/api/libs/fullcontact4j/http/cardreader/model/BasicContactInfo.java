@@ -1,17 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
-
-public class BasicContactInfo implements Serializable {
-    private static final long serialVersionUID = 3848544145278546449L;
-
-
+public class BasicContactInfo {
 	private String type;
-
-
     private String value;
-
-
     private boolean primary;
 
     public String getType() {

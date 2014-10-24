@@ -67,6 +67,10 @@ public abstract class FCRequest<T extends FCResponse> {
 
         protected abstract T createInstance();
 
+        /**
+         * Validates all the parameters in this request before it's built (it is considered a 100% valid request after it is built).
+         * If something about the parameters is incorrect, IllegalArgumentException should be thrown.
+         */
         protected abstract void validate();
 
         protected boolean hasParam(String param) {

@@ -1,23 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
-
-public class Name implements Serializable {
-    private static final long serialVersionUID = 2280620035191291965L;
-
+public class Name {
 
     private String familyName;
-
-
     private String givenName;
-
-
     private String middleName;
-
-    
     private String honorificPrefix;
-
-
     private String honorificSuffix;
 
     public String getFamilyName() {

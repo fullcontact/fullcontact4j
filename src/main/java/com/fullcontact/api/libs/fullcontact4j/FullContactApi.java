@@ -1,6 +1,8 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.http.GenericResponse;
+import retrofit.http.GET;
+
+
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
@@ -26,9 +28,6 @@ import java.util.Map;
  * All methods utilize a query map, since all parameter validation is handled in the Request's Builder class.
  */
 public interface FullContactApi {
-
-    @GET("/{path}")
-    public void genericGet(@Path("path") String path, @QueryMap Map<String, String> opts, Callback<GenericResponse> response);
 
     @GET(FCConstants.API_ENDPOINT_PERSON)
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);

@@ -5,7 +5,6 @@ import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.GenericRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
@@ -58,13 +57,6 @@ public class FullContact {
 
     //TODO update /developer/docs/libraries/
     /////API Methods//////
-
-    /**
-     * Creates a new generic request builder, where parameters and endpoint are all customizable.
-     */
-    public GenericRequest.Builder buildGenericRequest() {
-        return new GenericRequest.Builder();
-    }
 
     /**
      * Creates a new Person search.

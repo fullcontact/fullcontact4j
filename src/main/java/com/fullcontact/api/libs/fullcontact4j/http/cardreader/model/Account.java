@@ -1,17 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
-import java.io.Serializable;
+public class Account {
 
-/**
- * Created with IntelliJ IDEA.
- * User: Skiggz
- * Date: 10/31/13
- * Time: 10:48 AM
- * To change this template use File | Settings | File Templates.
- */
-public class Account implements Serializable {
-
-    private static final long serialVersionUID = 4448757332560161860L;
     private String urlString;
     private String domain;
     private String userId;

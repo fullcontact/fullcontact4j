@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderCasing;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
+import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
 import retrofit.Callback;
@@ -29,7 +29,7 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
     @Override
     protected void makeRequest(FullContactApi api, Callback<CardReaderUploadConfirmResponse> callback) {
        //if accesstoken is null, it is not added to the headers. if it is not null, it replaces API Key header
-        //(see FullContactHttpInterface.DynamicHeaderOkClient)
+       //(see FullContactHttpInterface.DynamicHeaderOkClient)
        api.uploadCard(accessToken, params, body, callback);
     }
 
@@ -63,7 +63,7 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             return this;
         }
 
-        public Builder casing(CardReaderCasing casing) {
+        public Builder casing(Casing casing) {
             params.put(FCConstants.PARAM_CARD_CASING, casing.name().toLowerCase());
             return this;
         }
