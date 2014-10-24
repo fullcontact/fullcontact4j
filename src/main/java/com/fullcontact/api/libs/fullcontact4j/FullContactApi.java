@@ -43,6 +43,9 @@ public interface FullContactApi {
     @GET(FCConstants.API_ENDPOINT_NAME_DEDUCER)
     public void getDeducedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);
 
+    @GET(FCConstants.API_ENDPOINT_NAME_STATS)
+    public void getNameStats(@QueryMap Map<String, String> opts, Callback<NameStatsResponse> response);
+
     @GET(FCConstants.API_ENDPOINT_NAME_SIMILARITY)
     public void getNameSimilarity(@QueryMap Map<String, String> opts, Callback<NameSimilarityResponse> response);
 

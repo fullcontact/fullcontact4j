@@ -113,6 +113,8 @@ public class FullContact {
      */
     public NameSimilarityRequest.Builder buildNameSimilarityRequest(String name1, String name2) { return new NameSimilarityRequest.Builder().name1(name1).name2(name2); }
 
+    public NameStatsRequest.Builder buildNameStatsRequest() { return new NameStatsRequest.Builder(); }
+
     /**
      * Normalize a location from a given string
      * @return a location normalization request builder, pre-configured with the location
