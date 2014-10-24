@@ -1,0 +1,66 @@
+{
+  "status": 200,
+  "locations": 
+  [
+    {
+      "city": "Las Vegas",
+      "county": "Clark",
+      "state": {
+        "name": "Nevada",
+        "code": "NV"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "583756",
+      "normalizedLocation": "Las Vegas, Nevada, United States"
+    },
+    {
+      "city": "Las Vegas",
+      "county": "San Miguel",
+      "state": {
+        "name": "New Mexico",
+        "code": "NM"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "13753",
+      "normalizedLocation": "Las Vegas, New Mexico, United States"
+    },
+    {
+      "city": "Las Vegas",
+      "county": "Provincia De Santa Cruz De Tenerife",
+      "state": {
+        "name": "Canary Islands",
+        "code": ""
+      },
+      "country": {
+        "name": "Spain",
+        "code": "ES"
+      },
+      "continent": "Europe",
+      "population": "0",
+      "normalizedLocation": "Las Vegas, Canary Islands, Spain"
+    },
+    {
+      "city": "Las Vegas",
+      "county": "Dimmit",
+      "state": {
+        "name": "Texas",
+        "code": "TX"
+      },
+      "country": {
+        "name": "United States",
+        "code": "US"
+      },
+      "continent": "North America",
+      "population": "0",
+      "normalizedLocation": "Las Vegas, Texas, United States"
+    }
+  ]
+}

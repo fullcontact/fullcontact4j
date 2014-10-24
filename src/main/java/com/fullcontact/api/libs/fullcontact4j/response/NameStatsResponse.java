@@ -2,79 +2,95 @@ package com.fullcontact.api.libs.fullcontact4j.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
-@JsonRootName("name")
 public class NameStatsResponse extends FCResponse {
-    private String value;
+    private NameStatsResult name;
     private String region;
-    private GivenNameInfo given;
-    private NameInfo family;
 
-    public String getValue() {
-        return value;
-    }
+    public String getRegion() { return region; }
+    public NameStatsResult getName() { return name; }
 
-    public String getRegion() {
-        return region;
-    }
+    public static class NameStatsResult {
+        private String value;
+        @JsonProperty("given")
+        private GivenNameInfo given;
+        @JsonProperty("family")
+        private NameInfo family;
 
-    @JsonProperty("given")
-    public GivenNameInfo getGivenNameInfo() {
-        return given;
-    }
-
-    @JsonProperty("family")
-    public NameInfo getFamily() {
-        return family;
-    }
-
-    public static class GivenNameInfo {
-        private NameInfo male;
-        private NameInfo female;
-
-        public NameInfo getMale() {
-            return male;
+        public String getValue() {
+            return value;
         }
 
-        public NameInfo getFemale() {
-            return female;
-        }
-    }
-    public static class NameInfo {
-        private int count;
-        private double likelihood;
-        private int rank;
-        private double frequencyRatio;
-        private AgeInfo age;
-
-        public int getCount() {
-            return count;
+        public GivenNameInfo getGivenNameInfo() {
+            return given;
         }
 
-        public double getLikelihood() {
-            return likelihood;
+        public NameInfo getFamilyInfo() {
+            return family;
         }
 
-        public int getRank() {
-            return rank;
+        public static class GivenNameInfo {
+            private NameInfo male;
+            private NameInfo female;
+            private int count;
+            private int rank;
+
+            public int getRank() { return rank; }
+
+            public int getCount() { return count; }
+
+            public NameInfo getMale() {
+                return male;
+            }
+
+            public NameInfo getFemale() {
+                return female;
+            }
         }
 
-        public double getFrequencyRatio() {
-            return frequencyRatio;
+        public static class NameInfo {
+            private int count;
+            private double likelihood;
+            private int rank;
+            private double frequencyRatio;
+            @JsonProperty("age")
+            private AgeCurve age;
+
+            public int getCount() {
+                return count;
+            }
+
+            public double getLikelihood() {
+                return likelihood;
+            }
+
+            public int getRank() {
+                return rank;
+            }
+
+            public double getFrequencyRatio() {
+                return frequencyRatio;
+            }
+
+            public AgeCurve getAge() {
+                return age;
+            }
         }
 
-        public AgeInfo getAge() {
-            return age;
-        }
-    }
-    @JsonRootName("densityCurve")
-    @JsonIgnoreProperties({"mode","quartiles"})
-    public static class AgeInfo {
-        private double meanAge;
+        public static class AgeCurve {
+            @JsonProperty("densityCurve")
+            private AgeInfo age;
 
-        public double getMeanAge() {
-            return meanAge;
+            public AgeInfo getAgeInfo() { return age; }
+        }
+
+        @JsonIgnoreProperties({"mode", "quartiles"})
+        public static class AgeInfo {
+            private double meanAge;
+
+            public double getMeanAge() {
+                return meanAge;
+            }
         }
     }
 }

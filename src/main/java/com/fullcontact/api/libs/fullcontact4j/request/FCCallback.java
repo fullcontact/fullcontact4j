@@ -65,10 +65,11 @@ public abstract class FCCallback<T extends FCResponse> {
                                 .fromBody(response.getBody(),
                                 ErrorResponse.class);
                         reason = errorResponse.message;
-                        if(errorCode == 404) {
+                        if(errorCode == 404 && errorResponse.message.contains("person")) {
                             //on a 404 (person not found), return an empty PersonResponse as opposed to an exception
                             FCCallback.this.success((T)httpInterface.getJsonConverter().
                                     fromBody(response.getBody(), PersonResponse.class));
+                            return;
                         }
                     } catch(ConversionException e) {
                         //response did not have a formatted error response...should not happen

@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,6 +27,10 @@ public class CardReaderFullResponse extends FCResponse {
     private List<String> unverifiedFields;
     private String unverifiedVCardUrl;
     private String clientServerResponseCode;
+    private String status;
+
+    @JsonProperty("status")
+    public String getCardStatus() { return status; }
 
     public String getClientServerResponseCode() {
         return clientServerResponseCode;

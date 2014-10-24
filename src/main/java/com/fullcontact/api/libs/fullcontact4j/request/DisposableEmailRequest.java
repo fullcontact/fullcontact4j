@@ -2,10 +2,10 @@ package com.fullcontact.api.libs.fullcontact4j.request;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.response.DisposableResponse;
+import com.fullcontact.api.libs.fullcontact4j.response.DisposableEmailResponse;
 import retrofit.Callback;
 
-public class DisposableEmailRequest extends FCRequest<DisposableResponse> {
+public class DisposableEmailRequest extends FCRequest<DisposableEmailResponse> {
     private final String email;
 
     public DisposableEmailRequest(String email) {
@@ -14,7 +14,7 @@ public class DisposableEmailRequest extends FCRequest<DisposableResponse> {
     }
 
     @Override
-    protected void makeRequest(FullContactApi api, Callback<DisposableResponse> callback) {
+    protected void makeRequest(FullContactApi api, Callback<DisposableEmailResponse> callback) {
         api.getDisposableEmail(email, callback);
     }
 

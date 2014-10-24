@@ -1,10 +1,17 @@
 package com.fullcontact.api.libs.fullcontact4j.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class LocationEnrichmentResponse extends FCResponse {
 
     private List<Location> locations;
+
+    @JsonProperty("locations")
+    public List<Location> getPossibleLocations() { return locations; }
+
+    public void setLocations(List<Location> locs) { locations = locs; }
 
     public static class Location {
         private String city;

@@ -1,0 +1,45 @@
+{
+  "result":  {
+    "SimMetrics":  {
+      "jaroWinkler":  {
+        "similarity": 0.8,
+        "timeEstimated": 0.0017368001,
+        "timeActual": 0
+      },
+      "levenshtein":  {
+        "similarity": 0.39999998,
+        "timeEstimated": 0.0072,
+        "timeActual": 0
+      }
+    },
+    "SecondString":  {
+      "jaroWinkler":  {
+        "similarity": 0.7999999999999999,
+        "timeTaken": "3 ms"
+      },
+      "levenshtein":  {
+        "similarity": 0.4,
+        "timeTaken": "3 ms",
+        "distance": 6
+      },
+      "level2jaroWinkler":  {
+        "similarity": 0.888888888888889,
+        "timeTaken": "3 ms"
+      },
+      "level2levenshtein":  {
+        "similarity": 0.5,
+        "timeTaken": "1 ms",
+        "distance": 5
+      }
+    },
+    "FullContact":  {
+      "BigramAnalysis":  {
+        "dice":  {
+          "similarity": 0.5,
+          "timeTaken": "15 ms"
+        }
+      }
+    }
+  },
+  "status": 200
+}

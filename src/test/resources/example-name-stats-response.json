@@ -1,0 +1,62 @@
+{
+  "status": 200,
+  "name": {
+    "value": "John Smith",
+    "given": {
+      "count": 3499150,
+      "rank": 3,
+      "male": {
+        "count": 3484136,
+        "likelihood": 0.996,
+        "rank": 3,
+        "frequencyRatio": 0.026305137,
+        "age": {
+          "densityCurve": {
+            "mode": {
+              "count": 77174,
+              "modeAge": 
+              [
+                47
+              ]
+            },
+            "meanAge": 51.2,
+            "quartiles": {
+              "q1": 35.3,
+              "q2": 50.5,
+              "q3": 62.9
+            }
+          }
+        }
+      },
+      "female": {
+        "count": 15015,
+        "likelihood": 0.004,
+        "rank": 928,
+        "frequencyRatio": 0.00011386,
+        "age": {
+          "densityCurve": {
+            "mode": {
+              "count": 297,
+              "modeAge": 
+              [
+                43
+              ]
+            },
+            "meanAge": 48.5,
+            "quartiles": {
+              "q1": 34.8,
+              "q2": 49.4,
+              "q3": 69.4
+            }
+          }
+        }
+      }
+    },
+    "family": {
+      "count": 2376206,
+      "rank": 1,
+      "frequencyRatio": 0.009814123
+    }
+  },
+  "region": "USA"
+}

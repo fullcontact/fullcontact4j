@@ -5,11 +5,14 @@ import java.util.List;
 public class NameResponse extends FCResponse {
 
     private String region;
+    private double likelihood;
     private NameDetails nameDetails;
 
     public NameDetails getNameDetails() {
         return nameDetails;
     }
+
+    public double getLikelihood() { return likelihood; }
 
     public String getRegion() {
         return region;
@@ -19,6 +22,7 @@ public class NameResponse extends FCResponse {
         private String givenName;
         private String familyName;
         private List<String> middleNames;
+        private List<String> prefixes;
         private List<String> suffixes;
         private List<String> nicknames;
         private String fullName;
@@ -30,6 +34,8 @@ public class NameResponse extends FCResponse {
         public List<String> getNicknames() {
             return nicknames;
         }
+
+        public List<String> getPrefixes() { return prefixes; }
 
         public List<String> getSuffixes() {
             return suffixes;

@@ -1,94 +1,108 @@
 package com.fullcontact.api.libs.fullcontact4j.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-//might need to include DeserializationFeature.UNWRAP_ROOT_VALUE
-@JsonRootName("results")
+@JsonRootName("result")
 public class NameSimilarityResponse extends FCResponse {
-    private SimMetricsInfo simMetrics;
-    private SecondStringInfo secondString;
-    private FullContactInfo fullContact;
 
-    @JsonProperty("simMetrics")
-    public SimMetricsInfo getSimMetricsAlgorithmResults() {
-        return simMetrics;
-    }
+    private NameSimilarityResult result;
 
-    @JsonProperty("secondString")
-    public SecondStringInfo getSecondStringAlgorithmResults() {
-        return secondString;
-    }
+    public NameSimilarityResult getResult() { return result; }
 
-    @JsonProperty("fullContact")
-    public FullContactInfo getFullContactAlgorithmResults() {
-        return fullContact;
-    }
+    public static class NameSimilarityResult {
 
-    public static class SimilarityInfo {
-        private double similarity;
-        private String timeTaken;
-        private double timeEstimated;
-        private double timeActual;
+        @JsonProperty("SimMetrics")
+        private SimMetricsInfo simMetrics;
+        @JsonProperty("SecondString")
+        private SecondStringInfo secondString;
+        @JsonProperty("FullContact")
+        private FullContactInfo fullContact;
 
-        public double getTimeActual() {
-            return timeActual;
+        public SimMetricsInfo getSimMetricsAlgorithmResults() {
+            return simMetrics;
         }
 
-        public double getTimeEstimated() {
-            return timeEstimated;
+        public SecondStringInfo getSecondStringAlgorithmResults() {
+            return secondString;
         }
 
-        public String getTimeTaken() {
-            return timeTaken;
+        public FullContactInfo getFullContactAlgorithmResults() {
+            return fullContact;
         }
 
-        public double getSimilarity() {
-            return similarity;
+        @JsonIgnoreProperties("dice")
+        public static class SimilarityInfo {
+            private double similarity;
+            private String timeTaken;
+            private double distance;
+            private double timeEstimated;
+            private double timeActual;
+
+            public double getTimeActual() {
+                return timeActual;
+            }
+
+            public double getTimeEstimated() {
+                return timeEstimated;
+            }
+
+            public String getTimeTaken() {
+                return timeTaken;
+            }
+
+            public double getSimilarity() {
+                return similarity;
+            }
+
+            public double getDistance() { return distance; }
+
         }
 
-    }
-    public static class SimMetricsInfo {
-        private SimilarityInfo jaroWinkler;
-        private SimilarityInfo levenshtein;
+        public static class SimMetricsInfo {
+            private SimilarityInfo jaroWinkler;
+            private SimilarityInfo levenshtein;
 
-        public SimilarityInfo getJaroWinkler() {
-            return jaroWinkler;
+            public SimilarityInfo getJaroWinkler() {
+                return jaroWinkler;
+            }
+
+            public SimilarityInfo getLevenshtein() {
+                return levenshtein;
+            }
         }
 
-        public SimilarityInfo getLevenshtein() {
-            return levenshtein;
+        public static class SecondStringInfo {
+            private SimilarityInfo jaroWinkler;
+            private SimilarityInfo levenshtein;
+            private SimilarityInfo level2jaroWinkler;
+            private SimilarityInfo level2levenshtein;
+
+            public SimilarityInfo getJaroWinkler() {
+                return jaroWinkler;
+            }
+
+            public SimilarityInfo getLevenshtein() {
+                return levenshtein;
+            }
+
+            public SimilarityInfo getLevel2jaroWinkler() {
+                return level2jaroWinkler;
+            }
+
+            public SimilarityInfo getLevel2levenshtein() {
+                return level2levenshtein;
+            }
         }
-    }
 
-    public static class SecondStringInfo {
-        private SimilarityInfo jaroWinkler;
-        private SimilarityInfo levenshtein;
-        private SimilarityInfo level2jaroWinkler;
-        private SimilarityInfo level2levenshtein;
+        public static class FullContactInfo {
+            @JsonProperty("BigramAnalysis")
+            private SimilarityInfo bigramAnalysis;
 
-        public SimilarityInfo getJaroWinkler() {
-            return jaroWinkler;
-        }
-
-        public SimilarityInfo getLevenshtein() {
-            return levenshtein;
-        }
-
-        public SimilarityInfo getLevel2jaroWinkler() {
-            return level2jaroWinkler;
-        }
-
-        public SimilarityInfo getLevel2levenshtein() {
-            return level2levenshtein;
-        }
-    }
-
-    public static class FullContactInfo {
-        private SimilarityInfo bigramAnalysis;
-
-        public SimilarityInfo getBigramAnalysis() {
-            return bigramAnalysis;
+            public SimilarityInfo getBigramAnalysis() {
+                return bigramAnalysis;
+            }
         }
     }
 }

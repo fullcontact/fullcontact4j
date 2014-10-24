@@ -32,7 +32,7 @@ public interface FullContactApi {
     public void viewAll(@QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_DISPOSABLE_EMAIL)
-    public void getDisposableEmail(@Query("email") String email, Callback<DisposableResponse> callback);
+    public void getDisposableEmail(@Query("email") String email, Callback<DisposableEmailResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_NAME_NORMALIZER)
     public void getNormalizedName(@QueryMap Map<String, String> opts, Callback<NameResponse> response);

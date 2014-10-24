@@ -13,7 +13,6 @@ public class PersonResponse extends FCResponse {
     private DigitalFootPrints digitalFootprint;
     private List<Organization> organizations;
     private List<Photo> photos;
-    private int status;
     private double likelihood;
     private List<SocialProfile> socialProfiles;
     private String requestId;
