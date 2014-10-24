@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
-import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.ContactInfo;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.model.ContactInfo;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 

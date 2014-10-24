@@ -1,6 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.UnverifiedField;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.model.UnverifiedField;
 import junit.framework.TestCase;
 
 /**

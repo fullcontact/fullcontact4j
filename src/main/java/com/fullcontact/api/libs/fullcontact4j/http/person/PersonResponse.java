@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.http.person;
 
-import com.fullcontact.api.libs.fullcontact4j.entity.person.*;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.person.model.*;
 
 import java.util.List;
 
