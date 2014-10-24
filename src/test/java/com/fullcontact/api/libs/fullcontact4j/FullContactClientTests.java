@@ -123,13 +123,6 @@ public class FullContactClientTests extends EasyMockSupport {
         }
     }
 
-    @Test
-    public void sameThreadTest() throws Exception {
-        FullContact fc = FullContact.withApiKey("bad").build();
-        GenericRequest r = fc.buildGenericRequest().path("badPath").build();
-        fc.sendRequest(r);
-    }
-
     private PersonResponse newMockResponse(final String email) {
         PersonResponse mock = new PersonResponse() {
             public String getRequestId() {
