@@ -1,12 +1,14 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.*;
-import com.fullcontact.api.libs.fullcontact4j.response.ErrorResponse;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
-import com.fullcontact.api.libs.fullcontact4j.response.PersonResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.RequestExecutorHandler;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.ErrorResponse;
 import com.squareup.okhttp.OkHttpClient;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
@@ -124,11 +126,10 @@ public class FullContactClientTests extends EasyMockSupport {
     }
 
     private PersonResponse newMockResponse(final String email) {
-        PersonResponse mock = new PersonResponse() {
+        return new PersonResponse() {
             public String getRequestId() {
                 return email;
             }
         };
-        return mock;
     }
 }

@@ -2,7 +2,18 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
-import com.fullcontact.api.libs.fullcontact4j.response.*;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameParseResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,7 +44,7 @@ public class ResponseModelTests {
 
     @Test
     public void cardReaderAcceptDeserializationTest() throws Exception {
-        UploadCardConfirmResponse conf = mapper.readValue(Utils.loadFile("example-upload-confirm-response.json"), UploadCardConfirmResponse.class);
+        CardReaderUploadConfirmResponse conf = mapper.readValue(Utils.loadFile("example-upload-confirm-response.json"), CardReaderUploadConfirmResponse.class);
         assertEquals(conf.getEstimatedWaitTimeMinutes(), 33);
         assertEquals(conf.getStatus(), 202);
     }

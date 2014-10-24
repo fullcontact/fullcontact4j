@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;

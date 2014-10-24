@@ -1,10 +1,20 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.*;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.GenericRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.name.*;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 
@@ -65,7 +75,7 @@ public class FullContact {
      * Upload a new card to be processed by Card Reader.
      * @param front a ByteArrayOutputStream representing the picture of the front of the card
      */
-    public UploadCardRequest.Builder buildUploadCardRequest(InputStream front) { return new UploadCardRequest.Builder().cardFront(front); }
+    public CardReaderUploadRequest.Builder buildUploadCardRequest(InputStream front) { return new CardReaderUploadRequest.Builder().cardFront(front); }
 
     /**
      * View a single card.
@@ -131,7 +141,7 @@ public class FullContact {
      * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
      * @param req the request, generated with a call to build____Request().
      * @param <T> the Response type
-     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.response.FCResponse}.
+     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.http.FCResponse}.
      */
     public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
         return httpInterface.sendRequest(req);
@@ -139,8 +149,8 @@ public class FullContact {
 
     /**
      * Makes an asynchronous request to the FullContact APIs.
-     * Exceptions will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#failure(FullContactException)}.
-     * Successful responses will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#success(com.fullcontact.api.libs.fullcontact4j.response.FCResponse)}
+     * Exceptions will call {@link com.fullcontact.api.libs.fullcontact4j.http.FCCallback#failure(FullContactException)}.
+     * Successful responses will call {@link com.fullcontact.api.libs.fullcontact4j.http.FCCallback#success(com.fullcontact.api.libs.fullcontact4j.http.FCResponse)}
      * @param req the request, generated with a call to build____Request().
      * @param callback your callback
      * @param <T> the Response type

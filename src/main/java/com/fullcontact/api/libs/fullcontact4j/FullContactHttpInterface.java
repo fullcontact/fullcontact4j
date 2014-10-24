@@ -2,16 +2,17 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
-import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.RequestExecutorHandler;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.RestAdapter;
-import retrofit.client.*;
+import retrofit.client.Client;
+import retrofit.client.Header;
+import retrofit.client.OkClient;
+import retrofit.client.Request;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
 
@@ -59,7 +60,7 @@ public class FullContactHttpInterface {
     }
 
     public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
-        final SyncFCCallback<T> callback = new SyncFCCallback<T>();
+        final FCCallback.SyncFCCallback<T> callback = new FCCallback.SyncFCCallback<T>();
         callback.setHttpInterface(this);
         sendRequest(req, callback);
         try {

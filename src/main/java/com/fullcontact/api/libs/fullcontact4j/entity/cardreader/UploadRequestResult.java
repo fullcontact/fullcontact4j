@@ -1,6 +1,5 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.UnverifiedField;
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.exception.InvalidUnverifiedFieldException;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderVerification;

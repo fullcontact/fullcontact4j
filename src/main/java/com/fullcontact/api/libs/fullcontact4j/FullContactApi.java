@@ -1,8 +1,19 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
-import com.fullcontact.api.libs.fullcontact4j.request.UploadCardRequest;
-import com.fullcontact.api.libs.fullcontact4j.response.*;
+import com.fullcontact.api.libs.fullcontact4j.http.GenericResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameParseResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import retrofit.Callback;
 import retrofit.http.*;
 
@@ -23,7 +34,7 @@ public interface FullContactApi {
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
 
     @POST(FCConstants.API_ENDPOINT_CARDREADER)
-    public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body UploadCardRequest.RequestBodyJson bodyJson, Callback<UploadCardConfirmResponse> callback);
+    public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body CardReaderUploadRequest.RequestBodyJson bodyJson, Callback<CardReaderUploadConfirmResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_CARDREADER + "/{id}")
     public void viewCard(@QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);

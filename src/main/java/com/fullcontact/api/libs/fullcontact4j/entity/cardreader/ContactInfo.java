@@ -1,5 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.cardreader;
+
 import com.fullcontact.api.libs.fullcontact4j.entity.cardreader.contactinfo.*;
+
 import java.io.Serializable;
 import java.util.List;
 public class ContactInfo implements Serializable {

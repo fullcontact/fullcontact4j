@@ -1,7 +1,5 @@
 package com.fullcontact.api.libs.fullcontact4j.entity.name;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class NameParserEntity extends BaseEntity{
 
 
