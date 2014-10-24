@@ -15,7 +15,7 @@ public class NameStatsRequest extends FCRequest<NameStatsResponse> {
 
     @Override
     protected void makeRequest(FullContactApi api, Callback<NameStatsResponse> callback) {
-
+        api.getNameStats(params, callback);
     }
 
     public static class Builder extends BaseBuilder<NameStatsRequest> {

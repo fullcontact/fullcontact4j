@@ -11,10 +11,7 @@ import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
 import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.RestAdapter;
-import retrofit.client.Client;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
+import retrofit.client.*;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
 
@@ -98,11 +95,14 @@ public class FullContactHttpInterface {
     }
 
 
-    //a regular OkClient that assures that only the API key OR the auth token are sent as a header.
+    //a regular OkClient that assures that only the API key OR the auth token are sent as a header and adds
+    //a user agent header.
     public static class DynamicHeaderOkClient extends OkClient {
         private String apiKey;
-        public DynamicHeaderOkClient(OkHttpClient client, String apiKey) {
+        private String userAgent;
+        public DynamicHeaderOkClient(String userAgent, OkHttpClient client, String apiKey) {
             super(client);
+            this.userAgent = userAgent;
             this.apiKey = apiKey;
         }
 
@@ -120,6 +120,7 @@ public class FullContactHttpInterface {
             } else {
                 Utils.verbose("Added auth token instead of API key to headers");
             }
+            connection.addRequestProperty(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
             return connection;
         }
     }

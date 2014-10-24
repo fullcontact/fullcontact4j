@@ -4,16 +4,17 @@ public class FCConstants {
 
     public static final String API_BASE_DEFAULT = "https://api.fullcontact.com/v2";
     public static final String LOG_PREFIX = "[fc4j]";
+    public static final String USER_AGENT_BASE = "FullContact4j/2.0 ";
 
     public static final String API_ENDPOINT_PERSON = "/person.json";
     public static final String API_ENDPOINT_CARDREADER = "/cardReader";
     public static final String API_ENDPOINT_DISPOSABLE_EMAIL = "/disposable.json";
-    public static final String API_ENDPOINT_NAME_NORMALIZER = "name/normalizer.json";
-    public static final String API_ENDPOINT_NAME_DEDUCER = "name/deducer.json";
-    public static final String API_ENDPOINT_NAME_SIMILARITY = "name/similarity.json";
-    public static final String API_ENDPOINT_NAME_STATS = "name/stats.json";
-    public static final String API_ENDPOINT_NAME_PARSER = "name/parser.json";
-    public static final String API_ENDPOINT_LOCATION_NORMALIZER = "address/locationNormalizer.json";
+    public static final String API_ENDPOINT_NAME_NORMALIZER = "/name/normalizer.json";
+    public static final String API_ENDPOINT_NAME_DEDUCER = "/name/deducer.json";
+    public static final String API_ENDPOINT_NAME_SIMILARITY = "/name/similarity.json";
+    public static final String API_ENDPOINT_NAME_STATS = "/name/stats.json";
+    public static final String API_ENDPOINT_NAME_PARSER = "/name/parser.json";
+    public static final String API_ENDPOINT_LOCATION_NORMALIZER = "/address/locationNormalizer.json";
     public static final String API_ENDPOINT_LOCATION_ENRICHMENT = "/address/locationEnrichment.json";
     public static final String API_ENDPOINT_ACCOUNT_STATS = "/stats.json";
 
@@ -23,7 +24,6 @@ public class FCConstants {
     public static final String HEADER_AUTH_API_KEY = "X-FullContact-APIKey";
     public static final String HEADER_AUTH_ACCESS_TOKEN = "X-FullContact-AccessToken";
     public static final String HEADER_USER_AGENT = "User-Agent";
-    public static final String HEADER_DEFAULT_AGENT = "FullContact4j";
 
     public static final String PARAM_PERSON_EMAIL = "email";
     public static final String PARAM_PERSON_EMAIL_MD5 = "emailMD5";
@@ -49,6 +49,9 @@ public class FCConstants {
     public static final String PARAM_NAME_CASING = "casing";
     public static final String PARAM_NAME_NAME1 = "q1";
     public static final String PARAM_NAME_NAME2 = "q2";
+    public static final String PARAM_NAME_GIVEN_NAME = "givenName";
+    public static final String PARAM_NAME_NAME = "name";
+    public static final String PARAM_NAME_FAMILY_NAME = "familyName";
 
     public static final String PARAM_LOCATION_PLACE = "place";
 

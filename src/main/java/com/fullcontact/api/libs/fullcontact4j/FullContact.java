@@ -46,12 +46,6 @@ public class FullContact {
         return new Builder(apiKey);
     }
 
-
-    //api solution - create new client extends retrofit.Client
-    // public void execute(Request) {
-    // handleHeaders();
-    // coreClient.execute();
-    // }
     //TODO update /developer/docs/libraries/
     /////API Methods//////
 
@@ -163,6 +157,8 @@ public class FullContact {
 
         private String authKey;
         private OkHttpClient httpClient = new OkHttpClient();
+        private OkHttpClient defaultClient = new OkHttpClient();
+        private String userAgent = "";
         private Integer threadPoolCount = 1;
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
@@ -196,8 +192,8 @@ public class FullContact {
         /**
          * Sets the read timeout.
          */
-        public Builder setReadTimeout(Integer timeoutMs) {
-            httpClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        public Builder setDefaultClientReadTimeout(Integer timeoutMs) {
+            defaultClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
             return this;
         }
 
@@ -206,8 +202,16 @@ public class FullContact {
          * @param timeoutMs
          * @return
          */
-        public Builder setConnectTimeout(Integer timeoutMs) {
-            httpClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        public Builder setDefaultClientConnectTimeout(Integer timeoutMs) {
+            defaultClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            return this;
+        }
+
+        /**
+         * Sets the user agent string used in all headers by the FullContact client (not just the default).
+         */
+        public Builder setUserAgent(String agent) {
+            userAgent = agent;
             return this;
         }
 
@@ -239,7 +243,7 @@ public class FullContact {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
 
-            return new FullContact(new FullContactHttpInterface.DynamicHeaderOkClient(httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
+            return new FullContact(new FullContactHttpInterface.DynamicHeaderOkClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
         }
     }
 
