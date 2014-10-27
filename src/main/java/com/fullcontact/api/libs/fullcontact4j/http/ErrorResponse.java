@@ -9,7 +9,7 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import java.io.IOException;
 
 /**
- * When FullContact's APIs return a non-200 result, they also send in the response body
+ * When FullContact's APIs return a non-200 result, it also returns a response body with
  * simple but useful information about the error.
  */
 public class ErrorResponse {

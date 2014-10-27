@@ -13,7 +13,7 @@ import retrofit.converter.ConversionException;
 
 /**
  * A FCCallback class is technically a wrapper for a regular, Retrofit Callback class.
- * However, it also handles information from the header and presents more user-friendly errors.
+ * However, it also handles information from the response headers and presents more user-friendly errors.
  * @param <T>
  */
 public abstract class FCCallback<T extends FCResponse> {
@@ -27,10 +27,10 @@ public abstract class FCCallback<T extends FCResponse> {
             try {
                 for (Header h : response.getHeaders()) {
                     if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
+                        Utils.verbose("Updated rate limit based on response headers from FullContact.");
                         httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
                         break;
                     }
-                    Utils.verbose(h.getName() + " : " + h.getValue());
                 }
             } catch(NumberFormatException e) {
                 //rate limit per minute wasn't a number (???), don't set any limits
@@ -44,9 +44,8 @@ public abstract class FCCallback<T extends FCResponse> {
         @Override
         public void failure(RetrofitError retrofitError) {
             Throwable ex = retrofitError;
-            //do some logic to figure out why this error occured
+            //do some logic to figure out why this error occurred
             String reason = "Unknown reason for exception, see stack trace";
-            Integer errorCode = null;
             Response response = retrofitError.getResponse();
             switch(retrofitError.getKind()) {
                 case CONVERSION:
@@ -63,7 +62,7 @@ public abstract class FCCallback<T extends FCResponse> {
                                 .fromBody(response.getBody(),
                                 ErrorResponse.class);
                         reason = errorResponse.message;
-                        if(errorCode == 404 && errorResponse.message.contains("person")) {
+                        if(errorResponse.status == 404 && errorResponse.message.contains("No results found")) {
                             //on a 404 (person not found), return an empty PersonResponse as opposed to an exception
                             FCCallback.this.success((T)httpInterface.getJsonConverter().
                                     fromBody(response.getBody(), PersonResponse.class));
@@ -83,7 +82,7 @@ public abstract class FCCallback<T extends FCResponse> {
                 default:
                     break;
             }
-            FCCallback.this.failure(new FullContactException(reason, errorCode, ex));
+            FCCallback.this.failure(new FullContactException(reason, response.getStatus(), ex));
         }
     };
 

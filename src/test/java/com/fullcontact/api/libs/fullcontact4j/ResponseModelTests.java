@@ -24,11 +24,6 @@ import static org.junit.Assert.assertTrue;
 public class ResponseModelTests {
     public static ObjectMapper mapper = new ObjectMapper();
 
-
-
-    //TODO routing tests
-    //header tests
-
     @Test
     public void personDeserializationTest() throws IOException {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response.json"), PersonResponse.class);

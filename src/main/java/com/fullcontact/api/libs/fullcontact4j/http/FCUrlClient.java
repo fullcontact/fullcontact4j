@@ -1,4 +1,4 @@
-package com.fullcontact.api.libs.fullcontact4j.http.client;
+package com.fullcontact.api.libs.fullcontact4j.http;
 /*
  * Copyright (C) 2013 Square, Inc.
  *

@@ -24,6 +24,7 @@ public class RequestModelTests {
     }
 
     @Test
+    //encode and then decode a card
     public void cardReaderImageEncodeTest() throws IOException {
         BASE64Decoder decoder = new BASE64Decoder();
         File origFile = Utils.loadFile("businesscard.jpg");

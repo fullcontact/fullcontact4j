@@ -5,6 +5,10 @@ import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * A builder template that automatically validates any parameters surrounding webhooks.
+ * @param <T>
+ */
 public abstract class WebhookBuilder<T extends FCRequest> extends FCRequest.BaseBuilder<T> {
 
     protected void validate() {
