@@ -7,17 +7,10 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.RequestExecutorHandler;
-import com.squareup.okhttp.OkHttpClient;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
 
 /**
  * This interface holds references to all the objects used by a FullContact client to communicate with the api,
@@ -94,34 +87,4 @@ public class FullContactHttpInterface {
         requestExecutorHandler = handler;
     }
 
-
-    //a regular OkClient that assures that only the API key OR the auth token are sent as a header and adds
-    //a user agent header.
-    public static class DynamicHeaderOkClient extends OkClient {
-        private String apiKey;
-        private String userAgent;
-        public DynamicHeaderOkClient(String userAgent, OkHttpClient client, String apiKey) {
-            super(client);
-            this.userAgent = userAgent;
-            this.apiKey = apiKey;
-        }
-
-        @Override protected HttpURLConnection openConnection(Request request) throws IOException {
-            HttpURLConnection connection = super.openConnection(request);
-            boolean hasAuthToken = false;
-            for(Header header : request.getHeaders()) {
-                if(header.getName().equals(FCConstants.HEADER_AUTH_ACCESS_TOKEN)) {
-                    hasAuthToken = true;
-                }
-            }
-            if(!hasAuthToken) {
-                connection.addRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
-                Utils.verbose("Added API key to headers");
-            } else {
-                Utils.verbose("Added auth token instead of API key to headers");
-            }
-            connection.addRequestProperty(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
-            return connection;
-        }
-    }
 }

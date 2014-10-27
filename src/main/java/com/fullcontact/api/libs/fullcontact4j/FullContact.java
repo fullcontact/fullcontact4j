@@ -8,6 +8,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.client.FCUrlClient;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
@@ -245,7 +246,7 @@ public class FullContact {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
 
-            return new FullContact(new FullContactHttpInterface.DynamicHeaderOkClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
+            return new FullContact(new FCUrlClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
         }
     }
 
