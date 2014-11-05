@@ -55,6 +55,8 @@ public class FCConstants {
 
     public static final String PARAM_LOCATION_PLACE = "place";
 
+    public static final String PARAM_ACCOUNT_STATS_PERIOD = "period";
+
     public static final String PARAM_WEBHOOK_URL = "webhookUrl";
     public static final String PARAM_WEBHOOK_ID = "webhookId";
     public static final String PARAM_WEBHOOK_BODY = "webhookBody";

@@ -47,7 +47,7 @@ public class NameDeduceRequest extends FCRequest<NameResponse> {
             boolean hasEmail = email != null && !email.isEmpty();
             boolean hasUsername = username != null && !username.isEmpty();
             //if both email and username are present, or neither of them are...
-            if(hasEmail != hasUsername) {
+            if(hasEmail == hasUsername) {
                 throw new IllegalArgumentException("Request must specify exactly one: email or username");
             }
         }

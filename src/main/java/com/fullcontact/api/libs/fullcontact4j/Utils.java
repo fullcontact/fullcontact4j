@@ -49,7 +49,7 @@ public class Utils {
 
     public static boolean isValidEmail(String email) {
         //regex tries to match [any]@[any].[any]
-        return email.matches("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+");
+        return email.contains("@");
     }
 
     public static boolean isAlphabeticalOnly(String str) {

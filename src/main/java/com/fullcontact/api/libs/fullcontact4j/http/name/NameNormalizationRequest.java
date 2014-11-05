@@ -2,7 +2,6 @@ package com.fullcontact.api.libs.fullcontact4j.http.name;
 
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import retrofit.Callback;
@@ -43,9 +42,6 @@ public class NameNormalizationRequest extends FCRequest<NameResponse> {
             String query = params.get(FCConstants.PARAM_NAME_QUERY);
             if(query == null || query.isEmpty()) {
                 throw new IllegalArgumentException("Query cannot be empty or null");
-            }
-            if(!Utils.isAlphabeticalOnly(query)) {
-                throw new IllegalArgumentException("Query can only use characters A-Z and a-z");
             }
         }
     }
