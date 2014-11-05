@@ -8,18 +8,18 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 @JsonRootName("result")
 public class NameSimilarityResponse extends FCResponse {
 
-    private NameSimilarityResult result;
+    private NameSimilarityResult result = new NameSimilarityResult();
 
     public NameSimilarityResult getResult() { return result; }
 
     public static class NameSimilarityResult {
 
         @JsonProperty("SimMetrics")
-        private SimMetricsInfo simMetrics;
+        private SimMetricsInfo simMetrics = new SimMetricsInfo();
         @JsonProperty("SecondString")
-        private SecondStringInfo secondString;
+        private SecondStringInfo secondString = new SecondStringInfo();
         @JsonProperty("FullContact")
-        private FullContactInfo fullContact;
+        private FullContactInfo fullContact = new FullContactInfo();
 
         public SimMetricsInfo getSimMetricsAlgorithmResults() {
             return simMetrics;
@@ -62,8 +62,8 @@ public class NameSimilarityResponse extends FCResponse {
         }
 
         public static class SimMetricsInfo {
-            private SimilarityInfo jaroWinkler;
-            private SimilarityInfo levenshtein;
+            private SimilarityInfo jaroWinkler = new SimilarityInfo();
+            private SimilarityInfo levenshtein = new SimilarityInfo();
 
             public SimilarityInfo getJaroWinkler() {
                 return jaroWinkler;
@@ -75,10 +75,10 @@ public class NameSimilarityResponse extends FCResponse {
         }
 
         public static class SecondStringInfo {
-            private SimilarityInfo jaroWinkler;
-            private SimilarityInfo levenshtein;
-            private SimilarityInfo level2jaroWinkler;
-            private SimilarityInfo level2levenshtein;
+            private SimilarityInfo jaroWinkler = new SimilarityInfo();
+            private SimilarityInfo levenshtein = new SimilarityInfo();
+            private SimilarityInfo level2jaroWinkler = new SimilarityInfo();
+            private SimilarityInfo level2levenshtein = new SimilarityInfo();
 
             public SimilarityInfo getJaroWinkler() {
                 return jaroWinkler;
@@ -99,7 +99,7 @@ public class NameSimilarityResponse extends FCResponse {
 
         public static class FullContactInfo {
             @JsonProperty("BigramAnalysis")
-            private SimilarityInfo bigramAnalysis;
+            private SimilarityInfo bigramAnalysis = new SimilarityInfo();
 
             public SimilarityInfo getBigramAnalysis() {
                 return bigramAnalysis;

@@ -3,6 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.http.misc;
 
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AccountStatsResponse extends FCResponse {
@@ -12,7 +13,7 @@ public class AccountStatsResponse extends FCResponse {
     private double planBasePrice;
     private double planOveragePrice;
     private String applicationId;
-    private List<AccountMetric> metrics;
+    private List<AccountMetric> metrics = Collections.emptyList();
 
     public String getPeriodStart() {
         return periodStart;

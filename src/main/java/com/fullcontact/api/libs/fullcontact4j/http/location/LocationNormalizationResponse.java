@@ -9,8 +9,8 @@ public class LocationNormalizationResponse extends FCResponse {
     private String continent;
     private double likelihood;
     private String normalizedLocation;
-    private LocationCodeInfo state;
-    private LocationCodeInfo country;
+    private LocationCodeInfo state = new LocationCodeInfo();
+    private LocationCodeInfo country = new LocationCodeInfo();
 
     public String getCity() {
         return city;

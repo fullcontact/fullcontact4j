@@ -11,7 +11,7 @@ public class Demographics {
     private String influencerScore;
     private String locationGeneral;
     private String maritalStatus;
-    private DeducedLocation locationDeduced;
+    private DeducedLocation locationDeduced = new DeducedLocation();
     public DeducedLocation getLocationDeduced() {
         return locationDeduced;
     }

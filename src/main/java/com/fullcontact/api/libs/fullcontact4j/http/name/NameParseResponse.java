@@ -5,7 +5,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 public class NameParseResponse extends FCResponse {
 
     private String ambiguousName;
-    private Result result;
+    private Result result = new Result();
     private String region;
 
     public String getAmbiguousName() {

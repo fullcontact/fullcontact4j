@@ -1,11 +1,12 @@
 package com.fullcontact.api.libs.fullcontact4j.http.person.model;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DigitalFootPrints {
-    private List<DigitalFootPrintsTopic> topics;
+    private List<DigitalFootPrintsTopic> topics = Collections.emptyList();
 
-    private List<DigitalFootPrintsScore> scores;
+    private List<DigitalFootPrintsScore> scores = Collections.emptyList();
     public List<DigitalFootPrintsTopic> getTopics() {
         return topics;
     }

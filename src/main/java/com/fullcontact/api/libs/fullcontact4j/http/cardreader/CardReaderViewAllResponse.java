@@ -2,6 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j.http.cardreader;
 
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CardReaderViewAllResponse extends FCResponse {
@@ -9,7 +10,7 @@ public class CardReaderViewAllResponse extends FCResponse {
     private int totalPages;
     private int totalRecords;
     private int count;
-    private List<CardReaderFullResponse> results;
+    private List<CardReaderFullResponse> results = Collections.emptyList();
 
     public List<CardReaderFullResponse> getResults() {
         return results;

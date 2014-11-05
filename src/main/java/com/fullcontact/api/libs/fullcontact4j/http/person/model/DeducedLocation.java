@@ -4,11 +4,11 @@ public class DeducedLocation {
     private double likelihood;
     private String normalizedLocation;
     private String deducedLocation;
-    private LocationEntry city;
-    private LocationEntry state;
-    private LocationEntry country;
-    private LocationEntry continent;
-    private LocationEntry county;
+    private LocationEntry city = new LocationEntry();
+    private LocationEntry state = new LocationEntry();
+    private LocationEntry country = new LocationEntry();
+    private LocationEntry continent = new LocationEntry();
+    private LocationEntry county = new LocationEntry();
 
     public LocationEntry getCounty() {
         return county;

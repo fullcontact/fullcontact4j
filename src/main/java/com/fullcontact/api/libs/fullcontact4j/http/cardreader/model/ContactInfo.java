@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader.model;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -8,16 +9,16 @@ import java.util.List;
 public class ContactInfo {
 
     private Name name;
-    private List<BasicContactInfo> emails;
-    private List<BasicContactInfo> phoneNumbers;
-    private List<BasicContactInfo> photos;
-    private List<BasicContactInfo> urls;
-    private List<Organization> organizations;
+    private List<BasicContactInfo> emails = Collections.emptyList();
+    private List<BasicContactInfo> phoneNumbers = Collections.emptyList();
+    private List<BasicContactInfo> photos = Collections.emptyList();
+    private List<BasicContactInfo> urls = Collections.emptyList();
+    private List<Organization> organizations = Collections.emptyList();
     // Twitter, Facebook, etc...
-    private List<Account> accounts;
+    private List<Account> accounts = Collections.emptyList();
     // Skype, etc..
-    private List<BasicContactInfo> ims;
-    private List<Address> addresses;
+    private List<BasicContactInfo> ims = Collections.emptyList();
+    private List<Address> addresses = Collections.emptyList();
 
     public Name getName() {
         return name;

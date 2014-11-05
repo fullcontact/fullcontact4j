@@ -11,6 +11,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class CardReaderFullResponse extends FCResponse {
@@ -21,11 +22,11 @@ public class CardReaderFullResponse extends FCResponse {
     private String webhookUrl;
     private CardReaderQuality quality;
     private String submitted;
-    private ContactInfo contact;
+    private ContactInfo contact = new ContactInfo();
     private String id;
     private String vCardUrl;
-    private ContactInfo unverifiedContact;
-    private List<String> unverifiedFields;
+    private ContactInfo unverifiedContact = new ContactInfo();
+    private List<String> unverifiedFields = Collections.emptyList();
     private String unverifiedVCardUrl;
     private String clientServerResponseCode;
     private String clientServerResponseBody;

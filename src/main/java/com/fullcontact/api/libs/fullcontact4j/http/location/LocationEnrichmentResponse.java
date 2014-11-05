@@ -3,11 +3,12 @@ package com.fullcontact.api.libs.fullcontact4j.http.location;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 public class LocationEnrichmentResponse extends FCResponse {
 
-    private List<Location> locations;
+    private List<Location> locations = Collections.emptyList();
 
     @JsonProperty("locations")
     public List<Location> getPossibleLocations() { return locations; }
@@ -17,8 +18,8 @@ public class LocationEnrichmentResponse extends FCResponse {
     public static class Location {
         private String city;
         private String county;
-        private LocationCodeInfo state;
-        private LocationCodeInfo country;
+        private LocationCodeInfo state = new LocationCodeInfo();
+        private LocationCodeInfo country = new LocationCodeInfo();
         private String continent;
         private int population;
         private String normalizedLocation;
