@@ -30,6 +30,7 @@ public class FullContact {
      * convert responses, etc.
      */
     protected FullContactHttpInterface httpInterface;
+    private boolean isShutdown = false;
 
     protected FullContact(Client httpClient, RateLimiterPolicy policy, String baseUrl,
                         Integer threadPoolCount) {
@@ -149,7 +150,15 @@ public class FullContact {
      * @param <T> the Response type
      */
     public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
+        if(isShutdown) {
+            throw new IllegalArgumentException("this client cannot make requests -- shutdown() has already been called");
+        }
         httpInterface.sendRequest(req, callback);
+    }
+
+    public void shutdown() {
+        isShutdown = true;
+        httpInterface.getRequestExecutorHandler().shutdown();
     }
 
 
@@ -244,6 +253,9 @@ public class FullContact {
         public FullContact build() {
             if(authKey == null || authKey.isEmpty()) {
                 throw new IllegalArgumentException("Authentication key cannot be null");
+            }
+            if(ratePolicy == null || baseUrl == null || threadPoolCount == null || userAgent == null || httpClient == null) {
+                throw new IllegalArgumentException("One of the builder parameters was null");
             }
 
             return new FullContact(new FCUrlClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);

@@ -68,4 +68,8 @@ public class RequestExecutorHandler {
         }
     }
 
+    public void shutdown() {
+        executorService.shutdown();
+    }
+
 }
