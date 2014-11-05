@@ -37,12 +37,8 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
             return this;
         }
 
-        public Builder diagnostics(Boolean diagnostics) {
-            if(diagnostics) {
-                params.put(FCConstants.PARAM_CARD_DIAGNOSTICS, "true");
-            } else {
-                params.remove(FCConstants.PARAM_CARD_DIAGNOSTICS);
-            }
+        public Builder diagnostics(boolean use) {
+            params.put(FCConstants.PARAM_CARD_DIAGNOSTICS, Boolean.toString(use));
             return this;
         }
 

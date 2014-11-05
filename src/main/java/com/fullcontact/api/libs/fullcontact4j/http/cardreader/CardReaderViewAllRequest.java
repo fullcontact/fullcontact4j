@@ -27,6 +27,11 @@ public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllRespons
             return this;
         }
 
+        public Builder diagnostics(boolean use) {
+            params.put(FCConstants.PARAM_CARD_DIAGNOSTICS, Boolean.toString(use));
+            return this;
+        }
+
         public Builder verifiedOnly(boolean verifiedOnly) {
             if(verifiedOnly) {
                 params.put(FCConstants.PARAM_CARD_RETURNED_DATA, "verifiedOnly");

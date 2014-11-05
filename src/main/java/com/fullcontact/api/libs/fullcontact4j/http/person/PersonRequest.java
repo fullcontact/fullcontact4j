@@ -3,7 +3,9 @@ package com.fullcontact.api.libs.fullcontact4j.http.person;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import retrofit.Callback;
 
 import java.util.Arrays;
@@ -29,6 +31,7 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         }
 
         public Builder emailMd5(String emailMd5) {
+            FCResponse r = new CardReaderUploadConfirmResponse();
             params.put(FCConstants.PARAM_PERSON_EMAIL_MD5, emailMd5);
             return this;
         }
@@ -55,11 +58,6 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         
         public Builder facebookId(String facebookId) {
             params.put(FCConstants.PARAM_PERSON_FACEBOOK_ID, facebookId);
-            return this;
-        }
-
-        public Builder jsonpCallback(String function) {
-            params.put(FCConstants.PARAM_PERSON_CALLBACK, function);
             return this;
         }
 

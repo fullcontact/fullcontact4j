@@ -68,8 +68,8 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             return this;
         }
 
-        public Builder sandbox(String sandboxParam) {
-            params.put(FCConstants.PARAM_CARD_SANDBOX, sandboxParam);
+        public Builder sandbox(Sandbox sandboxParam) {
+            params.put(FCConstants.PARAM_CARD_SANDBOX, sandboxParam.name());
             return this;
         }
 
@@ -85,20 +85,6 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
 
         public Builder webhookUrl(String url) {
             params.put(FCConstants.PARAM_WEBHOOK_URL, url);
-            return this;
-        }
-
-        public Builder webhookId(String id) {
-            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
-            return this;
-        }
-
-        public Builder webhookBody(Boolean responseInBody) {
-            if(responseInBody) {
-                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
-            } else {
-                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
-            }
             return this;
         }
 
@@ -141,5 +127,13 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
 
         private String back;
 
+    }
+
+    public enum Sandbox {
+        PROCESSING,
+        CALLBACK_MADE,
+        CALLBACK_FAILED,
+        CALLBACK_MADE_NOT_PROCESSABLE,
+        CALLBACK_FAILED_NOT_PROCESSABLE;
     }
 }

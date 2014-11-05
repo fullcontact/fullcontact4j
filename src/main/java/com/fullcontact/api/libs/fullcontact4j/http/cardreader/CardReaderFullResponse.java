@@ -28,6 +28,7 @@ public class CardReaderFullResponse extends FCResponse {
     private List<String> unverifiedFields;
     private String unverifiedVCardUrl;
     private String clientServerResponseCode;
+    private String clientServerResponseBody;
     private String status;
 
     @JsonProperty("status")
@@ -36,6 +37,8 @@ public class CardReaderFullResponse extends FCResponse {
     public String getClientServerResponseCode() {
         return clientServerResponseCode;
     }
+
+    public String getClientServerResponseBody() { return clientServerResponseBody; }
 
     public String getLastWebhookAttempt() {
         return lastWebhookAttempt;
@@ -65,7 +68,8 @@ public class CardReaderFullResponse extends FCResponse {
         return id;
     }
 
-    public String getvCardUrl() {
+    @JsonProperty("vCardUrl")
+    public String getVCardUrl() {
         return vCardUrl;
     }
 
