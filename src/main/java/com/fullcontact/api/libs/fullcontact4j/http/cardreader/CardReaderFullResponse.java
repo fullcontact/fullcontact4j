@@ -6,12 +6,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.model.ContactInfo;
+import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.model.ContactInfo;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class CardReaderFullResponse extends FCResponse {
@@ -33,13 +38,17 @@ public class CardReaderFullResponse extends FCResponse {
     private String status;
 
     @JsonProperty("status")
-    public String getCardStatus() { return status; }
+    public String getCardStatus() {
+        return status;
+    }
 
     public String getClientServerResponseCode() {
         return clientServerResponseCode;
     }
 
-    public String getClientServerResponseBody() { return clientServerResponseBody; }
+    public String getClientServerResponseBody() {
+        return clientServerResponseBody;
+    }
 
     public String getLastWebhookAttempt() {
         return lastWebhookAttempt;
@@ -59,6 +68,32 @@ public class CardReaderFullResponse extends FCResponse {
 
     public String getSubmitted() {
         return submitted;
+    }
+
+    public Date getSubbmittedDate() {
+        if (submitted == null) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            return df.parse(submitted);
+        } catch (ParseException e) {
+            Utils.info("failed to parse date: " + submitted);
+            return null;
+        }
+    }
+
+    public Date getLastWebhookAttemptDate() {
+        if (lastWebhookAttempt == null) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            return df.parse(lastWebhookAttempt);
+        } catch (ParseException e) {
+            Utils.info("failed to parse date: " + lastWebhookAttempt);
+            return null;
+        }
     }
 
     public ContactInfo getContact() {
@@ -88,6 +123,7 @@ public class CardReaderFullResponse extends FCResponse {
 
     /**
      * Factory method to create a webhook response from json.
+     *
      * @param json
      * @return a new CardReaderWebhookResponse
      * @throws FullContactException if there is a parsing/mapping error.
@@ -99,14 +135,15 @@ public class CardReaderFullResponse extends FCResponse {
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         try {
             return mapper.readValue(json, CardReaderFullResponse.class);
-        } catch(JsonMappingException e) {
+        } catch (JsonMappingException e) {
             throw new FullContactException("Failed to convert webhook json to a card reader response", e);
-        } catch(JsonParseException e) {
+        } catch (JsonParseException e) {
             throw new FullContactException("Json is not valid format", e);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
     }
 
-    private CardReaderFullResponse() {}
+    private CardReaderFullResponse() {
+    }
 }

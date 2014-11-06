@@ -1,109 +1,27 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
-import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
-import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
-import com.fullcontact.api.libs.fullcontact4j.Utils;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Header;
-import retrofit.client.Response;
-import retrofit.converter.ConversionException;
 
 /**
  * A FCCallback class is technically a wrapper for a regular, Retrofit Callback class.
- * However, it also handles information from the response headers and presents more user-friendly errors.
+ * After the core retrofit callback ({@link com.fullcontact.api.libs.fullcontact4j.http.FCRetrofitCallback})
+ * generates a FullContactException or intercepts headers, it calls the respective methods here
+ * to be consumed by an implementing class.
  * @param <T>
  */
-public abstract class FCCallback<T extends FCResponse> {
+public interface FCCallback<T extends FCResponse> {
 
-    private FullContactHttpInterface httpInterface;
+    public void success(T response);
 
-    private Callback<T> callback = new Callback<T>() {
-        @Override
-        public void success(T t, Response response) {
-            //intercept headers
-            try {
-                for (Header h : response.getHeaders()) {
-                    if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
-                        Utils.verbose("Updated rate limit based on response headers from FullContact.");
-                        httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
-                        break;
-                    }
-                }
-            } catch(NumberFormatException e) {
-                //rate limit per minute wasn't a number (???), don't set any limits
-                e.printStackTrace();
-                Utils.info("FullContact response had a rate limit that was not a number.");
-            }
-
-            FCCallback.this.success(t);
-        }
-
-        @Override
-        public void failure(RetrofitError retrofitError) {
-            Throwable ex = retrofitError;
-            //do some logic to figure out why this error occurred
-            String reason = "Unknown reason for exception, see stack trace";
-            Response response = retrofitError.getResponse();
-            switch(retrofitError.getKind()) {
-                case CONVERSION:
-                    reason = "Encountered an error converting to a Java object from response JSON";
-                    break;
-
-                case NETWORK:
-                    reason = "A network error occurred";
-                    break;
-
-                case HTTP:
-                    try {
-                        ErrorResponse errorResponse = (ErrorResponse) httpInterface.getJsonConverter()
-                                .fromBody(response.getBody(),
-                                ErrorResponse.class);
-                        reason = (errorResponse.message==null?"":errorResponse.message);
-                    } catch(ConversionException e) {
-                        //response did not have a formatted error response...should not happen
-                        ex = e;
-                        reason = "Although the FullContact API responded with an error, " +
-                                "the response was not in the proper format.";
-                    } catch(ClassCastException e) {
-                        ex = e;
-                        reason = "Although the FullContact API responded with an error, " +
-                                "the response was not in the proper format.";
-                    }
-                case UNEXPECTED:
-                default:
-                    break;
-            }
-            FCCallback.this.failure(new FullContactException(reason, (response==null?null:response.getStatus()), ex));
-        }
-    };
-
-    public void setHttpInterface(FullContactHttpInterface httpInterface) {
-        this.httpInterface = httpInterface;
-    }
+    public void failure(FullContactException exception);
 
     /**
-     * Gets the actual Retrofit callback that FCCallback hooks into.
-     */
-    public Callback<T> getCoreCallback() {
-        return callback;
-    }
-
-    public abstract void success(T response);
-
-    public abstract void failure(FullContactException exception);
-
-
-    /**
-     * Created on 10/16/14 at 2:12 PM
      *
      * This is a synchronously implemented Callback. Consumers should use the `get` method which will either return the
      * result from the callback, or throw the exception that encountered
      *
-     * @author michie <ken@fullcontact.com>
      */
-    public static class SyncFCCallback<T extends FCResponse> extends FCCallback<T> {
+    public static class SyncFCCallback<T extends FCResponse> implements FCCallback<T> {
         private T resp;
         private FullContactException t;
 

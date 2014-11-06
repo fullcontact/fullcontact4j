@@ -3,10 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.RequestExecutorHandler;
+import com.fullcontact.api.libs.fullcontact4j.http.*;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.converter.Converter;
@@ -51,9 +48,11 @@ public class FullContactHttpInterface {
         this.baseUrl = baseUrl;
     }
 
+    /**
+     * Makes a request just like an async request, but uses a synchronous callback to do so.
+     */
     public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
         final FCCallback.SyncFCCallback<T> callback = new FCCallback.SyncFCCallback<T>();
-        callback.setHttpInterface(this);
         sendRequest(req, callback);
         try {
             return callback.get();
@@ -69,10 +68,9 @@ public class FullContactHttpInterface {
                 throw new IllegalArgumentException(
                         "Cannot make an asynchronous request without either a callback or a webhook");
             }
-        } else {
-            callback.setHttpInterface(this);
         }
-        requestExecutorHandler.sendRequestAsync(fullContactApi, req, callback);
+        //make a retrofit request with a callback that will call FCCallback
+        requestExecutorHandler.sendRequestAsync(fullContactApi, req, new FCRetrofitCallback<T>(callback, this));
     }
 
     public RequestExecutorHandler getRequestExecutorHandler() { return requestExecutorHandler; }

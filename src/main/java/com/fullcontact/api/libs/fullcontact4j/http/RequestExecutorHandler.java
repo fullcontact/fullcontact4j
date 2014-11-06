@@ -46,13 +46,13 @@ public class RequestExecutorHandler {
     }
 
     public <T extends FCResponse> void sendRequestAsync(final FullContactApi api, final FCRequest<T> req,
-                                                        final FCCallback<T> callback) {
+                                                        final FCRetrofitCallback<T> callback) {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 waitForPermit();
                 Utils.verbose("Sending a new asynchronous " + req.getClass().getSimpleName());
-                req.makeRequest(api, callback.getCoreCallback());
+                req.makeRequest(api, callback);
             }
         });
     }
