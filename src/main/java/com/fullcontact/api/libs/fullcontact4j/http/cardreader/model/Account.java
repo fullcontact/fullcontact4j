@@ -38,4 +38,14 @@ public class Account {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Account{");
+        sb.append("domain='").append(domain).append('\'');
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", userId='").append(userId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -23,4 +23,13 @@ public class DisposableEmailResponse extends FCResponse {
         return message;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DisposableEmailResponse{");
+        sb.append("usernameSubAddressingStatus='").append(usernameSubAddressingStatus).append('\'');
+        sb.append(", disposableEmailDomainStatus='").append(disposableEmailDomainStatus).append('\'');
+        sb.append(", message='").append(message).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

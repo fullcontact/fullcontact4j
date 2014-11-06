@@ -95,6 +95,15 @@ public class PersonResponse extends FCResponse {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PersonResponse{");
+        sb.append("contactInfo=").append(contactInfo);
+        sb.append(", demographics=").append(demographics);
+        sb.append('}');
+        return sb.toString();
+    }
 }
 
 

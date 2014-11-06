@@ -47,5 +47,18 @@ public class DeducedLocation {
         public String getName() {
             return name;
         }
+
+        @Override
+        public String toString() {
+            return code + "(" + name + ")";
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DeducedLocation{");
+        sb.append("deducedLocation='").append(deducedLocation).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

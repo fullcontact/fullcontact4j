@@ -51,6 +51,20 @@ public class LocationNormalizationResponse extends FCResponse {
         public String getCode() {
             return code;
         }
+
+        @Override
+        public String toString() {
+            return code + "(" + name + ")";
+        }
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("LocationNormalizationResponse{");
+        sb.append("country=").append(country);
+        sb.append(", city='").append(city).append('\'');
+        sb.append(", county='").append(county).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

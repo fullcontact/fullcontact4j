@@ -56,5 +56,20 @@ public class NameResponse extends FCResponse {
             return givenName;
         }
 
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("NameDetails{");
+            sb.append("fullName='").append(fullName).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("NameResponse{");
+        sb.append("nameDetails=").append(nameDetails);
+        sb.append('}');
+        return sb.toString();
     }
 }

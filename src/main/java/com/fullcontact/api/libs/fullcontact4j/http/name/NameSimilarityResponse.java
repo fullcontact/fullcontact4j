@@ -33,6 +33,13 @@ public class NameSimilarityResponse extends FCResponse {
             return fullContact;
         }
 
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("NameSimilarityResult{");
+            sb.append('}');
+            return sb.toString();
+        }
+
         @JsonIgnoreProperties("dice")
         public static class SimilarityInfo {
             private double similarity;

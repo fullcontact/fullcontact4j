@@ -32,4 +32,14 @@ public class Organization {
     public boolean getIsPrimary() {
         return isPrimary;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Organization{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", current=").append(current);
+        sb.append(", title='").append(title).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

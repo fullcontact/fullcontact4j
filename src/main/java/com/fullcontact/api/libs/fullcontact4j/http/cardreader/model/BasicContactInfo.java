@@ -28,6 +28,16 @@ public class BasicContactInfo {
     public void setPrimary(boolean primary) {
         this.primary = primary;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("BasicContactInfo{");
+        sb.append("primary=").append(primary);
+        sb.append(", type='").append(type).append('\'');
+        sb.append(", value='").append(value).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
 
 

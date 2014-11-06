@@ -74,4 +74,15 @@ public class Address {
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Address{");
+        sb.append("streetAddress='").append(streetAddress).append('\'');
+        sb.append(", region='").append(region).append('\'');
+        sb.append(", country='").append(country).append('\'');
+        sb.append(", type='").append(type).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

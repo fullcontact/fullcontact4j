@@ -146,4 +146,13 @@ public class CardReaderFullResponse extends FCResponse {
 
     private CardReaderFullResponse() {
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CardReaderFullResponse{");
+        sb.append("status='").append(status).append('\'');
+        sb.append(", quality=").append(quality);
+        sb.append('}');
+        return sb.toString();
+    }
 }

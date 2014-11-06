@@ -74,5 +74,16 @@ public class ContactInfo {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ContactInfo{");
+        sb.append("name=").append(name);
+        sb.append(", emails:").append(emails.size());
+        sb.append(", accounts:").append(accounts.size());
+        sb.append(", photos:").append(photos.size());
+        sb.append('}');
+        return sb.toString();
+    }
 }
 

@@ -63,4 +63,13 @@ public class DigitalFootPrints {
             this.provider = provider;
         }
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DigitalFootPrints{");
+        sb.append("topics=").append(topics.size());
+        sb.append(", scores=").append(scores.size());
+        sb.append('}');
+        return sb.toString();
+    }
 }

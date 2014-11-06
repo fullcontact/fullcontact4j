@@ -51,6 +51,17 @@ public class LocationEnrichmentResponse extends FCResponse {
         public String getNormalizedLocation() {
             return normalizedLocation;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Location{");
+            sb.append("normalizedLocation='").append(normalizedLocation).append('\'');
+            sb.append(", city='").append(city).append('\'');
+            sb.append(", state=").append(state);
+            sb.append(", country=").append(country);
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
     public static class LocationCodeInfo {
@@ -64,5 +75,18 @@ public class LocationEnrichmentResponse extends FCResponse {
         public String getCode() {
             return code;
         }
+
+        @Override
+        public String toString() {
+            return code + "(" + name + ")";
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("LocationEnrichmentResponse{");
+        sb.append("locations=").append(locations);
+        sb.append('}');
+        return sb.toString();
     }
 }

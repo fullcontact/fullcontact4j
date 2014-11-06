@@ -31,4 +31,12 @@ public class CardReaderViewAllResponse extends FCResponse {
     public int getCurrentPage() {
         return currentPage;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CardReaderViewAllResponse{");
+        sb.append("results=").append(results.size());
+        sb.append('}');
+        return sb.toString();
+    }
 }

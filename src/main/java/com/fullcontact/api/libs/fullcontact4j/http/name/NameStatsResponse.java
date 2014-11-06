@@ -11,6 +11,12 @@ public class NameStatsResponse extends FCResponse {
     public String getRegion() { return region; }
     public NameStatsResult getName() { return name; }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("NameStatsResponse{}");
+        return sb.toString();
+    }
+
     public static class NameStatsResult {
         private String value;
         @JsonProperty("given")

@@ -36,5 +36,22 @@ public class NameParseResponse extends FCResponse {
         public double getLikelihood() {
             return likelihood;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Result{");
+            sb.append("givenName='").append(givenName).append('\'');
+            sb.append(", familyName='").append(familyName).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("NameParseResponse{");
+        sb.append("result=").append(result);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -12,4 +12,8 @@ public abstract class FCResponse {
     public int getStatus() {
         return status;
     }
+
+    public String toString() {
+        return this.getClass().getSimpleName() + ":" + status;
+    }
 }

@@ -45,4 +45,14 @@ public class Demographics {
     public String getMaritalStatus() {
         return maritalStatus;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Demographics{");
+        sb.append("age='").append(age).append('\'');
+        sb.append(", gender='").append(gender).append('\'');
+        sb.append(", locationGeneral='").append(locationGeneral).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -74,5 +74,26 @@ public class AccountStatsResponse extends FCResponse {
         public int getUsage() {
             return usage;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("AccountMetric{");
+            sb.append("metricName='").append(metricName).append('\'');
+            sb.append(", usage=").append(usage);
+            sb.append(", remaining=").append(remaining);
+            sb.append(", planLevel=").append(planLevel);
+            sb.append('}');
+            return sb.toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("AccountStatsResponse{");
+        sb.append("plan='").append(plan).append('\'');
+        sb.append(", planBasePrice=").append(planBasePrice);
+        sb.append(", applicationId='").append(applicationId).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

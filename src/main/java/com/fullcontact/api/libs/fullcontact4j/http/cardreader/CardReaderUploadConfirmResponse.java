@@ -25,4 +25,14 @@ public class CardReaderUploadConfirmResponse extends FCResponse {
     public int getEstimatedWaitTimeMinutes() {
         return estimatedWaitTimeMinutes;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CardReaderUploadConfirmResponse{");
+        sb.append("queued=").append(queued);
+        sb.append(", id='").append(id).append('\'');
+        sb.append(", estimatedWaitTimeMinutes=").append(estimatedWaitTimeMinutes);
+        sb.append('}');
+        return sb.toString();
+    }
 }

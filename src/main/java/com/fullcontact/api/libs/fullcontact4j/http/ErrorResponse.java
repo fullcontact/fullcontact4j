@@ -44,4 +44,14 @@ public class ErrorResponse {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ErrorResponse{");
+        sb.append("status=").append(status);
+        sb.append(", message='").append(message).append('\'');
+        sb.append(", requestId='").append(requestId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

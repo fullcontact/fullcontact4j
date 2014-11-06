@@ -29,6 +29,16 @@ public class Organization {
     public void setPrimary(boolean primary) {
         isPrimary = primary;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Organization{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", isPrimary=").append(isPrimary);
+        sb.append('}');
+        return sb.toString();
+    }
 }
 
 

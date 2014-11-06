@@ -47,6 +47,15 @@ public class ContactInfo {
         public String getHandle() {
             return handle;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Chat{");
+            sb.append("client='").append(client).append('\'');
+            sb.append(", handle='").append(handle).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
     public static class Website {
@@ -55,6 +64,23 @@ public class ContactInfo {
         public String getUrl() {
             return url;
         }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Website{");
+            sb.append("url='").append(url).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ContactInfo{");
+        sb.append("websites=").append(websites.size());
+        sb.append(", chats=").append(chats.size());
+        sb.append(", fullName='").append(fullName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

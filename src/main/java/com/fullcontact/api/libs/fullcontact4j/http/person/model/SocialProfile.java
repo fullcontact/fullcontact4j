@@ -51,4 +51,15 @@ public class SocialProfile {
     public int getFollowers() {
         return followers;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SocialProfile{");
+        sb.append("url='").append(url).append('\'');
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", id='").append(id).append('\'');
+        sb.append(", typeName='").append(typeName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

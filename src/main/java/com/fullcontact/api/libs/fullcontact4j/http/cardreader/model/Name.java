@@ -47,4 +47,14 @@ public class Name {
     public void setHonorificSuffix(String honorificSuffix) {
         this.honorificSuffix = honorificSuffix;
     }
+
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append((honorificPrefix==null?"":honorificPrefix + " "));
+        sb.append((givenName==null?"":givenName + " "));
+        sb.append((middleName==null?"":middleName + " "));
+        sb.append((familyName==null?"":familyName + " "));
+        sb.append((honorificSuffix==null?"":honorificSuffix + " "));
+        return sb.toString();
+    }
 }
