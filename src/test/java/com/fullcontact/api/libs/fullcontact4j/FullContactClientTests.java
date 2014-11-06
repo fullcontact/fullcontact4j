@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.squareup.okhttp.OkHttpClient;
-import org.easymock.EasyMockSupport;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import retrofit.client.Header;
 import retrofit.client.OkClient;
 import retrofit.client.Request;
 import retrofit.client.Response;
@@ -27,7 +26,7 @@ import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
-public class FullContactClientTests extends EasyMockSupport {
+public class FullContactClientTests {
 
     @Test
     //Assure the builder is returning the corresponding client
@@ -46,7 +45,7 @@ public class FullContactClientTests extends EasyMockSupport {
 
     private static final int REQUEST_AMOUNT = 75;
 
-    @Test(timeout = 2000)
+    @Test(timeout = 8000)
     //Tests to make sure that there aren't any funny async / race stuff that would mismatch requests from their response
     //counterparts
     public void asyncTest() throws Exception {
@@ -78,7 +77,7 @@ public class FullContactClientTests extends EasyMockSupport {
         latch.await();
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 8000)
     public void syncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
         client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterPolicy.SMOOTH, 1));
@@ -238,12 +237,12 @@ public class FullContactClientTests extends EasyMockSupport {
 
         //just return a success rather than actually hitting any apis
         public <T extends FCResponse> void sendRequestAsync(final FullContactApi api, final FCRequest<T> req,
-                                                            final FCCallback<T> callback) {
+                                                            final FCRetrofitCallback<T> callback) {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     waitForPermit();
-                    callback.success((T) newMockResponse(req.getParam(FCConstants.PARAM_PERSON_EMAIL)));
+                    callback.success((T) newMockResponse(req.getParam(FCConstants.PARAM_PERSON_EMAIL)), new Response("", 200, "", Collections.<Header>emptyList(), null));
                 }
             });
         }

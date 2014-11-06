@@ -29,6 +29,7 @@ public class CardReaderFullResponse extends FCResponse {
     private String submitted;
     private ContactInfo contact = new ContactInfo();
     private String id;
+    @JsonProperty("vCardUrl")
     private String vCardUrl;
     private ContactInfo unverifiedContact = new ContactInfo();
     private List<String> unverifiedFields = Collections.emptyList();
@@ -104,7 +105,6 @@ public class CardReaderFullResponse extends FCResponse {
         return id;
     }
 
-    @JsonProperty("vCardUrl")
     public String getVCardUrl() {
         return vCardUrl;
     }

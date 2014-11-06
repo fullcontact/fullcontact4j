@@ -66,7 +66,7 @@ public abstract class FCRequest<T extends FCResponse> {
             // if a param was empty or null, remove it from the param list.
             Map<String, String> validParamsOnly = new HashMap<String, String>();
             for(Map.Entry<String, String> entry : params.entrySet()) {
-                if(entry.getValue() == null && entry.getValue().trim().isEmpty()) {
+                if(entry.getValue() != null && !entry.getValue().trim().isEmpty()) {
                     validParamsOnly.put(entry.getKey(), entry.getValue());
                 }
             }
