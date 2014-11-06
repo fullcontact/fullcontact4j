@@ -36,10 +36,10 @@ public interface FullContactApi {
     public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body CardReaderUploadRequest.RequestBodyJson bodyJson, Callback<CardReaderUploadConfirmResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_CARDREADER + "/{id}")
-    public void viewCard(@QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);
+    public void viewCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_CARDREADER)
-    public void viewAll(@QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
+    public void viewAll(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, Callback<CardReaderViewAllResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_DISPOSABLE_EMAIL)
     public void getDisposableEmail(@Query("email") String email, Callback<DisposableEmailResponse> callback);

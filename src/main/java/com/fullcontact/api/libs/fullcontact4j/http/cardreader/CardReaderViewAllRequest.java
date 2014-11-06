@@ -9,18 +9,21 @@ import java.util.Map;
 
 public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllResponse> {
 
+    private String accessToken;
 
-    protected CardReaderViewAllRequest(Map<String, String> params) {
+    protected CardReaderViewAllRequest(String accessToken, Map<String, String> params) {
         super(params);
+        this.accessToken = accessToken;
     }
 
     @Override
     protected void makeRequest(FullContactApi api, Callback<CardReaderViewAllResponse> callback) {
-        api.viewAll(params, callback);
+        api.viewAll(accessToken, params, callback);
     }
 
     public static class Builder extends BaseBuilder<CardReaderViewAllRequest> {
 
+        private String accessToken;
 
         public Builder page(int page) {
             params.put(FCConstants.PARAM_CARD_PAGE, String.valueOf(page));
@@ -41,9 +44,14 @@ public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllRespons
             return this;
         }
 
+        public Builder accessToken(String token) {
+            accessToken = token;
+            return this;
+        }
+
         @Override
         protected CardReaderViewAllRequest createInstance() {
-            return new CardReaderViewAllRequest(params);
+            return new CardReaderViewAllRequest(accessToken, params);
         }
 
         @Override

@@ -11,17 +11,19 @@ import java.util.Map;
 public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
 
     private String id;
-    public CardReaderViewRequest(String id, Map<String, String> params) {
+    private String accessToken;
+    public CardReaderViewRequest(String accessToken, String id, Map<String, String> params) {
         super(params);
         this.id = id;
     }
     @Override
     protected void makeRequest(FullContactApi api, Callback<CardReaderFullResponse> callback) {
-        api.viewCard(params, id, callback);
+        api.viewCard(accessToken, params, id, callback);
     }
 
     public static class Builder extends WebhookBuilder<CardReaderViewRequest> {
         private String id;
+        private String accessToken;
 
         public Builder cardId(String id) {
             this.id = id;
@@ -42,6 +44,11 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
             return this;
         }
 
+        public Builder accessToken(String token) {
+            accessToken = token;
+            return this;
+        }
+
         public void validate() {
             super.validate();
             if(id == null) {
@@ -50,7 +57,7 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         }
         @Override
         protected CardReaderViewRequest createInstance() {
-            return new CardReaderViewRequest(id, params);
+            return new CardReaderViewRequest(accessToken, id, params);
         }
     }
 }
