@@ -57,10 +57,6 @@ public class RequestExecutorHandler {
         });
     }
 
-    /**
-     * Waits until the rate limiter will permit the request, or under RateLimiterPolicy.REJECT,
-     * will throw an exception if a request can't be made.
-     */
     protected void waitForPermit() {
         if(rateLimiter != null) {
             Utils.verbose("Waiting for ratelimiter to allow a request...");

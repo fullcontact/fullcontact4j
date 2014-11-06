@@ -4,7 +4,8 @@ public class FCConstants {
 
     public static final String API_BASE_DEFAULT = "https://api.fullcontact.com/v2";
     public static final String LOG_PREFIX = "[fc4j]";
-    public static final String USER_AGENT_BASE = "FullContact4j/2.0";
+    public static final String VERSION = "2.0";
+    public static final String USER_AGENT_BASE = "FullContact4j/" + VERSION;
 
     public static final String API_ENDPOINT_PERSON = "/person.json";
     public static final String API_ENDPOINT_CARDREADER = "/cardReader";
