@@ -1,0 +1,10 @@
+{
+  "status": 200,
+  "ambiguousName": "John Smith",
+  "result": {
+    "givenName": "John",
+    "familyName": "Smith",
+    "likelihood": 1
+  },
+  "region": "USA"
+}

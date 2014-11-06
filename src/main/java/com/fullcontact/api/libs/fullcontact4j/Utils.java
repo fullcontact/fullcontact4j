@@ -1,7 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;
@@ -10,6 +9,9 @@ import java.util.logging.Level;
 public class Utils {
 
     public static String encodeToStringAndClose(InputStream in) {
+        if(in == null) {
+            return "";
+        }
         BASE64Encoder encoder = null;
         ByteArrayOutputStream buffer = null;
         try {
@@ -34,19 +36,6 @@ public class Utils {
         }
     }
 
-    public static String loadJson(InputStream stream, String fileName) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(loadFile(fileName))));
-
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
     public static File loadFile(String fileName) throws IOException {
         return new File("src/test/resources/" + fileName);
     }
@@ -59,7 +48,8 @@ public class Utils {
     }
 
     public static boolean isValidEmail(String email) {
-        return email.matches("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+");
+        //regex tries to match [any]@[any].[any]
+        return email.contains("@");
     }
 
     public static boolean isAlphabeticalOnly(String str) {

@@ -2,24 +2,12 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.request.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.request.RequestExecutorHandler;
-import com.fullcontact.api.libs.fullcontact4j.request.SyncFCCallback;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
-import com.squareup.okhttp.OkHttpClient;
+import com.fullcontact.api.libs.fullcontact4j.http.*;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
 
 /**
  * This interface holds references to all the objects used by a FullContact client to communicate with the api,
@@ -45,8 +33,7 @@ public class FullContactHttpInterface {
                                     Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
-        //TODO put back in in release
-        //mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         //An empty string ("") is interpreted as null
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
@@ -61,9 +48,11 @@ public class FullContactHttpInterface {
         this.baseUrl = baseUrl;
     }
 
+    /**
+     * Makes a request just like an async request, but uses a synchronous callback to do so.
+     */
     public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
-        final SyncFCCallback<T> callback = new SyncFCCallback<T>();
-        callback.setHttpInterface(this);
+        final FCCallback.SyncFCCallback<T> callback = new FCCallback.SyncFCCallback<T>();
         sendRequest(req, callback);
         try {
             return callback.get();
@@ -79,10 +68,9 @@ public class FullContactHttpInterface {
                 throw new IllegalArgumentException(
                         "Cannot make an asynchronous request without either a callback or a webhook");
             }
-        } else {
-            callback.setHttpInterface(this);
         }
-        requestExecutorHandler.sendRequestAsync(fullContactApi, req, callback);
+        //make a retrofit request with a callback that will call FCCallback
+        requestExecutorHandler.sendRequestAsync(fullContactApi, req, new FCRetrofitCallback<T>(callback, this));
     }
 
     public RequestExecutorHandler getRequestExecutorHandler() { return requestExecutorHandler; }
@@ -97,30 +85,4 @@ public class FullContactHttpInterface {
         requestExecutorHandler = handler;
     }
 
-
-    //a regular OkClient that assures that only the API key OR the auth token are sent as a header.
-    public static class DynamicHeaderOkClient extends OkClient {
-        private String apiKey;
-        public DynamicHeaderOkClient(OkHttpClient client, String apiKey) {
-            super(client);
-            this.apiKey = apiKey;
-        }
-
-        @Override protected HttpURLConnection openConnection(Request request) throws IOException {
-            HttpURLConnection connection = super.openConnection(request);
-            boolean hasAuthToken = false;
-            for(Header header : request.getHeaders()) {
-                if(header.getName().equals(FCConstants.HEADER_AUTH_ACCESS_TOKEN)) {
-                    hasAuthToken = true;
-                }
-            }
-            if(!hasAuthToken) {
-                connection.addRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
-                Utils.verbose("Added API key to headers");
-            } else {
-                Utils.verbose("Added auth token instead of API key to headers");
-            }
-            return connection;
-        }
-    }
 }

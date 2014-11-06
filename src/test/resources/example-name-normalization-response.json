@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "likelihood": 0.774,
+  "nameDetails": {
+    "givenName": "John",
+    "familyName": "Smith",
+    "middleNames": 
+    [
+      "Michael"
+    ],
+    "prefixes": 
+    [
+      "Mr."
+    ],
+    "suffixes": 
+    [
+      "Jr.",
+      "MBA"
+    ],
+    "nicknames": 
+    [
+      "Johnny"
+    ],
+    "fullName": "John Michael Smith"
+  },
+  "region": "USA"
+}

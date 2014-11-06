@@ -1,10 +1,20 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.config.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.request.*;
-import com.fullcontact.api.libs.fullcontact4j.response.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
+import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.name.*;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 
@@ -20,6 +30,7 @@ public class FullContact {
      * convert responses, etc.
      */
     protected FullContactHttpInterface httpInterface;
+    private boolean isShutdown = false;
 
     protected FullContact(Client httpClient, RateLimiterPolicy policy, String baseUrl,
                         Integer threadPoolCount) {
@@ -46,21 +57,8 @@ public class FullContact {
         return new Builder(apiKey);
     }
 
-
-    //api solution - create new client extends retrofit.Client
-    // public void execute(Request) {
-    // handleHeaders();
-    // coreClient.execute();
-    // }
     //TODO update /developer/docs/libraries/
     /////API Methods//////
-
-    /**
-     * Creates a new generic request builder, where parameters and endpoint are all customizable.
-     */
-    public GenericRequest.Builder buildGenericRequest() {
-        return new GenericRequest.Builder();
-    }
 
     /**
      * Creates a new Person search.
@@ -71,7 +69,7 @@ public class FullContact {
      * Upload a new card to be processed by Card Reader.
      * @param front a ByteArrayOutputStream representing the picture of the front of the card
      */
-    public UploadCardRequest.Builder buildUploadCardRequest(InputStream front) { return new UploadCardRequest.Builder().cardFront(front); }
+    public CardReaderUploadRequest.Builder buildUploadCardRequest(InputStream front) { return new CardReaderUploadRequest.Builder().cardFront(front); }
 
     /**
      * View a single card.
@@ -137,7 +135,7 @@ public class FullContact {
      * @throws FullContactException if the request fails, this method will throw a FullContactException with a reason.
      * @param req the request, generated with a call to build____Request().
      * @param <T> the Response type
-     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.response.FCResponse}.
+     * @return if the request is successful, this method returns the corresponding {@link com.fullcontact.api.libs.fullcontact4j.http.FCResponse}.
      */
     public <T extends FCResponse> T sendRequest(FCRequest<T> req) throws FullContactException {
         return httpInterface.sendRequest(req);
@@ -145,14 +143,22 @@ public class FullContact {
 
     /**
      * Makes an asynchronous request to the FullContact APIs.
-     * Exceptions will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#failure(FullContactException)}.
-     * Successful responses will call {@link com.fullcontact.api.libs.fullcontact4j.request.FCCallback#success(com.fullcontact.api.libs.fullcontact4j.response.FCResponse)}
+     * Exceptions will call {@link com.fullcontact.api.libs.fullcontact4j.http.FCCallback#failure(FullContactException)}.
+     * Successful responses will call {@link com.fullcontact.api.libs.fullcontact4j.http.FCCallback#success(com.fullcontact.api.libs.fullcontact4j.http.FCResponse)}
      * @param req the request, generated with a call to build____Request().
      * @param callback your callback
      * @param <T> the Response type
      */
     public <T extends FCResponse> void sendRequest(FCRequest<T> req, FCCallback<T> callback) {
+        if(isShutdown) {
+            throw new IllegalArgumentException("this client cannot make requests -- shutdown() has already been called");
+        }
         httpInterface.sendRequest(req, callback);
+    }
+
+    public void shutdown() {
+        isShutdown = true;
+        httpInterface.getRequestExecutorHandler().shutdown();
     }
 
 
@@ -163,6 +169,8 @@ public class FullContact {
 
         private String authKey;
         private OkHttpClient httpClient = new OkHttpClient();
+        private OkHttpClient defaultClient = new OkHttpClient();
+        private String userAgent = "";
         private Integer threadPoolCount = 1;
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
@@ -196,8 +204,8 @@ public class FullContact {
         /**
          * Sets the read timeout.
          */
-        public Builder setReadTimeout(Integer timeoutMs) {
-            httpClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        public Builder setDefaultClientReadTimeout(Integer timeoutMs) {
+            defaultClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
             return this;
         }
 
@@ -206,8 +214,16 @@ public class FullContact {
          * @param timeoutMs
          * @return
          */
-        public Builder setConnectTimeout(Integer timeoutMs) {
-            httpClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        public Builder setDefaultClientConnectTimeout(Integer timeoutMs) {
+            defaultClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            return this;
+        }
+
+        /**
+         * Sets the user agent string used in all headers by the FullContact client (not just the default).
+         */
+        public Builder setUserAgent(String agent) {
+            userAgent = agent;
             return this;
         }
 
@@ -238,8 +254,11 @@ public class FullContact {
             if(authKey == null || authKey.isEmpty()) {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
+            if(ratePolicy == null || baseUrl == null || threadPoolCount == null || userAgent == null || httpClient == null) {
+                throw new IllegalArgumentException("One of the builder parameters was null");
+            }
 
-            return new FullContact(new FullContactHttpInterface.DynamicHeaderOkClient(httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
+            return new FullContact(new FCUrlClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
         }
     }
 

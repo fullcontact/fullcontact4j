@@ -1,0 +1,16 @@
+{
+  "status": 200,
+  "city": "Denver",
+  "state": {
+    "name": "Colorado",
+    "code": "CO"
+  },
+  "county": "Denver",
+  "country": {
+    "name": "United States",
+    "code": "US"
+  },
+  "continent": "North America",
+  "likelihood": "1.0",
+  "normalizedLocation": "Denver, Colorado, United States"
+}
