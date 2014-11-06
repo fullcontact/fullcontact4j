@@ -57,8 +57,9 @@ Once you’re on board with the API behavior, using FullContact4j is easy. Look 
 FullContact fullContact = FullContact.withApiKey("your-api-key").build();
 PersonRequest personRequest = fullContact.buildPersonRequest().email("bart@fullcontact.com").build();
 PersonResponse personResponse = fullContact.sendRequest(personRequest);
-````
-(Don't have an API key? You can pick one up for free [right here,](https://www.fullcontact.com/developer/try-fullcontact/))
+```
+(Don't have an API key? You can pick one up for free [right here.](https://www.fullcontact.com/developer/try-fullcontact/))
+
 `withApiKey` returns a FullContact client builder. You can specify timeouts, your own `OkHttpClient`, a user agent, and much more.
 
 Behind the scenes, FullContact4j has done a lot for you:
