@@ -15,6 +15,7 @@ import retrofit.converter.ConversionException;
  * Before FCCallback receives the success() or failure() call,
  * this callback acts as an interceptor to update rate limits from headers
  * and provide a useful FullContactException from a RetrofitError.
+ *
  * @param <T>
  */
 public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
@@ -28,19 +29,22 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
     }
 
     public void success(T t, Response response) {
-        //intercept headers
-        try {
+        RequestExecutorHandler requestHandler = httpInterface.getRequestExecutorHandler();
+        //should we comb the headers for rate limit info?
+        if (requestHandler.shouldNotfiyRateLimit()) {
             for (Header h : response.getHeaders()) {
                 if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
                     Utils.verbose("Updated rate limit based on response headers from FullContact.");
-                    httpInterface.getRequestExecutorHandler().setRateLimitPerMinute(Integer.parseInt(h.getValue()));
+                    try {
+                        requestHandler.notifyRateLimitPerMinute(Integer.parseInt(h.getValue()));
+                    } catch (NumberFormatException e) {
+                        //rate limit per minute wasn't a number (???), don't set any limits
+                        e.printStackTrace();
+                        Utils.info("FullContact response had a rate limit that was not a number.");
+                    }
                     break;
                 }
             }
-        } catch(NumberFormatException e) {
-            //rate limit per minute wasn't a number (???), don't set any limits
-            e.printStackTrace();
-            Utils.info("FullContact response had a rate limit that was not a number.");
         }
 
         parent.success(t);
@@ -52,7 +56,7 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
         //do some logic to figure out why this error occurred
         String reason = "Unknown reason for exception, see stack trace";
         Response response = retrofitError.getResponse();
-        switch(retrofitError.getKind()) {
+        switch (retrofitError.getKind()) {
             case CONVERSION:
                 reason = "Encountered an error converting to a Java object from response JSON";
                 break;
@@ -66,13 +70,13 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
                     ErrorResponse errorResponse = (ErrorResponse) httpInterface.getJsonConverter()
                             .fromBody(response.getBody(),
                                     ErrorResponse.class);
-                    reason = (errorResponse.message==null?"":errorResponse.message);
-                } catch(ConversionException e) {
+                    reason = (errorResponse.message == null ? "" : errorResponse.message);
+                } catch (ConversionException e) {
                     //response did not have a formatted error response...should not happen
                     ex = e;
                     reason = "Although the FullContact API responded with an error, " +
                             "the response was not in the proper format.";
-                } catch(ClassCastException e) {
+                } catch (ClassCastException e) {
                     ex = e;
                     reason = "Although the FullContact API responded with an error, " +
                             "the response was not in the proper format.";
@@ -81,6 +85,6 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
             default:
                 break;
         }
-        parent.failure(new FullContactException(reason, (response==null?null:response.getStatus()), ex));
+        parent.failure(new FullContactException(reason, (response == null ? null : response.getStatus()), ex));
     }
 }
