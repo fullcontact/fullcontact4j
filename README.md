@@ -80,6 +80,9 @@ fullContact.sendRequest(personRequest, new FCCallback() {
   }
 });
 ```
+
+You can see a simple demo of this client in action in the [Hello World app example!](https://github.com/fullcontact/fullcontact4j/blob/master/example/java/FullContactHelloWorld.java)
+
 ###Making Requests###
 First, let’s get our request builder.
 ```java
@@ -153,6 +156,8 @@ if(response.getStatus() == 200) { //202 (searching) is possible here, we'll get 
 LocationEnrichmentResponse location = client.sendRequest(locationRequest);
 System.out.println("I found a new place in " + location.getContinent() + " with a population of " + location.getPopulation());
 ```
+
+__When you're done with the client, be sure to call `shutDown()` on it.__ Otherwise, you could end up with a small memory leak from unfinished request threads.
 ###Error Handling###
 If an error is encountered (these correspond to yellow/red non-2xx response codes on the [API flow diagrams](https://www.fullcontact.com/developer/docs/person/#flow-diagram)), a `FullContactException` is created with useful information about the error, including `errorCode` and a message from the FullContact APIs about the nature of the error. For synchronous requests, this will cause `sendRequest()` to throw `FullContactException`. In asynchronous requests, `FCCallback.failure(FullContactException exception)` is called instead.
 ###Supported APIs###
