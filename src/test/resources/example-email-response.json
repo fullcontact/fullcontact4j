@@ -1,0 +1,6 @@
+{
+     "status": 200,
+     "usernameSubAddressing": "unknown",
+     "disposableEmailDomain": "true",
+     "message": "Email username contains sub address characters but is unknown. Email's domain is likely associated with disposable email addresses."
+}
