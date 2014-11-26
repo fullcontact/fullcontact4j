@@ -22,7 +22,7 @@ __Maven__
   <dependency>
     <groupId>com.fullcontact</groupId>
     <artifactId>fullcontact4j</artifactId>
-    <version>2.0</version>
+    <version>2.0.1</version>
   </dependency>
 </dependencies>
 ```
