@@ -4,6 +4,8 @@ A Java client for the [FullContact API](http://www.fullcontact.com/docs).
 
 For FullContact4j 2.0, we've designed the client from the bottom up with tons of cool new stuff.
 
+See the changelog [here.](https://github.com/fullcontact/fullcontact4j/wiki/changelog)
+
 __Coming from version 1? Read this [wiki page](https://github.com/fullcontact/fullcontact4j/wiki/Coming-from-v1.0) for a rundown of the big changes, then continue here.__
 
 ##Add to your project##
