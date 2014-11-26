@@ -13,7 +13,7 @@ public abstract class WebhookBuilder<T extends FCRequest> extends FCRequest.Base
 
     protected void validate() {
        if(!hasParam(FCConstants.PARAM_WEBHOOK_URL) &&
-               (hasParam(FCConstants.PARAM_WEBHOOK_BODY)) || hasParam(FCConstants.PARAM_WEBHOOK_ID)) {
+               ( hasParam(FCConstants.PARAM_WEBHOOK_BODY) || hasParam(FCConstants.PARAM_WEBHOOK_ID) )) {
            throw new IllegalArgumentException("Request has some webhook parameters set, but no webhook URL.");
        }
         try {

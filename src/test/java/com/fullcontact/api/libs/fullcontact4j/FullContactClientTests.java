@@ -192,6 +192,34 @@ public class FullContactClientTests {
         }
     }
 
+    @Test
+    //test the client correctly models what is required in a webhook.
+    //related: issue #15
+    public void webhookRequiredTest() throws Exception {
+        PersonRequest personRequest = mockFc.buildPersonRequest()
+                .webhookId("Some_Webhook_Id")
+                .webhookUrl("http://www.fullcontact.com")
+                .twitterName("bartlorang")
+                .build();
+        //this should pass just fine, has both url and id
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void webhookIdOnlyTest() {
+        PersonRequest personRequest = mockFc.buildPersonRequest()
+                .webhookId("Some_Webhook_Id")
+                .twitterName("bartlorang")
+                .build();
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void webhookBodyOnlyTest() {
+        PersonRequest personRequest = mockFc.buildPersonRequest()
+                .webhookBody(true)
+                .twitterName("bartlorang")
+                .build();
+    }
+
     //same as a regular client used in FullContact, but allows direct access to the connection being established
     //and does not actually connect to any service.
     private static class MockRetrofitClient extends FCUrlClient {
