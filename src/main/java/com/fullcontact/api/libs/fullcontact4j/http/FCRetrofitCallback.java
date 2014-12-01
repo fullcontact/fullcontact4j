@@ -1,12 +1,9 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
-import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
-import com.fullcontact.api.libs.fullcontact4j.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.converter.ConversionException;
 
@@ -30,27 +27,7 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
 
     public void success(T t, Response response) {
         RequestExecutorHandler requestHandler = httpInterface.getRequestExecutorHandler();
-        //should we comb the headers for rate limit info?
-        if (requestHandler.shouldNotfiyRateLimit()) {
-            for (Header h : response.getHeaders()) {
-                if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
-                    Utils.verbose("Updated rate limit based on response headers from FullContact.");
-                    try {
-                        // Guava's RateLimiter is actually about 5-10ms too fast per permit.
-                        // A full minute of requests, hitting the rate limit every time, this can actually make the
-                        // rate limiter exceed its limits by a few ms and trigger a rate limit exception.
-                        // So, we use 90% of FullContact's expected rate limit to give it some headroom.
-                        requestHandler.notifyRateLimitPerMinute(Double.parseDouble(h.getValue()) * .9);
-                    } catch (NumberFormatException e) {
-                        //rate limit per minute wasn't a number (???), don't set any limits
-                        e.printStackTrace();
-                        Utils.info("FullContact response had a rate limit that was not a number.");
-                    }
-                    break;
-                }
-            }
-        }
-
+        requestHandler.notifyHeaders(response.getHeaders());
         parent.success(t);
     }
 

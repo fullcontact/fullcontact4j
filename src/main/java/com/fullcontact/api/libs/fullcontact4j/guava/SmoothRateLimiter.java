@@ -21,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-abstract class SmoothRateLimiter extends RateLimiter {
+public abstract class SmoothRateLimiter extends RateLimiter {
+
   /*
    * How is the RateLimiter designed, and why?
    *
@@ -265,7 +266,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
      * unused) is defined in terms of time, in this sense: if a RateLimiter is 2qps, and this
      * time is specified as 10 seconds, we can save up to 2 * 10 = 20 permits.
      */
-    static final class SmoothBursty extends SmoothRateLimiter {
+    public static final class SmoothBursty extends SmoothRateLimiter {
         /** The work (permits) of how many seconds can be saved up if this RateLimiter is unused? */
         final double maxBurstSeconds;
 
@@ -286,6 +287,16 @@ abstract class SmoothRateLimiter extends RateLimiter {
                         ? 0.0 // initial state
                         : storedPermits * maxPermits / oldMaxPermits;
             }
+        }
+
+        public void disableBursting() {
+            maxPermits = 0;
+            storedPermits = 0;
+        }
+
+        public void enableBursting(double permitsPerSecond) {
+            storedPermits = 0;
+            maxPermits = maxBurstSeconds * permitsPerSecond;
         }
 
         @Override

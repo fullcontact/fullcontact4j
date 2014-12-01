@@ -7,6 +7,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadCo
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.squareup.okhttp.OkHttpClient;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import retrofit.client.Header;
@@ -115,6 +116,11 @@ public class FullContactClientTests {
         //create a new FullContact client that uses an http client that never makes requests and points towards nothing
         mockFc = new FullContact(mockClient,
                 RateLimiterPolicy.SMOOTH, "http://badbadbad.not.exist", 2);
+    }
+
+    @AfterClass
+    public static void after() {
+        mockFc.shutdown();
     }
 
 
