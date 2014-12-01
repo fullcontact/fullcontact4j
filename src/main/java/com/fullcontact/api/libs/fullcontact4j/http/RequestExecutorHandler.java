@@ -44,11 +44,11 @@ public class RequestExecutorHandler {
      * If the check interval time has passed, update the rate limit
      * @param requestsPerMinute
      */
-    public synchronized void notifyRateLimitPerMinute(Integer requestsPerMinute) {
+    public synchronized void notifyRateLimitPerMinute(Double requestsPerMinute) {
         // this check will double-check if updating the rate limit is valid, but
         // ideally clients should call shouldNotifyRateLimit() before wasting time blocking on this method
         if(shouldNotfiyRateLimit()) {
-            Integer requestsPerSecond = requestsPerMinute / 60;
+            double requestsPerSecond = requestsPerMinute / 60d;
             rateLimiter.setRate(requestsPerSecond);
             lastRateLimitCheck = System.currentTimeMillis();
         }
@@ -75,7 +75,7 @@ public class RequestExecutorHandler {
 
     protected void waitForPermit() {
         if(rateLimiter != null) {
-            Utils.verbose("Waiting for ratelimiter to allow a request...");
+            Utils.verbose("Waiting for ratelimiter to allow a request... (" + rateLimiter.getRate() + " reqs/s)");
             rateLimiter.acquire();
         }
     }
