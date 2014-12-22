@@ -1,9 +1,11 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
+import org.apache.commons.codec.binary.Base64;
 
-import sun.misc.BASE64Encoder;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 
 public class Utils {
@@ -12,7 +14,6 @@ public class Utils {
         if(in == null) {
             return "";
         }
-        BASE64Encoder encoder = null;
         ByteArrayOutputStream buffer = null;
         try {
             int nRead;
@@ -23,7 +24,6 @@ public class Utils {
                 buffer.write(data, 0, nRead);
             }
             buffer.flush();
-            encoder = new BASE64Encoder();
         } catch(IOException e) {
             e.printStackTrace();
         } finally {
@@ -32,8 +32,9 @@ public class Utils {
             } catch(IOException e) {
                 e.printStackTrace();
             }
-            return encoder.encode(buffer.toByteArray());
         }
+
+        return Base64.encodeBase64String(buffer.toByteArray());
     }
 
     public static File loadFile(String fileName) throws IOException {

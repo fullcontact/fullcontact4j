@@ -68,6 +68,15 @@ public class FullContactHttpInterface {
                 throw new IllegalArgumentException(
                         "Cannot make an asynchronous request without either a callback or a webhook");
             }
+
+            //if the user didn't specify a callback, create a no-op callback instead
+            callback = new FCCallback<T>() {
+                @Override
+                public void success(T response) {}
+
+                @Override
+                public void failure(FullContactException exception) {}
+            };
         }
         //make a retrofit request with a callback that will call FCCallback
         requestExecutorHandler.sendRequestAsync(fullContactApi, req, new FCRetrofitCallback<T>(callback, this));

@@ -38,6 +38,7 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
         private String cardFront;
         private String accessToken;
         private String cardBack;
+        private Map<String, String> customParams;
 
         public Builder verified(CardReaderQuality quality) {
             params.put(FCConstants.PARAM_CARD_VERIFIED, quality.name());
@@ -83,6 +84,11 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             return this;
         }
 
+        public Builder customParams(Map<String, String> params) {
+            customParams = params;
+            return this;
+        }
+
         public Builder webhookUrl(String url) {
             params.put(FCConstants.PARAM_WEBHOOK_URL, url);
             return this;
@@ -100,6 +106,9 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
 
         @Override
         protected CardReaderUploadRequest createInstance() {
+            if(customParams != null) {
+                params.putAll(customParams);
+            }
             return new CardReaderUploadRequest(accessToken, cardFront, cardBack, params);
         }
     }
