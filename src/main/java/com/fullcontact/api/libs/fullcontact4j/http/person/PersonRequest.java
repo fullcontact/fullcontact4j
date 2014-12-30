@@ -71,8 +71,8 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
-        public Builder webhookBody(Boolean responseInBody) {
-            if(responseInBody) {
+        public Builder webhookBody(Boolean rawJson) {
+            if(rawJson) {
                 params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
             } else {
                 params.remove(FCConstants.PARAM_WEBHOOK_BODY);

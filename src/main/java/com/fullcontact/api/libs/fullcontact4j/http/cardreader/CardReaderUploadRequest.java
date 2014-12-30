@@ -94,6 +94,20 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             return this;
         }
 
+        public Builder webhookId(String id) {
+            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
+            return this;
+        }
+
+        public Builder webhookBody(Boolean rawJson) {
+            if(rawJson) {
+                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
+            } else {
+                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
+            }
+            return this;
+        }
+
         protected void validate() {
             super.validate();
             if(!hasParam(FCConstants.PARAM_WEBHOOK_URL)) {

@@ -3,7 +3,6 @@ package com.fullcontact.api.libs.fullcontact4j.http.cardreader;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
 import retrofit.Callback;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         api.viewCard(accessToken, params, id, callback);
     }
 
-    public static class Builder extends WebhookBuilder<CardReaderViewRequest> {
+    public static class Builder extends BaseBuilder<CardReaderViewRequest> {
         private String id;
         private String accessToken;
 
@@ -50,7 +49,6 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         }
 
         public void validate() {
-            super.validate();
             if(id == null) {
                 throw new IllegalArgumentException("Card View Request must have a card ID");
             }
