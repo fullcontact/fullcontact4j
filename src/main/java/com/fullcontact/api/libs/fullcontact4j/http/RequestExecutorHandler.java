@@ -99,7 +99,7 @@ public class RequestExecutorHandler {
                 //wait until this request would be made within rate limit header limits
                 requestDebtTracker.consumeDebt();
 
-                Utils.verbose(System.currentTimeMillis() + " Sending a new asynchronous " + req.getClass().getSimpleName());
+                Utils.verbose("Sending a new asynchronous " + req.getClass().getSimpleName());
                 req.makeRequest(api, callback);
             }
         });

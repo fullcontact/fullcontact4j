@@ -18,10 +18,7 @@ import retrofit.client.Response;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 
@@ -108,11 +105,16 @@ public class FullContactClientTests {
 
     private static final String BAD_API_KEY = "bad-api-key";
     private static FullContact mockFc;
-    private static MockRetrofitClient mockClient = new MockRetrofitClient("test", new OkHttpClient(), BAD_API_KEY);
+    private static Map<String, String> mockHeaders = new HashMap<String, String>();
+    private static MockRetrofitClient mockClient;
 
     @BeforeClass
     public static void before() {
         FullContact.setLogLevel(Level.FINEST);
+
+        mockHeaders.put("test-custom", "1234");
+        mockHeaders.put("another-test", "test");
+        mockClient = new MockRetrofitClient("test", mockHeaders, new OkHttpClient(), BAD_API_KEY);
         //create a new FullContact client that uses an http client that never makes requests and points towards nothing
         mockFc = new FullContact(mockClient,
                 RateLimiterPolicy.SMOOTH, "http://badbadbad.not.exist", 2);
@@ -198,6 +200,28 @@ public class FullContactClientTests {
         }
     }
 
+    @Test(timeout = 2000)
+    //assure custom headers are being added to all requests
+    public void customHeaderTest() throws Exception {
+        mockFc.sendRequest(mockFc.buildPersonRequest().email("bad@bad.com.net").build(), noOpCallback(PersonResponse.class));
+        Exception error = null;
+        try {
+            HttpURLConnection connection = mockClient.getCreatedConnection();
+            Map<String, List<String>> headers = connection.getRequestProperties();
+            for(String key : mockHeaders.keySet()) {
+                assertTrue(headers.containsKey(key));
+                assertEquals(mockHeaders.get(key), headers.get(key).get(0));
+            }
+        } catch (Exception e) {
+            error = e;
+        } finally {
+            mockClient.resetConnection();
+        }
+        if (error != null) {
+            throw error;
+        }
+    }
+
     @Test
     //test the client correctly models what is required in a webhook.
     //related: issue #15
@@ -230,8 +254,8 @@ public class FullContactClientTests {
     //and does not actually connect to any service.
     private static class MockRetrofitClient extends FCUrlClient {
         private volatile CountDownLatch latch = new CountDownLatch(1);
-        public MockRetrofitClient(String userAgent, OkHttpClient client, String apiKey) {
-            super(userAgent, client, apiKey);
+        public MockRetrofitClient(String userAgent, Map<String, String> headers, OkHttpClient client, String apiKey) {
+            super(userAgent, headers, client, apiKey);
         }
 
         private volatile HttpURLConnection currentConnection;

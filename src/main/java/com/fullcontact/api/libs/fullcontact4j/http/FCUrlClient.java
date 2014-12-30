@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -47,17 +48,30 @@ public class FCUrlClient implements Client {
         return client;
     }
 
+    private Map<String, String> headers = new HashMap<String, String>();
     private OkUrlFactory okUrlFactory;
     private String apiKey;
     private String userAgent;
-    public FCUrlClient(String userAgent, OkHttpClient client, String apiKey) {
+    public FCUrlClient(String userAgent, Map<String, String> customHeaders, OkHttpClient client, String apiKey) {
         okUrlFactory = new OkUrlFactory(client);
+
+        if(customHeaders != null) {
+            this.headers = customHeaders;
+        }
+
+        //disallow api key, token, or user agent headers to be supplied by the user
+        boolean removedBlocked = headers.remove(FCConstants.HEADER_AUTH_API_KEY) != null;
+        removedBlocked |= headers.remove(FCConstants.HEADER_AUTH_ACCESS_TOKEN) != null;
+        if(removedBlocked) {
+            Utils.info("Custom FullContact header for api key or access token was supplied. It has been ignored.");
+        }
+
         this.userAgent = userAgent;
         this.apiKey = apiKey;
     }
 
     public FCUrlClient(String userAgent, String apiKey) {
-        this(userAgent, generateDefaultOkHttp(), apiKey);
+        this(userAgent, null, generateDefaultOkHttp(), apiKey);
     }
 
     @Override public Response execute(Request request) throws IOException {
@@ -74,8 +88,18 @@ public class FCUrlClient implements Client {
         connection.setRequestMethod(request.getMethod());
         connection.setDoInput(true);
 
+        //add request headers
         for (Header header : request.getHeaders()) {
             connection.addRequestProperty(header.getName(), header.getValue());
+        }
+
+        //add custom global headers
+        for(Map.Entry<String, String> header : headers.entrySet()) {
+            if(header.getKey() != null && header.getValue() != null) {
+                connection.setRequestProperty(header.getKey(), header.getValue());
+            } else {
+                Utils.verbose("Ignored null header in request (Key: " + header.getKey() + ", Value: " + header.getValue() + ")");
+            }
         }
 
         boolean hasAuthToken = false;
@@ -85,12 +109,12 @@ public class FCUrlClient implements Client {
             }
         }
         if(!hasAuthToken) {
-            connection.addRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
+            connection.setRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
             Utils.verbose("Added API key to headers");
         } else {
             Utils.verbose("Added auth token instead of API key to headers");
         }
-        connection.addRequestProperty(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
+        connection.setRequestProperty(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
 
         TypedOutput body = request.getBody();
         if (body != null) {

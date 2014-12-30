@@ -5,10 +5,10 @@ import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
 import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
@@ -19,6 +19,7 @@ import com.squareup.okhttp.OkHttpClient;
 import retrofit.client.Client;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -168,6 +169,7 @@ public class FullContact {
     public static class Builder {
 
         private String authKey;
+        private Map<String, String> headers;
         private OkHttpClient httpClient = new OkHttpClient();
         private OkHttpClient defaultClient = new OkHttpClient();
         private String userAgent = "";
@@ -188,6 +190,11 @@ public class FullContact {
          */
         public Builder httpClient(OkHttpClient client) {
             httpClient = client;
+            return this;
+        }
+
+        public Builder customHeaders(Map<String, String> headers) {
+            this.headers = headers;
             return this;
         }
 
@@ -258,7 +265,7 @@ public class FullContact {
                 throw new IllegalArgumentException("One of the builder parameters was null");
             }
 
-            return new FullContact(new FCUrlClient(userAgent, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
+            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
         }
     }
 
