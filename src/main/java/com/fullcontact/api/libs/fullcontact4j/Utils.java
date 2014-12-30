@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 
 public class Utils {
@@ -34,7 +35,11 @@ public class Utils {
             }
         }
 
-        return Base64.encodeBase64String(buffer.toByteArray());
+        return encodeBase64String(buffer.toByteArray());
+    }
+
+    private static String encodeBase64String(final byte[] binaryData) {
+        return new String(Base64.encodeBase64(binaryData, false), Charset.forName("UTF-8"));
     }
 
     public static File loadFile(String fileName) throws IOException {
