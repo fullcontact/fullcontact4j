@@ -1,3 +1,5 @@
+package com.fullcontact.example;
+
 import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
