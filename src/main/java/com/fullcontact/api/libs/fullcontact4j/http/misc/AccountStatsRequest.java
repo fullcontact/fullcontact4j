@@ -35,7 +35,7 @@ public class AccountStatsRequest extends FCRequest<AccountStatsResponse> {
             if(month < 0 || month > 12) {
                 throw new IllegalArgumentException("invalid month - needs to be 1 through 12");
             }
-            params.put(FCConstants.PARAM_ACCOUNT_STATS_PERIOD, year.toString() + "-" + month.toString());
+            params.put(FCConstants.PARAM_ACCOUNT_STATS_PERIOD, String.format("%d-%02d", year, month));
             return this;
         }
 
