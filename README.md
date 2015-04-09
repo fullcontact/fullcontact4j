@@ -24,7 +24,7 @@ __Maven__
   <dependency>
     <groupId>com.fullcontact</groupId>
     <artifactId>fullcontact4j</artifactId>
-    <version>2.1.3</version>
+    <version>2.2.0</version>
   </dependency>
 </dependencies>
 ```
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile group: "com.fullcontact", name: "fullcontact4j", version: "2.1.3"
+    compile group: "com.fullcontact", name: "fullcontact4j", version: "2.2.0"
 }
 ```
 
@@ -163,7 +163,7 @@ __When you're done with the client, be sure to call `shutDown()` on it.__ Otherw
 ###Error Handling###
 If an error is encountered (these correspond to yellow/red non-2xx response codes on the [API flow diagrams](https://www.fullcontact.com/developer/docs/person/#flow-diagram)), a `FullContactException` is created with useful information about the error, including `errorCode` and a message from the FullContact APIs about the nature of the error. For synchronous requests, this will cause `sendRequest()` to throw `FullContactException`. In asynchronous requests, `FCCallback.failure(FullContactException exception)` is called instead.
 ###Supported APIs###
-FullContact4j supports all Person, Email, Name, Location, Card Reader, and Account Statistics endpoints. These can all be accessed from their respective `build_____Request()` methods in the FullContact client. Some will need required parameters (like `CardReaderRequest`’s requirement for a front image `InputStream`) and automatically create a builder with those required parameters set.
+FullContact4j supports all Person, Company, Email, Name, Location, Card Reader, and Account Statistics endpoints. These can all be accessed from their respective `build_____Request()` methods in the FullContact client. Some will need required parameters (like `CardReaderRequest`’s requirement for a front image `InputStream`) and automatically create a builder with those required parameters set.
 ###Advanced###
 In the background, FullContact4j is making requests using an `OkHttpClient`. You can supply your own `OkHttpClient`.
 ```java

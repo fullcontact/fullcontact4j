@@ -8,6 +8,7 @@ public class FCConstants {
     public static final String USER_AGENT_BASE = "FullContact4j/" + VERSION;
 
     public static final String API_ENDPOINT_PERSON = "/person.json";
+    public static final String API_ENDPOINT_COMPANY = "/company/lookup.json";
     public static final String API_ENDPOINT_CARDREADER = "/cardReader";
     public static final String API_ENDPOINT_DISPOSABLE_EMAIL = "/disposable.json";
     public static final String API_ENDPOINT_NAME_NORMALIZER = "/name/normalizer.json";
@@ -35,6 +36,8 @@ public class FCConstants {
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
     public static final String PARAM_PERSON_CALLBACK = "callback";
+
+    public static final String PARAM_COMPANY_DOMAIN = "domain";
 
     public static final String PARAM_CARD_VERIFIED = "verified";
     public static final String PARAM_CARD_RETURNED_DATA = "returnedData";

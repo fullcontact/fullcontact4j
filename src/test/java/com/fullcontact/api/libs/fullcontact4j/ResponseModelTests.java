@@ -5,6 +5,7 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
@@ -35,6 +36,22 @@ public class ResponseModelTests {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-queue-response.json"), PersonResponse.class);
         assertEquals(202, r.getStatus());
         assertTrue(r.getMessage().contains("Queued for search"));
+    }
+
+    @Test
+    public void companyDeserializationTest() throws IOException {
+        CompanyResponse r = mapper.readValue(Utils.loadFile("example-company-response.json"), CompanyResponse.class);
+        assertTrue(r.getLogo().contains("cloudfront"));
+        assertEquals("en", r.getLanguageLocale());
+        assertEquals("2010", r.getOrganization().getFounded());
+        assertEquals("FullContact Inc.", r.getOrganization().getName());
+        assertEquals("Colorado", r.getOrganization().getContactInfo().getAddresses().get(0).getRegion().getName());
+        assertEquals("+1 (888) 330-6943", r.getOrganization().getContactInfo().getPhoneNumbers().get(0).getNumber());
+        assertTrue(r.getOrganization().getLinks().get(0).getUrl().contains("fullcontact"));
+        assertTrue(r.getOrganization().getImages().get(4).getUrl().contains("cloudfront"));
+        assertTrue(r.getOrganization().getKeywords().contains("Software"));
+        assertTrue(r.getSocialProfiles().get(5).getUrl().contains("fullcontact"));
+        assertEquals("us", r.getTraffic().getTopCountryRanking().get(0).getLocale());
     }
 
     @Test

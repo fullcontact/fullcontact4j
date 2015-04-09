@@ -9,6 +9,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
@@ -65,6 +66,11 @@ public class FullContact {
      * Creates a new Person search.
      */
     public PersonRequest.Builder buildPersonRequest() { return new PersonRequest.Builder(); }
+
+    /**
+     * Creates a new Company search.
+     */
+    public CompanyRequest.Builder buildCompanyRequest() { return new CompanyRequest.Builder(); }
 
     /**
      * Upload a new card to be processed by Card Reader.

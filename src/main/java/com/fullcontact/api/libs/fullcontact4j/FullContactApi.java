@@ -1,12 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import retrofit.http.GET;
-
-
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
@@ -31,6 +29,9 @@ public interface FullContactApi {
 
     @GET(FCConstants.API_ENDPOINT_PERSON)
     public void getPerson(@QueryMap Map<String, String> opts, Callback<PersonResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_COMPANY)
+    public void getCompany(@QueryMap Map<String, String> opts, Callback<CompanyResponse> response);
 
     @POST(FCConstants.API_ENDPOINT_CARDREADER)
     public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body CardReaderUploadRequest.RequestBodyJson bodyJson, Callback<CardReaderUploadConfirmResponse> callback);
