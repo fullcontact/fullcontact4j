@@ -83,7 +83,7 @@ fullContact.sendRequest(personRequest, new FCCallback() {
 });
 ```
 
-You can see a simple demo of this client in action in the [Hello World app example!](https://github.com/fullcontact/fullcontact4j/blob/master/example/java/FullContactHelloWorld.java)
+You can see a simple demo of this client in action in the [Hello World app example!](https://github.com/fullcontact/fullcontact4j/blob/master/example/src/main/java/com/fullcontact/example/FullContactHelloWorld.java)
 
 ###Making Requests###
 First, let’s get our request builder.
@@ -102,7 +102,7 @@ fullContact.buildPersonRequest()
   .email(“bart@fullcontact.com”)
   .build();
 ```
-If the webhook URL is specified, all Person API responses will by default return a 202 response code (see [webhooks documentation](https://www.fullcontact.com/developer/docs/person/#webhook-flow-diagram) for more detail). If you need to test webhooks before implementing them in your own technology, you can always use something like [requestb.in](www.requestb.in).
+If the webhook URL is specified, all Person API responses will by default return a 202 response code (see [webhooks documentation](https://www.fullcontact.com/developer/docs/person/#webhook-flow-diagram) for more detail). If you need to test webhooks before implementing them in your own technology, you can always use something like [requestb.in](http://requestb.in).
 
 
 If you clearly mis-configured your request (adding two search parameters to Person API, or not giving a name to the name deducer API, etc), `build()` will throw an `IllegalArgumentException` with a message about what you did wrong:
