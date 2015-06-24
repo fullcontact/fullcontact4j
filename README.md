@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile group: "com.fullcontact", name: "fullcontact4j", version: "2.2.0"
+    compile group: "com.fullcontact", name: "fullcontact4j", version: "2.2.1"
 }
 ```
 
