@@ -104,7 +104,7 @@ public class CompanyResponse extends FCResponse {
         return traffic;
     }
 
-    private static class CompanyCategory {
+    public static class CompanyCategory {
 
         private String name;
         private String code;
