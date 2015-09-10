@@ -181,14 +181,6 @@ public class CompanyOrganization {
         return contactInfo;
     }
 
-    /**
-     * @deprecated Use getKeyPeople().
-     */
-    @Deprecated
-    public List<? extends KeyEmployee> getKeyEmployees() {
-        return keyPeople;
-    }
-
     public List<KeyPerson> getKeyPeople() {
         return keyPeople;
     }
