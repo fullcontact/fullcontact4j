@@ -10,13 +10,12 @@ public class CompanyOrganization {
     private String founded;
     private String overview;
     private CompanyContactInfo contactInfo;
-    private List<KeyEmployee> keyEmployees = Collections.emptyList();
+    private List<KeyPerson> keyPeople = Collections.emptyList();
     private List<CompanyUrl> links = Collections.emptyList();
     private List<CompanyUrl> images = Collections.emptyList();
     private List<String> keywords = Collections.emptyList();
 
-
-    public static class KeyEmployee {
+    public static class KeyPerson {
         private String name;
         private String title;
         private String link;
@@ -46,7 +45,7 @@ public class CompanyOrganization {
             return label;
         }
     }
-    
+
     public static class CompanyContactInfo {
         private List<CompanyEmailAddress> emailAddresses;
         private List<CompanyPhoneNumber> phoneNumbers;
@@ -64,7 +63,7 @@ public class CompanyOrganization {
             return addresses;
         }
     }
-    
+
     public static class CompanyPhoneNumber {
         private String number;
         private String label;
@@ -90,7 +89,7 @@ public class CompanyOrganization {
             return label;
         }
     }
-    
+
     public static class CompanyAddress {
         private String addressLine1;
         private String addressLine2;
@@ -182,8 +181,8 @@ public class CompanyOrganization {
         return contactInfo;
     }
 
-    public List<KeyEmployee> getKeyEmployees() {
-        return keyEmployees;
+    public List<KeyPerson> getKeyPeople() {
+        return keyPeople;
     }
 
     public List<CompanyUrl> getLinks() {

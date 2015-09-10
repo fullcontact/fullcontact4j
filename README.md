@@ -24,7 +24,7 @@ __Maven__
   <dependency>
     <groupId>com.fullcontact</groupId>
     <artifactId>fullcontact4j</artifactId>
-    <version>2.2.1</version>
+    <version>(version here)</version>
   </dependency>
 </dependencies>
 ```
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile group: "com.fullcontact", name: "fullcontact4j", version: "2.2.1"
+    compile group: "com.fullcontact", name: "fullcontact4j", version: "(version here)"
 }
 ```
 
