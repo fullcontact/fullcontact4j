@@ -15,13 +15,7 @@ public class CompanyOrganization {
     private List<CompanyUrl> images = Collections.emptyList();
     private List<String> keywords = Collections.emptyList();
 
-
-    /**
-     * @deprecated This class only exists for backwards-compatibility; use
-     * KeyPerson instead.
-     */
-    @Deprecated
-    public static class KeyEmployee {
+    public static class KeyPerson {
         private String name;
         private String title;
         private String link;
@@ -38,8 +32,6 @@ public class CompanyOrganization {
             return link;
         }
     }
-
-    public static class KeyPerson extends KeyEmployee { }
 
     public static class CompanyUrl {
         private String url;
