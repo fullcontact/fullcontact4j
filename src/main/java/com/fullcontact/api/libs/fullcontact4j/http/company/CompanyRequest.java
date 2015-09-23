@@ -25,6 +25,15 @@ public class CompanyRequest extends FCRequest<CompanyResponse> {
             return this;
         }
 
+        public Builder keyPeople(Boolean keyPeople) {
+            if(keyPeople) {
+                params.put(FCConstants.PARAM_COMPANY_KEYPEOPLE, "true");
+            } else {
+                params.remove(FCConstants.PARAM_COMPANY_KEYPEOPLE);
+            }
+            return this;
+        }
+
         public Builder webhookUrl(String url) {
             params.put(FCConstants.PARAM_WEBHOOK_URL, url);
             return this;
