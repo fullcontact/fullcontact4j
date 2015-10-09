@@ -6,6 +6,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResp
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.model.KeyPerson;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
@@ -38,9 +39,15 @@ public class ResponseModelTests {
         assertTrue(r.getMessage().contains("Queued for search"));
     }
 
+    private static KeyPerson travisTodd = new KeyPerson("Travis Todd", "Co-Founder",
+            "https://api.fullcontact.com/v2/person.json?lookup=pDF50R_M0Gw8OfXk4zQXZBhkY_WkYdgF7SulvVo4uE0=");
+    private static KeyPerson edenElder = new KeyPerson("Eden Elder, Ph.D.",
+            "Chief People Officer", null);
+
     @Test
     public void companyDeserializationTest() throws IOException {
         CompanyResponse r = mapper.readValue(Utils.loadFile("example-company-response.json"), CompanyResponse.class);
+
         assertTrue(r.getLogo().contains("cloudfront"));
         assertEquals("en", r.getLanguageLocale());
         assertEquals("2010", r.getOrganization().getFounded());
@@ -50,8 +57,19 @@ public class ResponseModelTests {
         assertTrue(r.getOrganization().getLinks().get(0).getUrl().contains("fullcontact"));
         assertTrue(r.getOrganization().getImages().get(4).getUrl().contains("cloudfront"));
         assertTrue(r.getOrganization().getKeywords().contains("Software"));
-        assertTrue(r.getSocialProfiles().get(5).getUrl().contains("fullcontact"));
+        assertEquals(11, r.getSocialProfiles().size());
+        assertEquals("107620035082673219790", r.getSocialProfiles().get(5).getId());
         assertEquals("us", r.getTraffic().getTopCountryRanking().get(0).getLocale());
+        assertEquals(8, r.getOrganization().getKeyPeople().size());
+        assertTrue(r.getOrganization().getKeyPeople().contains(travisTodd));
+        assertTrue(r.getOrganization().getKeyPeople().contains(edenElder));
+    }
+
+    @Test
+    public void keyPersonToRequestTest() {
+        assertEquals("pDF50R_M0Gw8OfXk4zQXZBhkY_WkYdgF7SulvVo4uE0=",
+                travisTodd.toPersonRequestOrNull().build().getParam("lookup"));
+        assertEquals(null, edenElder.toPersonRequestOrNull());
     }
 
     @Test
@@ -139,19 +157,4 @@ public class ResponseModelTests {
         assertEquals(7, r.getMetrics().size());
         assertTrue(r.getPlan().contains("Fictitious"));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

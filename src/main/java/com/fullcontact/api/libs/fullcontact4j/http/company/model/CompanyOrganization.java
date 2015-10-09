@@ -15,24 +15,6 @@ public class CompanyOrganization {
     private List<CompanyUrl> images = Collections.emptyList();
     private List<String> keywords = Collections.emptyList();
 
-    public static class KeyPerson {
-        private String name;
-        private String title;
-        private String link;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getLink() {
-            return link;
-        }
-    }
-
     public static class CompanyUrl {
         private String url;
         private String label;
