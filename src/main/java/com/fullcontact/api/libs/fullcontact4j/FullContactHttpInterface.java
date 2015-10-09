@@ -2,7 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
+import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
@@ -29,7 +29,7 @@ public class FullContactHttpInterface {
      */
     private FullContactApi fullContactApi;
 
-    public FullContactHttpInterface(Client httpClient, RateLimiterPolicy policy, String baseUrl,
+    public FullContactHttpInterface(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
                                     Integer threadPoolCount) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
@@ -38,7 +38,7 @@ public class FullContactHttpInterface {
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
         //when we intercept a request, this object adds the proper auth headers
-        requestExecutorHandler = new RequestExecutorHandler(policy, threadPoolCount);
+        requestExecutorHandler = new RequestExecutorHandler(rateLimiterConfig, threadPoolCount);
 
         jsonConverter = new JacksonConverter(mapper);
         //create the API from a template interface using Retrofit

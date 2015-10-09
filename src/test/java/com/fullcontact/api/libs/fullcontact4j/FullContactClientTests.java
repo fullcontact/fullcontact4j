@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
+import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
@@ -48,7 +48,7 @@ public class FullContactClientTests {
     //counterparts
     public void asyncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterPolicy.SMOOTH, 1));
+        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
         final CountDownLatch latch = new CountDownLatch(REQUEST_AMOUNT);
         //async
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
@@ -78,7 +78,7 @@ public class FullContactClientTests {
     @Test(timeout = 8000)
     public void syncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterPolicy.SMOOTH, 1));
+        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
         //sync
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
             final PersonRequest req = client.buildPersonRequest().email(UUID.randomUUID().toString()).build();
@@ -117,7 +117,7 @@ public class FullContactClientTests {
         mockClient = new MockRetrofitClient("test", mockHeaders, new OkHttpClient(), BAD_API_KEY);
         //create a new FullContact client that uses an http client that never makes requests and points towards nothing
         mockFc = new FullContact(mockClient,
-                RateLimiterPolicy.SMOOTH, "http://badbadbad.not.exist", 2);
+                RateLimiterConfig.SMOOTH, "http://badbadbad.not.exist", 2);
     }
 
     @AfterClass
@@ -289,7 +289,7 @@ public class FullContactClientTests {
 
     private class MockRequestHandler extends RequestExecutorHandler {
 
-        public MockRequestHandler(RateLimiterPolicy policy, Integer threadPoolCount) {
+        public MockRequestHandler(RateLimiterConfig policy, Integer threadPoolCount) {
             super(policy, threadPoolCount);
         }
 

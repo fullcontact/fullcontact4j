@@ -3,8 +3,7 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
-import com.fullcontact.api.libs.fullcontact4j.guava.RateLimiter;
+import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.guava.SmoothRateLimiter;
 import retrofit.client.Header;
 
@@ -19,9 +18,6 @@ import java.util.concurrent.TimeUnit;
  * accounts for rate limiting and then sends the request.
  */
 public class RequestExecutorHandler {
-
-    //the default reqs per second. when rate limit headers come back from the client, those will be used instead.
-    private static final int DEFAULT_REQUESTS_PER_SECOND = 10;
     // how often to check for a rate limit change
     private static final long RATE_LIMIT_CHECK_INTERVAL_MS = TimeUnit.MINUTES.convert(5, TimeUnit.MILLISECONDS);
 
@@ -30,23 +26,16 @@ public class RequestExecutorHandler {
 
     //if not null, will limit the request rate.
     private SmoothRateLimiter.SmoothBursty rateLimiter;
-    private double apiKeyRequestsPerSecond = 10;
+    private double apiKeyRequestsPerSecond;
     private volatile long lastRateLimitCheck = 0;
-    private final RateLimiterPolicy policy;
 
     // If we are making requests
     private RequestDebtTracker requestDebtTracker = new RequestDebtTracker();
 
-    public RequestExecutorHandler(RateLimiterPolicy policy, Integer threadPoolCount) {
-        this.policy = policy;
+    public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, Integer threadPoolCount) {
         executorService = Executors.newFixedThreadPool(threadPoolCount);
-        if(policy == RateLimiterPolicy.BURST) {
-            rateLimiter = (SmoothRateLimiter.SmoothBursty) RateLimiter.create(RateLimiter.SleepingStopwatch.createFromSystemTimer(),
-                    DEFAULT_REQUESTS_PER_SECOND, 8.0);
-        } else {
-            rateLimiter = (SmoothRateLimiter.SmoothBursty) RateLimiter.create(RateLimiter.SleepingStopwatch.createFromSystemTimer(),
-                    DEFAULT_REQUESTS_PER_SECOND, 5.0);
-        }
+        apiKeyRequestsPerSecond = rateLimiterConfig.getInitReqsPerSec();
+        rateLimiter = rateLimiterConfig.createRateLimiter();
     }
     /**
      * If the check interval time has passed, update the rate limit

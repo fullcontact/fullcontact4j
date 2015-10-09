@@ -1,7 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
 
-import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy;
+import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
@@ -34,9 +34,9 @@ public class FullContact {
     protected FullContactHttpInterface httpInterface;
     private boolean isShutdown = false;
 
-    protected FullContact(Client httpClient, RateLimiterPolicy policy, String baseUrl,
+    protected FullContact(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
                         Integer threadPoolCount) {
-        httpInterface = new FullContactHttpInterface(httpClient, policy, baseUrl, threadPoolCount);
+        httpInterface = new FullContactHttpInterface(httpClient, rateLimiterConfig, baseUrl, threadPoolCount);
         Utils.info("Created new FullContact client.");
     }
 
@@ -181,7 +181,7 @@ public class FullContact {
         private String userAgent = "";
         private Integer threadPoolCount = 1;
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
-        private RateLimiterPolicy ratePolicy = RateLimiterPolicy.SMOOTH;
+        private RateLimiterConfig rateLimiterConfig = RateLimiterConfig.SMOOTH;
 
         public Builder(String apiKey) {
             //default client is OkHttpClient
@@ -252,10 +252,10 @@ public class FullContact {
         }
 
         /**
-         * @see com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterPolicy
+         * @see com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig
          */
-        public Builder rateLimiterPolicy(RateLimiterPolicy policy) {
-            this.ratePolicy = policy;
+        public Builder rateLimiterConfig(RateLimiterConfig rateLimiterConfig) {
+            this.rateLimiterConfig = rateLimiterConfig;
             return this;
         }
 
@@ -267,11 +267,11 @@ public class FullContact {
             if(authKey == null || authKey.isEmpty()) {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
-            if(ratePolicy == null || baseUrl == null || threadPoolCount == null || userAgent == null || httpClient == null) {
+            if(rateLimiterConfig == null || baseUrl == null || threadPoolCount == null || userAgent == null || httpClient == null) {
                 throw new IllegalArgumentException("One of the builder parameters was null");
             }
 
-            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), ratePolicy, baseUrl, threadPoolCount);
+            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), rateLimiterConfig, baseUrl, threadPoolCount);
         }
     }
 
