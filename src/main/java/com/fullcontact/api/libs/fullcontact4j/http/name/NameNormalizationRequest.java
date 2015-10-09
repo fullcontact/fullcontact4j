@@ -20,7 +20,7 @@ public class NameNormalizationRequest extends FCRequest<NameResponse> {
         api.getNormalizedName(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<NameNormalizationRequest> {
+    public static class Builder extends BaseBuilder<Builder, NameNormalizationRequest> {
 
         public Builder query(String name) {
             params.put(FCConstants.PARAM_NAME_QUERY, name);
@@ -43,6 +43,10 @@ public class NameNormalizationRequest extends FCRequest<NameResponse> {
             if(query == null || query.isEmpty()) {
                 throw new IllegalArgumentException("Query cannot be empty or null");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

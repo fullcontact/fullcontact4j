@@ -18,7 +18,7 @@ public class CompanyRequest extends FCRequest<CompanyResponse> {
         api.getCompany(params, callback);
     }
 
-    public static class Builder extends WebhookBuilder<CompanyRequest> {
+    public static class Builder extends WebhookBuilder<Builder, CompanyRequest> {
 
         public Builder domain(String domain) {
             params.put(FCConstants.PARAM_COMPANY_DOMAIN, domain);
@@ -30,25 +30,6 @@ public class CompanyRequest extends FCRequest<CompanyResponse> {
                 params.put(FCConstants.PARAM_COMPANY_KEYPEOPLE, "true");
             } else {
                 params.remove(FCConstants.PARAM_COMPANY_KEYPEOPLE);
-            }
-            return this;
-        }
-
-        public Builder webhookUrl(String url) {
-            params.put(FCConstants.PARAM_WEBHOOK_URL, url);
-            return this;
-        }
-
-        public Builder webhookId(String id) {
-            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
-            return this;
-        }
-
-        public Builder webhookBody(Boolean rawJson) {
-            if(rawJson) {
-                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
-            } else {
-                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
             }
             return this;
         }
@@ -71,6 +52,11 @@ public class CompanyRequest extends FCRequest<CompanyResponse> {
                     throw new IllegalArgumentException("Domain is not in a valid format");
                 }
             }
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
         }
     }
 }

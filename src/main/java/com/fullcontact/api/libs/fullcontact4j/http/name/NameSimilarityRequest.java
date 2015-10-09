@@ -18,7 +18,7 @@ public class NameSimilarityRequest extends FCRequest<NameSimilarityResponse> {
         api.getNameSimilarity(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<NameSimilarityRequest> {
+    public static class Builder extends BaseBuilder<Builder, NameSimilarityRequest> {
 
         @Override
         protected NameSimilarityRequest createInstance() {
@@ -42,6 +42,10 @@ public class NameSimilarityRequest extends FCRequest<NameSimilarityResponse> {
             if(name1 == null || name2 == null || name1.isEmpty() || name2.isEmpty()) {
                 throw new IllegalArgumentException("Both names being compared need to be valid and non-null");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

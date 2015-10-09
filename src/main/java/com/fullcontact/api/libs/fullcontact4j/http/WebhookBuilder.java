@@ -6,10 +6,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * A builder template that automatically validates any parameters surrounding webhooks.
- * @param <T>
+ * A builder that automatically provides/validates parameters surrounding webhooks.
  */
-public abstract class WebhookBuilder<T extends FCRequest> extends FCRequest.BaseBuilder<T> {
+public abstract class WebhookBuilder<B extends FCRequest.BaseBuilder<B,R>, R extends FCRequest>
+        extends FCRequest.BaseBuilder<B,R> {
+
+    public B webhookUrl(String url) {
+        params.put(FCConstants.PARAM_WEBHOOK_URL, url);
+        return self();
+    }
+
+    public B webhookId(String id) {
+        params.put(FCConstants.PARAM_WEBHOOK_ID, id);
+        return self();
+    }
+
+    public B webhookBody(Boolean rawJson) {
+        if(rawJson) {
+            params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
+        } else {
+            params.remove(FCConstants.PARAM_WEBHOOK_BODY);
+        }
+        return self();
+    }
 
     protected void validate() {
        if(!hasParam(FCConstants.PARAM_WEBHOOK_URL) &&

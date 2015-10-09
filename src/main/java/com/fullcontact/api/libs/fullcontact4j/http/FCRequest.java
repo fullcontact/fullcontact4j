@@ -48,7 +48,27 @@ public abstract class FCRequest<T extends FCResponse> {
         return result + builder.toString();
     }
 
-    protected abstract static class BaseBuilder<T extends FCRequest> {
+    /**
+     * This type signature probably looks pretty weird. Let's explain...
+     *
+     * A Builder needs to be able to return itself from a function, for method chaining. For most Builders, this is fine
+     * -- just have each method return Builder. But what if we want all Builders extending from BaseBuilder here
+     * (PersonRequest.Builder, CompanyRequest.Builder...) to support
+     * inherited builder methods like `customParam(String key, String value)`? If BaseBuilder has `customParam()` here,
+     * then `customParam()` returns a BaseBuilder, not the special subclass like PersonRequest.Builder
+     * that is ACTUALLY being used. If you do `personBuilder.email("a@a.com").customParam("key","value")`,
+     * now you've got an instance of BaseBuilder when it's actually a PersonRequest.Builder, and you lose all of
+     * PersonRequest.Builder's methods!
+     *
+     * So how do we know what BaseBuilder subclass to actually return from `customParam()`?
+     *
+     * Generics to the rescue! Type Param B is the actual Builder subclass, i.e. PersonRequest.Builder,
+     * that will be returned from all method-chaining builder functions.
+     * Now we just return B from all our builder methods, and the right subclass is returned.
+     * @param <B> the actual Builder type (must be a subclass of builder)
+     * @param <R> the FCRequest subclass that will actually be built
+     */
+    protected abstract static class BaseBuilder<B extends BaseBuilder<B,R>, R extends FCRequest> {
         protected Map<String, String> params;
 
         public BaseBuilder() {
@@ -58,9 +78,8 @@ public abstract class FCRequest<T extends FCResponse> {
         /**
          * Actually validates and builds the request.
          * If there are missing/bad parameters, an IllegalArgumentException will be thrown.
-         * @return
          */
-        public T build() {
+        public R build() {
             validate();
 
             // if a param was empty or null, remove it from the param list.
@@ -74,7 +93,12 @@ public abstract class FCRequest<T extends FCResponse> {
             return createInstance();
         }
 
-        protected abstract T createInstance();
+        public B customParam(String param, String value) {
+            params.put(param, value);
+            return self();
+        }
+
+        protected abstract R createInstance();
 
         /**
          * Validates all the parameters in this request before it's built (it is considered a 100% valid request after it is built).
@@ -85,6 +109,15 @@ public abstract class FCRequest<T extends FCResponse> {
         protected boolean hasParam(String param) {
             return params.containsKey(param);
         }
+
+        /**
+         * Addendum to the explanation above -- we would like to have `customParam()` end with `return this;` but
+         * according to the compiler, all we know about `this` is that it's an instance of a BaseBuilder, and we need
+         * some type B. In our use-case, `this` will be the B type, but the compiler doesn't know that.
+         * We can give the compiler `this` as the type B in a safe way by having
+         * each BaseBuilder implementation return itself in this method.
+         */
+        protected abstract B self();
     }
 
 

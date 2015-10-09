@@ -18,7 +18,7 @@ public class NameStatsRequest extends FCRequest<NameStatsResponse> {
         api.getNameStats(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<NameStatsRequest> {
+    public static class Builder extends BaseBuilder<Builder, NameStatsRequest> {
 
         public Builder name(String name) {
             params.put(FCConstants.PARAM_NAME_NAME, name);
@@ -52,6 +52,10 @@ public class NameStatsRequest extends FCRequest<NameStatsResponse> {
             if(!hasName) {
                 throw new IllegalArgumentException("Stats must have a name parameter");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

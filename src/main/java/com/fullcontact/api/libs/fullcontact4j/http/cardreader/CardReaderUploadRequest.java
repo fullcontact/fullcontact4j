@@ -33,12 +33,11 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
        api.uploadCard(accessToken, params, body, callback);
     }
 
-    public static class Builder extends WebhookBuilder<CardReaderUploadRequest> {
+    public static class Builder extends WebhookBuilder<Builder, CardReaderUploadRequest> {
 
         private String cardFront;
         private String accessToken;
         private String cardBack;
-        private Map<String, String> customParams;
 
         public Builder verified(CardReaderQuality quality) {
             params.put(FCConstants.PARAM_CARD_VERIFIED, quality.name());
@@ -84,30 +83,6 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             return this;
         }
 
-        public Builder customParams(Map<String, String> params) {
-            customParams = params;
-            return this;
-        }
-
-        public Builder webhookUrl(String url) {
-            params.put(FCConstants.PARAM_WEBHOOK_URL, url);
-            return this;
-        }
-
-        public Builder webhookId(String id) {
-            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
-            return this;
-        }
-
-        public Builder webhookBody(Boolean rawJson) {
-            if(rawJson) {
-                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
-            } else {
-                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
-            }
-            return this;
-        }
-
         protected void validate() {
             super.validate();
             if(!hasParam(FCConstants.PARAM_WEBHOOK_URL)) {
@@ -120,10 +95,12 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
 
         @Override
         protected CardReaderUploadRequest createInstance() {
-            if(customParams != null) {
-                params.putAll(customParams);
-            }
             return new CardReaderUploadRequest(accessToken, cardFront, cardBack, params);
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
         }
     }
 

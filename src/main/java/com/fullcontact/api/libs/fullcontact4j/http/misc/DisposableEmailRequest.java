@@ -18,7 +18,7 @@ public class DisposableEmailRequest extends FCRequest<DisposableEmailResponse> {
         api.getDisposableEmail(email, callback);
     }
 
-    public static class Builder extends BaseBuilder<DisposableEmailRequest> {
+    public static class Builder extends BaseBuilder<Builder, DisposableEmailRequest> {
 
         private String email;
         @Override
@@ -36,6 +36,10 @@ public class DisposableEmailRequest extends FCRequest<DisposableEmailResponse> {
             if(!Utils.isValidEmail(email)) {
                 throw new IllegalArgumentException("Email is not of a valid format");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

@@ -18,7 +18,7 @@ public class LocationNormalizationRequest extends FCRequest<LocationNormalizatio
         api.getNormalizedLocation(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<LocationNormalizationRequest> {
+    public static class Builder extends BaseBuilder<Builder, LocationNormalizationRequest> {
 
         public Builder place(String place) {
             params.put(FCConstants.PARAM_LOCATION_PLACE, place);
@@ -35,6 +35,10 @@ public class LocationNormalizationRequest extends FCRequest<LocationNormalizatio
             if(params.get(FCConstants.PARAM_LOCATION_PLACE) == null) {
                 throw new IllegalArgumentException("Location in location request cannot be null");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

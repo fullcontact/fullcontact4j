@@ -17,7 +17,7 @@ public class LocationEnrichmentRequest extends FCRequest<LocationEnrichmentRespo
         api.getEnrichedLocation(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<LocationEnrichmentRequest> {
+    public static class Builder extends BaseBuilder<Builder, LocationEnrichmentRequest> {
 
         public Builder place(String place) {
             params.put(FCConstants.PARAM_LOCATION_PLACE, place);
@@ -34,6 +34,10 @@ public class LocationEnrichmentRequest extends FCRequest<LocationEnrichmentRespo
             if(params.get(FCConstants.PARAM_LOCATION_PLACE) == null) {
                 throw new IllegalArgumentException("Location in location request cannot be null");
             }
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

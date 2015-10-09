@@ -20,7 +20,7 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         api.viewCard(accessToken, params, id, callback);
     }
 
-    public static class Builder extends BaseBuilder<CardReaderViewRequest> {
+    public static class Builder extends BaseBuilder<Builder, CardReaderViewRequest> {
         private String id;
         private String accessToken;
 
@@ -56,6 +56,10 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         @Override
         protected CardReaderViewRequest createInstance() {
             return new CardReaderViewRequest(accessToken, id, params);
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

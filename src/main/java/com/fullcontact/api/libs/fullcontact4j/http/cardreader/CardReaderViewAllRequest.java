@@ -21,7 +21,7 @@ public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllRespons
         api.viewAll(accessToken, params, callback);
     }
 
-    public static class Builder extends BaseBuilder<CardReaderViewAllRequest> {
+    public static class Builder extends BaseBuilder<Builder, CardReaderViewAllRequest> {
 
         private String accessToken;
 
@@ -56,5 +56,10 @@ public class CardReaderViewAllRequest extends FCRequest<CardReaderViewAllRespons
 
         @Override
         protected void validate() {}
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class NameParseRequest extends FCRequest<NameParseResponse> {
         api.getParsedName(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<NameParseRequest> {
+    public static class Builder extends BaseBuilder<Builder, NameParseRequest> {
 
         @Override
         protected NameParseRequest createInstance() {
@@ -32,6 +32,10 @@ public class NameParseRequest extends FCRequest<NameParseResponse> {
         @Override
         protected void validate() {
 
+        }
+
+        protected Builder self() {
+            return this;
         }
     }
 }

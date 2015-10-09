@@ -18,7 +18,7 @@ public class AccountStatsRequest extends FCRequest<AccountStatsResponse> {
         api.getAccountStats(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<AccountStatsRequest> {
+    public static class Builder extends BaseBuilder<Builder, AccountStatsRequest> {
 
         Integer year;
         Integer month;
@@ -42,6 +42,11 @@ public class AccountStatsRequest extends FCRequest<AccountStatsResponse> {
         @Override
         protected void validate() {
 
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
         }
     }
 }

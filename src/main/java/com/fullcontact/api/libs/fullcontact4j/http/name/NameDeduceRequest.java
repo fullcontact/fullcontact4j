@@ -18,7 +18,7 @@ public class NameDeduceRequest extends FCRequest<NameResponse> {
         api.getDeducedName(params, callback);
     }
 
-    public static class Builder extends BaseBuilder<NameDeduceRequest> {
+    public static class Builder extends BaseBuilder<Builder, NameDeduceRequest> {
 
         @Override
         protected NameDeduceRequest createInstance() {
@@ -52,5 +52,8 @@ public class NameDeduceRequest extends FCRequest<NameResponse> {
             }
         }
 
+        protected Builder self() {
+            return this;
+        }
     }
 }

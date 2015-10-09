@@ -23,7 +23,7 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         api.getPerson(params, callback);
     }
 
-    public static class Builder extends WebhookBuilder<PersonRequest> {
+    public static class Builder extends WebhookBuilder<Builder, PersonRequest> {
 
         public Builder email(String email) {
             params.put(FCConstants.PARAM_PERSON_EMAIL, email);
@@ -61,25 +61,6 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
-        public Builder webhookUrl(String url) {
-            params.put(FCConstants.PARAM_WEBHOOK_URL, url);
-            return this;
-        }
-
-        public Builder webhookId(String id) {
-            params.put(FCConstants.PARAM_WEBHOOK_ID, id);
-            return this;
-        }
-
-        public Builder webhookBody(Boolean rawJson) {
-            if(rawJson) {
-                params.put(FCConstants.PARAM_WEBHOOK_BODY, "json");
-            } else {
-                params.remove(FCConstants.PARAM_WEBHOOK_BODY);
-            }
-            return this;
-        }
-
         protected void validate() {
             super.validate();
             //for want of a java 8!
@@ -93,6 +74,11 @@ public class PersonRequest extends FCRequest<PersonResponse> {
                             "search parameters: email, emailMd5, facebook, facebookId, twitter handle, phone.");
                 }
             }
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
         }
 
         @Override
