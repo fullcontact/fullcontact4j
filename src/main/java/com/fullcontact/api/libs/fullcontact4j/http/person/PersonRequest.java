@@ -61,6 +61,11 @@ public class PersonRequest extends FCRequest<PersonResponse> {
             return this;
         }
 
+        public Builder lookup(String lookupValue) {
+            params.put(FCConstants.PARAM_PERSON_LOOKUP, lookupValue);
+            return this;
+        }
+
         protected void validate() {
             super.validate();
             //for want of a java 8!
@@ -88,6 +93,6 @@ public class PersonRequest extends FCRequest<PersonResponse> {
 
         public static final List<String> SEARCH_PARAMS = Arrays.asList(FCConstants.PARAM_PERSON_EMAIL,
                 FCConstants.PARAM_PERSON_FACEBOOK, FCConstants.PARAM_PERSON_EMAIL_MD5, FCConstants.PARAM_PERSON_TWITTER,
-                FCConstants.PARAM_PERSON_FACEBOOK_ID, FCConstants.PARAM_PERSON_PHONE);
+                FCConstants.PARAM_PERSON_FACEBOOK_ID, FCConstants.PARAM_PERSON_PHONE, FCConstants.PARAM_PERSON_LOOKUP);
     }
 }

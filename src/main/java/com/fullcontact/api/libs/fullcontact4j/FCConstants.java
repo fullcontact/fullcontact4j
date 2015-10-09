@@ -33,6 +33,7 @@ public class FCConstants {
     public static final String PARAM_PERSON_TWITTER = "twitter";
     public static final String PARAM_PERSON_FACEBOOK = "facebookUsername";
     public static final String PARAM_PERSON_FACEBOOK_ID = "facebookId";
+    public static final String PARAM_PERSON_LOOKUP = "lookup";
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
     public static final String PARAM_PERSON_CALLBACK = "callback";
