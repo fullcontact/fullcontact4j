@@ -14,7 +14,17 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
     public CardReaderViewRequest(String accessToken, String id, Map<String, String> params) {
         super(params);
         this.id = id;
+        this.accessToken = accessToken;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
     @Override
     protected void makeRequest(FullContactApi api, Callback<CardReaderFullResponse> callback) {
         api.viewCard(accessToken, params, id, callback);
@@ -44,7 +54,7 @@ public class CardReaderViewRequest extends FCRequest<CardReaderFullResponse> {
         }
 
         public Builder accessToken(String token) {
-            accessToken = token;
+            this.accessToken = token;
             return this;
         }
 
