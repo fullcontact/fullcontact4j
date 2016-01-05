@@ -51,38 +51,10 @@
     </dependencies>
 
     <distributionManagement>
+        <!-- credential config is in settings.xml -->
         <repository>
             <id>bintray-fullcontact-fullcontact-oss-fullcontact4j</id>
-            <name>fullcontact-fullcontact-oss-fullcontact4j</name>
-            <url>https://api.bintray.com/maven/fullcontact/fullcontact-oss/fullcontact4j</url>
+            <url>https://api.bintray.com/maven/fullcontact/fullcontact-oss/fullcontact4j/;publish=1</url>
         </repository>
     </distributionManagement>
-
-    <build>
-        <plugins>
-			<plugin>
-			  <groupId>org.codehaus.gmaven</groupId>
-			  <artifactId>groovy-maven-plugin</artifactId>
-			    <executions>
-			      <execution>
-			        <phase>deploy</phase>
-			        <goals>
-			          <goal>execute</goal>
-			        </goals>
-			        <configuration>
-			          <source>
-						def authString = "fullcontact:${bintray-api-key}".getBytes().encodeBase64().toString()
-                        println "Bintray Authorization Header: " + authString
-			            def conn = 'https://api.bintray.com/content/fullcontact/fullcontact-oss/fullcontact4j/${project.version}/publish'.toURL().openConnection()
-						conn.requestMethod = "POST"
-						conn.setRequestProperty("Authorization", "Basic ${authString}")
-						println "Published artifacts: " + conn.responseCode
-			          </source>
-			        </configuration>
-			      </execution>
-			  </executions>
-			</plugin>
-        </plugins>
-    </build>
-
 </project>
