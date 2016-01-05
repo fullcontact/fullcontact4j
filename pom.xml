@@ -72,6 +72,7 @@
 			        <configuration>
 			          <source>
 						def authString = "fullcontact:${bintray-api-key}".getBytes().encodeBase64().toString()
+                        println "Bintray Authorization Header: " + authString
 			            def conn = 'https://api.bintray.com/content/fullcontact/fullcontact-oss/fullcontact4j/${project.version}/publish'.toURL().openConnection()
 						conn.requestMethod = "POST"
 						conn.setRequestProperty("Authorization", "Basic ${authString}")
