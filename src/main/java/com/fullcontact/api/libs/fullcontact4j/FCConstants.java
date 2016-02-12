@@ -31,8 +31,6 @@ public class FCConstants {
     public static final String PARAM_PERSON_EMAIL_MD5 = "emailMD5";
     public static final String PARAM_PERSON_QUEUE = "queue";
     public static final String PARAM_PERSON_TWITTER = "twitter";
-    public static final String PARAM_PERSON_FACEBOOK = "facebookUsername";
-    public static final String PARAM_PERSON_FACEBOOK_ID = "facebookId";
     public static final String PARAM_PERSON_LOOKUP = "lookup";
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
