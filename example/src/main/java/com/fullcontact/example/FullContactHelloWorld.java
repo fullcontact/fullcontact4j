@@ -2,7 +2,9 @@ package com.fullcontact.example;
 
 import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
+import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
+import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameDeduceRequest;
@@ -10,6 +12,10 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.SocialProfile;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * An example of how to use the FullContact client.
@@ -36,8 +42,44 @@ public class FullContactHelloWorld {
         String potentialLocation = lookupTwitterAndLocation(email);
         lookupPopulation(potentialLocation);
 
+        // Make a CardReader request (example)
+        sendImageForTranscription(client);
+
         // ALWAYS shutdown your client after you use it, or you could have a small memory leak.
         client.shutdown();
+    }
+
+    /*
+    * Makes a call to CardReader API to transcribe an image from an image file
+    *
+    * See CardReader API Docs for more information
+    * https://www.fullcontact.com/developer/docs/card-reader/
+    * */
+    private static void sendImageForTranscription(FullContact client) {
+        try {
+            FCResponse response = client.sendRequest(
+                // All requests require a front image input stream. This example uses a file for simplicity
+                client.buildUploadCardRequest(new FileInputStream(new File("/path/to/images/front-side.jpg")))
+                    // Back image is optional, if none is set simply remove this line
+                    .cardBack(new FileInputStream(new File("/path/to/images/optional-back-side.jpg")))
+                    // This helps prevent duplicate uploads, but is completely optional (see docs for more info)
+                    .urid("unique-request-id-from-client")
+                    // Required Endpoint on YOUR webserver accepting POST json entities (see docs for more info)
+                    .webhookUrl("https://my-application.com/cardReaderWebhook")
+                    // The expected quality of the transcritpions. Medium is the most popular and provides good accuracy
+                    .verified(CardReaderQuality.MEDIUM)
+                    .build()
+            );
+            // Print out the response to stdout
+            System.out.println(response);
+        } catch (FullContactException e) {
+            // Uh oh, something went wrong with FullContact HTTP
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            // The file you wanted to update was not found
+            // Keep in mind, you can use _any_ input stream for the file as long as you are transferring the photo bytes
+            e.printStackTrace();
+        }
     }
 
     /**
