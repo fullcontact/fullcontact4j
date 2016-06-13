@@ -7,9 +7,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadCo
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.squareup.okhttp.OkHttpClient;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import retrofit.client.Header;
 import retrofit.client.OkClient;
 import retrofit.client.Request;
@@ -19,7 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 import static org.junit.Assert.*;
@@ -250,6 +248,75 @@ public class FullContactClientTests {
                 .build();
     }
 
+    @Test
+    public void testTimeoutWithSmoothRateLimits() throws Exception {
+        Callable<Boolean> run = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                sendRequestWithrateLimiterConfig(RateLimiterConfig.SMOOTH);
+                return true;
+            }
+        };
+
+        RunnableFuture future = new FutureTask(run);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(future);
+        try {
+            // wait 1 second
+            future.get(1, TimeUnit.SECONDS);
+            fail("Rate limits fail");
+        } catch (TimeoutException ex) {
+            // We expect timed out
+            future.cancel(true);
+        }
+        service.shutdown();
+    }
+
+    @Test
+    public void testTimeoutWithDisabledRateLimits() throws Exception {
+        Callable<Boolean> run = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                sendRequestWithrateLimiterConfig(RateLimiterConfig.DISABLED);
+                return true;
+            }
+        };
+
+        RunnableFuture future = new FutureTask(run);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(future);
+        try {
+            // wait 1 second
+            future.get(1, TimeUnit.SECONDS);
+        } catch (TimeoutException ex) {
+            future.cancel(true);
+            // We don't expect timeout
+            fail("Rate limits fail");
+        }
+        service.shutdown();
+    }
+
+    private void sendRequestWithrateLimiterConfig(RateLimiterConfig rateLimiterConfig) throws Exception {
+        FullContact client = FullContact.withApiKey("bad-api-key").build();
+        // test from https://www.fullcontact.com/developer/docs/rate-limits/
+        Map<String, String> mockHeaders = new HashMap<String, String>();
+        mockHeaders.put("X-Rate-Limit-Limit", "30");
+        mockHeaders.put("X-Rate-Limit-Remaining", "11");
+        mockHeaders.put("X-Rate-Limit-Reset", "44");
+        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(rateLimiterConfig, 1, mockHeaders));
+        for (int i = 0; i != REQUEST_AMOUNT; i++) {
+            final PersonRequest req = client.buildPersonRequest().email(UUID.randomUUID().toString()).build();
+            try {
+                PersonResponse res = client.sendRequest(req);
+                assertEquals(res.getRateLimitPerMinute(), new Integer(30));
+                assertEquals(res.getRateLimitRemaining(), new Integer(11));
+                assertEquals(res.getRateLimitReset(), new Integer(44));
+            } catch (FullContactException e) {
+                fail("Request threw an error");
+            }
+        }
+    }
+
     //same as a regular client used in FullContact, but allows direct access to the connection being established
     //and does not actually connect to any service.
     private static class MockRetrofitClient extends FCUrlClient {
@@ -288,9 +355,15 @@ public class FullContactClientTests {
     }
 
     private class MockRequestHandler extends RequestExecutorHandler {
+        private List<Header> mockHeaders = new ArrayList<Header>();
 
         public MockRequestHandler(RateLimiterConfig policy, Integer threadPoolCount) {
             super(policy, threadPoolCount);
+        }
+
+        public MockRequestHandler(RateLimiterConfig policy, Integer threadPoolCount, Map<String, String> mockHeaders) {
+            super(policy, threadPoolCount);
+            fillMockHeaders(mockHeaders);
         }
 
         //just return a success rather than actually hitting any apis
@@ -300,9 +373,15 @@ public class FullContactClientTests {
                 @Override
                 public void run() {
                     waitForPermit();
-                    callback.success((T) newMockResponse(req.getParam(FCConstants.PARAM_PERSON_EMAIL)), new Response("", 200, "", Collections.<Header>emptyList(), null));
+                    callback.success((T) newMockResponse(req.getParam(FCConstants.PARAM_PERSON_EMAIL)), new Response("", 200, "", mockHeaders, null));
                 }
             });
+        }
+
+        private void fillMockHeaders(Map<String, String> mockHeaders){
+            for (Map.Entry<String, String> entry: mockHeaders.entrySet()){
+                this.mockHeaders.add(new Header(entry.getKey(), entry.getValue()));
+            }
         }
     }
 

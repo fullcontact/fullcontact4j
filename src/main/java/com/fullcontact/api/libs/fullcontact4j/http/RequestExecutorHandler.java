@@ -28,14 +28,18 @@ public class RequestExecutorHandler {
     private SmoothRateLimiter.SmoothBursty rateLimiter;
     private double apiKeyRequestsPerSecond;
     private volatile long lastRateLimitCheck = 0;
+    private RateLimiterConfig rateLimiterConfig;
 
     // If we are making requests
     private RequestDebtTracker requestDebtTracker = new RequestDebtTracker();
 
     public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, Integer threadPoolCount) {
         executorService = Executors.newFixedThreadPool(threadPoolCount);
-        apiKeyRequestsPerSecond = rateLimiterConfig.getInitReqsPerSec();
-        rateLimiter = rateLimiterConfig.createRateLimiter();
+        if (rateLimiterConfig != null && rateLimiterConfig != RateLimiterConfig.DISABLED) {
+            apiKeyRequestsPerSecond = rateLimiterConfig.getInitReqsPerSec();
+            rateLimiter = rateLimiterConfig.createRateLimiter();
+        }
+        this.rateLimiterConfig = rateLimiterConfig;
     }
     /**
      * If the check interval time has passed, update the rate limit
@@ -46,6 +50,11 @@ public class RequestExecutorHandler {
     }
 
     public synchronized void notifyHeaders(List<Header> headers) {
+        // skip logic, if rate limits disabled
+        if (rateLimiterConfig == RateLimiterConfig.DISABLED) {
+            return;
+        }
+
         int requestsRemaining = 999;
         int secondsUntilNextSession = 999;
         for (Header h : headers) {
@@ -85,8 +94,11 @@ public class RequestExecutorHandler {
             public void run() {
                 //wait until this request would be made within API key limits
                 waitForPermit();
-                //wait until this request would be made within rate limit header limits
-                requestDebtTracker.consumeDebt();
+
+                if (rateLimiterConfig != RateLimiterConfig.DISABLED) {
+                    //wait until this request would be made within rate limit header limits
+                    requestDebtTracker.consumeDebt();
+                }
 
                 Utils.verbose("Sending a new asynchronous " + req.getClass().getSimpleName());
                 req.makeRequest(api, callback);
@@ -95,7 +107,7 @@ public class RequestExecutorHandler {
     }
 
     protected void waitForPermit() {
-        if(rateLimiter != null) {
+        if (rateLimiterConfig != RateLimiterConfig.DISABLED && rateLimiter != null) {
             Utils.verbose("Waiting for ratelimiter to allow a request... (" + rateLimiter.getRate() + " reqs/s)");
             rateLimiter.acquire();
         }
