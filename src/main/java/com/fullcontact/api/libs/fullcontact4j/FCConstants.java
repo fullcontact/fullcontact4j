@@ -29,6 +29,7 @@ public class FCConstants {
 
     public static final String PARAM_PERSON_EMAIL = "email";
     public static final String PARAM_PERSON_EMAIL_MD5 = "emailMD5";
+    public static final String PARAM_PERSON_EMAIL_SHA256 = "emailSHA256";
     public static final String PARAM_PERSON_QUEUE = "queue";
     public static final String PARAM_PERSON_TWITTER = "twitter";
     public static final String PARAM_PERSON_LOOKUP = "lookup";
