@@ -31,8 +31,12 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         }
 
         public Builder emailMd5(String emailMd5) {
-            FCResponse r = new CardReaderUploadConfirmResponse();
             params.put(FCConstants.PARAM_PERSON_EMAIL_MD5, emailMd5);
+            return this;
+        }
+
+        public Builder emailSha256(String emailSha256) {
+            params.put(FCConstants.PARAM_PERSON_EMAIL_SHA256, emailSha256);
             return this;
         }
 
@@ -66,7 +70,7 @@ public class PersonRequest extends FCRequest<PersonResponse> {
                 }
                 if(foundSearchParams > 1) {
                     throw new IllegalArgumentException("A person request can only have one of the following " +
-                            "search parameters: email, emailMd5, twitter handle, phone.");
+                            "search parameters: email, emailMd5, emailSha256, twitter handle, phone.");
                 }
             }
         }
@@ -82,7 +86,7 @@ public class PersonRequest extends FCRequest<PersonResponse> {
         }
 
         public static final List<String> SEARCH_PARAMS = Arrays.asList(FCConstants.PARAM_PERSON_EMAIL,
-                FCConstants.PARAM_PERSON_EMAIL_MD5, FCConstants.PARAM_PERSON_TWITTER, FCConstants.PARAM_PERSON_PHONE,
-                FCConstants.PARAM_PERSON_LOOKUP);
+                FCConstants.PARAM_PERSON_EMAIL_MD5, FCConstants.PARAM_PERSON_EMAIL_SHA256,
+                FCConstants.PARAM_PERSON_TWITTER, FCConstants.PARAM_PERSON_PHONE, FCConstants.PARAM_PERSON_LOOKUP);
     }
 }
