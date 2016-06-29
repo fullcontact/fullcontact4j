@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * When a request is made, it is sent to an ExecutorService which
  * accounts for rate limiting and then sends the request.
  */
-public class RequestExecutorHandler {
+public class RequestExecutorHandler implements FCRequestHandler {
     // how often to check for a rate limit change
     private static final long RATE_LIMIT_CHECK_INTERVAL_MS = TimeUnit.MINUTES.convert(5, TimeUnit.MILLISECONDS);
 
@@ -31,7 +31,6 @@ public class RequestExecutorHandler {
     private FCRateLimits lastKnownRateLimits;
     private volatile long lastRateLimitCheck = 0;
 
-    // If we are making requests
     private RequestDebtTracker requestDebtTracker = new RequestDebtTracker();
 
     public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, Integer threadPoolCount) {
@@ -42,19 +41,19 @@ public class RequestExecutorHandler {
     /**
      * If the check interval time has passed, update the rate limit
      */
-    private void notifyRateLimit() {
+    private void updateRateLimit() {
         rateLimiter.setRate(apiKeyRequestsPerSecond);
         lastRateLimitCheck = System.currentTimeMillis();
     }
 
-    public synchronized void notifyHeaders(FCRateLimits rateLimits) {
+    public synchronized void notifyRateLimits(FCRateLimits rateLimits) {
         int requestsRemaining = rateLimits.getRequestsRemaining();
         int secondsToReset = rateLimits.getSecondsToReset();
 
         lastKnownRateLimits = rateLimits;
 
-        if (shouldNotifyRateLimit()) {
-            notifyRateLimit();
+        if (shouldUpdateRateLimit()) {
+            updateRateLimit();
         }
         
         //are we out of requests for this session?
@@ -68,7 +67,7 @@ public class RequestExecutorHandler {
     /**
      * Has RATE_LIMIT_CHECK time passed since we last made a rate limit update?
      */
-    private boolean shouldNotifyRateLimit() {
+    private boolean shouldUpdateRateLimit() {
         return System.currentTimeMillis() - lastRateLimitCheck > RATE_LIMIT_CHECK_INTERVAL_MS;
     }
 

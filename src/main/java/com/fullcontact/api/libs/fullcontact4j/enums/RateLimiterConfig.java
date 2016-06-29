@@ -34,4 +34,8 @@ public class RateLimiterConfig {
      */
     public static final RateLimiterConfig BURST = new RateLimiterConfig(DEFAULT_REQUESTS_PER_SECOND, 8.0);
 
+    /**
+     * Requests will not be controlled. You must manage rate limits by yourself.
+     */
+    public static final RateLimiterConfig DISABLED = new RateLimiterConfig(-1, -1);
 }

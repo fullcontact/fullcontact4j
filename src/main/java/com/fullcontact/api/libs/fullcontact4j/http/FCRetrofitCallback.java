@@ -7,8 +7,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.ConversionException;
 
-import static retrofit.RetrofitError.Kind.CONVERSION;
-
 /**
  * The core retrofit callback that all FCCallbacks use.
  * Before FCCallback receives the success() or failure() call,
@@ -28,11 +26,11 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
     }
 
     public void success(T t, Response response) {
-        RequestExecutorHandler requestHandler = httpInterface.getRequestExecutorHandler();
+        FCRequestHandler requestHandler = httpInterface.getRequestHandler();
         FCRateLimits rateLimits = FCRateLimits.fromResponseNullable(response);
 
         if(rateLimits != null) {
-            requestHandler.notifyHeaders(rateLimits);
+            requestHandler.notifyRateLimits(rateLimits);
             t.setRateLimits(rateLimits);
         }
 

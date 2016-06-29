@@ -165,7 +165,7 @@ public class FullContact {
 
     public void shutdown() {
         isShutdown = true;
-        httpInterface.getRequestExecutorHandler().shutdown();
+        httpInterface.getRequestHandler().shutdown();
     }
 
 

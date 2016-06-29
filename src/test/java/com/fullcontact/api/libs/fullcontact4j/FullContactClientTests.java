@@ -48,7 +48,7 @@ public class FullContactClientTests {
     //counterparts
     public void asyncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
+        client.httpInterface.setRequestHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
         final CountDownLatch latch = new CountDownLatch(REQUEST_AMOUNT);
         //async
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
@@ -78,7 +78,7 @@ public class FullContactClientTests {
     @Test(timeout = 8000)
     public void syncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestExecutorHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
+        client.httpInterface.setRequestHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
         //sync
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
             final PersonRequest req = client.buildPersonRequest().email(UUID.randomUUID().toString()).build();
