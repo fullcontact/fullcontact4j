@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
+import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * When a request is made, it is sent to an ExecutorService which
  * accounts for rate limiting and then sends the request.
  */
-public class RequestExecutorHandler {
+public class RequestExecutorHandler implements FCRequestHandler {
     // how often to check for a rate limit change
     private static final long RATE_LIMIT_CHECK_INTERVAL_MS = TimeUnit.MINUTES.convert(5, TimeUnit.MILLISECONDS);
 
@@ -27,9 +28,9 @@ public class RequestExecutorHandler {
     //if not null, will limit the request rate.
     private SmoothRateLimiter.SmoothBursty rateLimiter;
     private double apiKeyRequestsPerSecond;
+    private FCRateLimits lastKnownRateLimits;
     private volatile long lastRateLimitCheck = 0;
 
-    // If we are making requests
     private RequestDebtTracker requestDebtTracker = new RequestDebtTracker();
 
     public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, Integer threadPoolCount) {
@@ -40,41 +41,33 @@ public class RequestExecutorHandler {
     /**
      * If the check interval time has passed, update the rate limit
      */
-    private void notifyRateLimit() {
+    private void updateRateLimit() {
         rateLimiter.setRate(apiKeyRequestsPerSecond);
         lastRateLimitCheck = System.currentTimeMillis();
     }
 
-    public synchronized void notifyHeaders(List<Header> headers) {
-        int requestsRemaining = 999;
-        int secondsUntilNextSession = 999;
-        for (Header h : headers) {
-            if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
-                apiKeyRequestsPerSecond = Integer.parseInt(h.getValue()) / 60d;
-            }
-            if (FCConstants.HEADER_RATE_LIMIT_REMAINING.equals(h.getName())) {
-                requestsRemaining = Integer.parseInt(h.getValue());
-            }
-            if (FCConstants.HEADER_RATE_LIMIT_RESET_TIME.equals(h.getName())) {
-                secondsUntilNextSession = Integer.parseInt(h.getValue());
-            }
-        }
-        if (shouldNotifyRateLimit()) {
-            notifyRateLimit();
+    public synchronized void notifyRateLimits(FCRateLimits rateLimits) {
+        int requestsRemaining = rateLimits.getRequestsRemaining();
+        int secondsToReset = rateLimits.getSecondsToReset();
+
+        lastKnownRateLimits = rateLimits;
+
+        if (shouldUpdateRateLimit()) {
+            updateRateLimit();
         }
         
         //are we out of requests for this session?
-        if(requestsRemaining <= apiKeyRequestsPerSecond && secondsUntilNextSession != 0) {
-            Utils.info("To keep in line with rate limit headers, FC4J is waiting " + secondsUntilNextSession + "s " +
+        if(requestsRemaining <= apiKeyRequestsPerSecond && lastKnownRateLimits.getSecondsToReset() != 0) {
+            Utils.info("To keep in line with rate limit headers, FC4J is waiting " + secondsToReset + "s " +
              "to the new rate limit period.");
-            requestDebtTracker.registerDebt(secondsUntilNextSession * 1000);
+            requestDebtTracker.registerDebt(secondsToReset * 1000);
         }
     }
 
     /**
      * Has RATE_LIMIT_CHECK time passed since we last made a rate limit update?
      */
-    private boolean shouldNotifyRateLimit() {
+    private boolean shouldUpdateRateLimit() {
         return System.currentTimeMillis() - lastRateLimitCheck > RATE_LIMIT_CHECK_INTERVAL_MS;
     }
 

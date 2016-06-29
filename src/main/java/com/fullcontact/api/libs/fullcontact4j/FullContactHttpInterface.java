@@ -20,7 +20,7 @@ public class FullContactHttpInterface {
      * When a request is made, it is sent to an ExecutorService which
      * accounts for rate limiting and then sends the request.
      */
-    private RequestExecutorHandler requestExecutorHandler;
+    private FCRequestHandler requestHandler;
     private final Converter jsonConverter;
     private final String baseUrl;
 
@@ -37,11 +37,13 @@ public class FullContactHttpInterface {
         //An empty string ("") is interpreted as null
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
-        //when we intercept a request, this object adds the proper auth headers
-        requestExecutorHandler = new RequestExecutorHandler(rateLimiterConfig, threadPoolCount);
+        if(rateLimiterConfig == RateLimiterConfig.DISABLED) {
+            requestHandler = new FCRequestHandler.NoRateLimitRequestHandler();
+        } else {
+            requestHandler = new RequestExecutorHandler(rateLimiterConfig, threadPoolCount);
+        }
 
         jsonConverter = new JacksonConverter(mapper);
-        //create the API from a template interface using Retrofit
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl)
                 .setClient(httpClient).setConverter(jsonConverter).build();
         fullContactApi = adapter.create(FullContactApi.class);
@@ -79,10 +81,10 @@ public class FullContactHttpInterface {
             };
         }
         //make a retrofit request with a callback that will call FCCallback
-        requestExecutorHandler.sendRequestAsync(fullContactApi, req, new FCRetrofitCallback<T>(callback, this));
+        requestHandler.sendRequestAsync(fullContactApi, req, new FCRetrofitCallback<T>(callback, this));
     }
 
-    public RequestExecutorHandler getRequestExecutorHandler() { return requestExecutorHandler; }
+    public FCRequestHandler getRequestHandler() { return requestHandler; }
 
     public String getBaseUrl() { return baseUrl; }
 
@@ -90,8 +92,8 @@ public class FullContactHttpInterface {
         return jsonConverter;
     }
 
-    protected void setRequestExecutorHandler(RequestExecutorHandler handler) {
-        requestExecutorHandler = handler;
+    protected void setRequestHandler(FCRequestHandler handler) {
+        requestHandler = handler;
     }
 
 }

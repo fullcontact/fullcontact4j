@@ -26,8 +26,14 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
     }
 
     public void success(T t, Response response) {
-        RequestExecutorHandler requestHandler = httpInterface.getRequestExecutorHandler();
-        requestHandler.notifyHeaders(response.getHeaders());
+        FCRequestHandler requestHandler = httpInterface.getRequestHandler();
+        FCRateLimits rateLimits = FCRateLimits.fromResponseNullable(response);
+
+        if(rateLimits != null) {
+            requestHandler.notifyRateLimits(rateLimits);
+            t.setRateLimits(rateLimits);
+        }
+
         parent.success(t);
     }
 
@@ -66,6 +72,14 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
             default:
                 break;
         }
-        parent.failure(new FullContactException(reason, (response == null ? null : response.getStatus()), ex));
+
+        FullContactException fcEx;
+        if(response == null) {
+            fcEx = new FullContactException(reason, null, ex, null);
+        } else {
+            fcEx = new FullContactException(reason, response.getStatus(), ex, FCRateLimits.fromResponseNullable(response));
+        }
+
+        parent.failure(fcEx);
     }
 }

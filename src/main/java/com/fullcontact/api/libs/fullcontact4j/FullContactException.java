@@ -1,5 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
+import com.fullcontact.api.libs.fullcontact4j.http.FCRateLimits;
+
 @SuppressWarnings("serial")
 
 /**
@@ -12,9 +14,10 @@ public class FullContactException extends Exception {
         super(message);
     }
 
-    public FullContactException(String message, Integer error, Throwable cause) {
+    public FullContactException(String message, Integer error, Throwable cause, FCRateLimits rateLimits) {
         super(message, cause);
         errorCode = error;
+        this.rateLimits = rateLimits;
     }
 
     public FullContactException(String message, Throwable cause) {
@@ -22,6 +25,7 @@ public class FullContactException extends Exception {
     }
 
     private Integer errorCode;
+    private FCRateLimits rateLimits;
 
     /**
      * Returns the HTTP error code that caused the exception,
@@ -32,4 +36,16 @@ public class FullContactException extends Exception {
         return errorCode;
     }
 
+    /**
+     * Returns the rate limit information returned by FullContact for this request.
+     *
+     * If this error is not an HTTP-based exception (i.e. FullContact API returning error 500), this will be null.
+     */
+    public FCRateLimits getRateLimitsOrNull() {
+        return rateLimits;
+    }
+
+    public void setRateLimits(FCRateLimits rateLimits) {
+        this.rateLimits = rateLimits;
+    }
 }
