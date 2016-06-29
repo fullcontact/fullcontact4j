@@ -1,6 +1,7 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
+import com.fullcontact.api.libs.fullcontact4j.FullContact;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
@@ -27,6 +28,7 @@ public class RequestExecutorHandler {
     //if not null, will limit the request rate.
     private SmoothRateLimiter.SmoothBursty rateLimiter;
     private double apiKeyRequestsPerSecond;
+    private FCRateLimits lastKnownRateLimits;
     private volatile long lastRateLimitCheck = 0;
 
     // If we are making requests
@@ -45,29 +47,21 @@ public class RequestExecutorHandler {
         lastRateLimitCheck = System.currentTimeMillis();
     }
 
-    public synchronized void notifyHeaders(List<Header> headers) {
-        int requestsRemaining = 999;
-        int secondsUntilNextSession = 999;
-        for (Header h : headers) {
-            if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
-                apiKeyRequestsPerSecond = Integer.parseInt(h.getValue()) / 60d;
-            }
-            if (FCConstants.HEADER_RATE_LIMIT_REMAINING.equals(h.getName())) {
-                requestsRemaining = Integer.parseInt(h.getValue());
-            }
-            if (FCConstants.HEADER_RATE_LIMIT_RESET_TIME.equals(h.getName())) {
-                secondsUntilNextSession = Integer.parseInt(h.getValue());
-            }
-        }
+    public synchronized void notifyHeaders(FCRateLimits rateLimits) {
+        int requestsRemaining = rateLimits.getRequestsRemaining();
+        int secondsToReset = rateLimits.getSecondsToReset();
+
+        lastKnownRateLimits = rateLimits;
+
         if (shouldNotifyRateLimit()) {
             notifyRateLimit();
         }
         
         //are we out of requests for this session?
-        if(requestsRemaining <= apiKeyRequestsPerSecond && secondsUntilNextSession != 0) {
-            Utils.info("To keep in line with rate limit headers, FC4J is waiting " + secondsUntilNextSession + "s " +
+        if(requestsRemaining <= apiKeyRequestsPerSecond && lastKnownRateLimits.getSecondsToReset() != 0) {
+            Utils.info("To keep in line with rate limit headers, FC4J is waiting " + secondsToReset + "s " +
              "to the new rate limit period.");
-            requestDebtTracker.registerDebt(secondsUntilNextSession * 1000);
+            requestDebtTracker.registerDebt(secondsToReset * 1000);
         }
     }
 
