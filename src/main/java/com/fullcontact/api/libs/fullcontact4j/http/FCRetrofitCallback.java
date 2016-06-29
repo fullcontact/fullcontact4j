@@ -1,11 +1,17 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
+import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.FullContactHttpInterface;
 import retrofit.Callback;
 import retrofit.RetrofitError;
+import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.converter.ConversionException;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The core retrofit callback that all FCCallbacks use.
@@ -28,7 +34,29 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
     public void success(T t, Response response) {
         RequestExecutorHandler requestHandler = httpInterface.getRequestExecutorHandler();
         requestHandler.notifyHeaders(response.getHeaders());
+
+        Map<String, Integer> rateLimits = getRateLimits(response.getHeaders());
+        t.setRateLimitPerMinute(rateLimits.get(FCConstants.HEADER_RATE_LIMIT_PER_MINUTE));
+        t.setRateLimitRemaining(rateLimits.get(FCConstants.HEADER_RATE_LIMIT_REMAINING));
+        t.setRateLimitReset(rateLimits.get(FCConstants.HEADER_RATE_LIMIT_RESET_TIME));
+
         parent.success(t);
+    }
+
+    private Map<String, Integer> getRateLimits(List<Header> headers) {
+        Map<String, Integer> rateLimiter = new HashMap<String, Integer>();
+        for (Header h : headers) {
+            if (FCConstants.HEADER_RATE_LIMIT_PER_MINUTE.equals(h.getName())) {
+                rateLimiter.put(FCConstants.HEADER_RATE_LIMIT_PER_MINUTE, Integer.parseInt(h.getValue()));
+            }
+            if (FCConstants.HEADER_RATE_LIMIT_REMAINING.equals(h.getName())) {
+                rateLimiter.put(FCConstants.HEADER_RATE_LIMIT_REMAINING, Integer.parseInt(h.getValue()));
+            }
+            if (FCConstants.HEADER_RATE_LIMIT_RESET_TIME.equals(h.getName())) {
+                rateLimiter.put(FCConstants.HEADER_RATE_LIMIT_RESET_TIME, Integer.parseInt(h.getValue()));
+            }
+        }
+        return rateLimiter;
     }
 
     @Override
@@ -66,6 +94,16 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
             default:
                 break;
         }
-        parent.failure(new FullContactException(reason, (response == null ? null : response.getStatus()), ex));
+
+        Map<String, Integer> rateLimits = getRateLimits(response.getHeaders());
+
+        parent.failure(new FullContactException(
+                reason,
+                (response == null ? null : response.getStatus()),
+                ex,
+                rateLimits.get(FCConstants.HEADER_RATE_LIMIT_PER_MINUTE),
+                rateLimits.get(FCConstants.HEADER_RATE_LIMIT_REMAINING),
+                rateLimits.get(FCConstants.HEADER_RATE_LIMIT_RESET_TIME)
+        ));
     }
 }

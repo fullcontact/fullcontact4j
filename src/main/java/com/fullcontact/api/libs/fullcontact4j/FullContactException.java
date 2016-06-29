@@ -21,7 +21,18 @@ public class FullContactException extends Exception {
         super(message, cause);
     }
 
+    public FullContactException(String message, Integer error, Throwable cause, Integer rateLimitPerMinute, Integer rateLimitRemaining, Integer rateLimitReset) {
+        super(message, cause);
+        errorCode = error;
+        this.rateLimitPerMinute = rateLimitPerMinute;
+        this.rateLimitRemaining = rateLimitRemaining;
+        this.rateLimitReset = rateLimitReset;
+    }
+
     private Integer errorCode;
+    private Integer rateLimitPerMinute;
+    private Integer rateLimitRemaining;
+    private Integer rateLimitReset;
 
     /**
      * Returns the HTTP error code that caused the exception,
@@ -32,4 +43,15 @@ public class FullContactException extends Exception {
         return errorCode;
     }
 
+    public Integer getRateLimitPerMinute() {
+        return rateLimitPerMinute;
+    }
+
+    public Integer getRateLimitRemaining() {
+        return rateLimitRemaining;
+    }
+
+    public Integer getRateLimitReset() {
+        return rateLimitReset;
+    }
 }
