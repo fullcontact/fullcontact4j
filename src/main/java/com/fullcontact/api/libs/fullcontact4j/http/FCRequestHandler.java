@@ -4,7 +4,7 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 
 public interface FCRequestHandler {
 
-    public void notifyRateLimits(FCRateLimits rateLimits);
+    public void notifyRateLimits(FCResponse res, FCRateLimits rateLimits);
 
     public void shutdown();
 
@@ -13,7 +13,7 @@ public interface FCRequestHandler {
 
     class NoRateLimitRequestHandler implements FCRequestHandler {
 
-        public void notifyRateLimits(FCRateLimits rateLimits) {}
+        public void notifyRateLimits(FCResponse res, FCRateLimits rateLimits) {}
 
         public void shutdown() {}
 

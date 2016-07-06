@@ -66,7 +66,7 @@ PersonResponse personResponse = fullContact.sendRequest(personRequest);
 
 Behind the scenes, FullContact4j has done a lot for you:
 * authenticated with FullContact
-* accounted for rate limiting, sending the request if you are below your rate limit (or waiting to send your request until the time is right if you have exceeded your account limit).
+* accounted for rate limiting (for person API requests), sending the request if you are below your rate limit (or waiting to send your request until the time is right if you have exceeded your account limit).
 * checked for errors and parsed useful messages/data
 * turned the response JSON into a perfectly normal Java object.
 
@@ -171,4 +171,4 @@ OkHttpClient client = new OkHttpClient();
 client.setReadTimeout(3000, TimeUnit.MILLISECONDS);
 FullContact fcClient = FullContact.withApiKey("your-api-key").httpClient(client).build();
 ```
-The user agent and request executor thread count are also configurable. The client will rate limit the amount of requests sent based on the rate limit for your plan. It will hold a request queue and execute at the maximum every `1/ratelimit` seconds with some leeway if you haven’t sent requests in a certain period of time. __FullContact4j guarantees no rate limiting exceptions only as long a single client instance is the only user of an API key__. However, if multiple instances of the client are being used simultaneously, FullContact4J cannot track your usage with high enough accuracy to guarantee that you will never get a rate limit exception (403) or small amounts of overages. These may still occaisionally occur, and should be accounted for in your code. Make sure to check your [account stats](https://www.fullcontact.com/developer/docs/account-stats) periodically to avoid overages.
+The user agent and request executor thread count are also configurable. For person API requests, the client will rate limit the amount of requests sent based on the rate limit for your plan. It will hold a request queue and execute at the maximum every `1/ratelimit` seconds with some leeway if you haven’t sent requests in a certain period of time. __FullContact4j guarantees no Person API rate limiting exceptions only as long a single client instance is the only user of an API key__. However, if multiple instances of the client are being used simultaneously, FullContact4J cannot track your usage with high enough accuracy to guarantee that you will never get a rate limit exception (403) or small amounts of overages. These may still occaisionally occur, and should be accounted for in your code. Make sure to check your [account stats](https://www.fullcontact.com/developer/docs/account-stats) periodically to avoid overages.
