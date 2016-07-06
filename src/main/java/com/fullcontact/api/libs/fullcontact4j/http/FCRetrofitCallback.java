@@ -30,7 +30,7 @@ public class FCRetrofitCallback<T extends FCResponse> implements Callback<T> {
         FCRateLimits rateLimits = FCRateLimits.fromResponseNullable(response);
 
         if(rateLimits != null) {
-            requestHandler.notifyRateLimits(rateLimits);
+            requestHandler.notifyRateLimits(t, rateLimits);
             t.setRateLimits(rateLimits);
         }
 

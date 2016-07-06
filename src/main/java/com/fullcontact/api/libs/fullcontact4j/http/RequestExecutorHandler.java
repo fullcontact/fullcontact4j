@@ -6,6 +6,8 @@ import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.guava.SmoothRateLimiter;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import retrofit.client.Header;
 
 import java.util.List;
@@ -46,7 +48,11 @@ public class RequestExecutorHandler implements FCRequestHandler {
         lastRateLimitCheck = System.currentTimeMillis();
     }
 
-    public synchronized void notifyRateLimits(FCRateLimits rateLimits) {
+    public synchronized void notifyRateLimits(FCResponse res, FCRateLimits rateLimits) {
+        if(!(res instanceof PersonResponse)) {
+            return; // not person api headers, ignore
+        }
+
         int requestsRemaining = rateLimits.getRequestsRemaining();
         int secondsToReset = rateLimits.getSecondsToReset();
 
@@ -76,10 +82,13 @@ public class RequestExecutorHandler implements FCRequestHandler {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                //wait until this request would be made within API key limits
-                waitForPermit();
-                //wait until this request would be made within rate limit header limits
-                requestDebtTracker.consumeDebt();
+                // account for rate limits for Person API only
+                if(req instanceof PersonRequest) {
+                    //wait until this request would be made within API key limits
+                    waitForPermit();
+                    //wait until this request would be made within rate limit header limits
+                    requestDebtTracker.consumeDebt();
+                }
 
                 Utils.verbose("Sending a new asynchronous " + req.getClass().getSimpleName());
                 req.makeRequest(api, callback);
