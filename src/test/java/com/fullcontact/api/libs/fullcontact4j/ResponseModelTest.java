@@ -2,6 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
+import com.fullcontact.api.libs.fullcontact4j.http.WebhookResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
@@ -16,6 +17,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ResponseModelTests {
+public class ResponseModelTest {
     public static ObjectMapper mapper = new ObjectMapper();
 
     @Test
@@ -63,6 +65,26 @@ public class ResponseModelTests {
         assertEquals(8, r.getOrganization().getKeyPeople().size());
         assertTrue(r.getOrganization().getKeyPeople().contains(travisTodd));
         assertTrue(r.getOrganization().getKeyPeople().contains(edenElder));
+    }
+
+    @Test
+    public void canDeserializePersonWebhookJSON() throws Exception {
+        WebhookResponse<PersonResponse> wr = WebhookResponse.fromJson(Utils.loadFileAsString("person-webhook-json.json"), PersonResponse.class);
+        assertEquals("ericperson", wr.getWebhookId());
+
+        PersonResponse r = wr.getResult();
+        assertEquals(200, r.getStatus());
+        assertTrue(r.getSocialProfiles().size() > 0);
+    }
+
+    @Test
+    public void canDeserializeCompanyWebhookJSON() throws Exception {
+        WebhookResponse<CompanyResponse> wr = WebhookResponse.fromJson(Utils.loadFileAsString("company-webhook-json.json"), CompanyResponse.class);
+        assertEquals("ericcompany", wr.getWebhookId());
+
+        CompanyResponse r = wr.getResult();
+        assertEquals(200, r.getStatus());
+        assertTrue(r.getSocialProfiles().size() > 0);
     }
 
     @Test

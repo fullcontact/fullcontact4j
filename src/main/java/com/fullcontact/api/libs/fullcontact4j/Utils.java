@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 
 public class Utils {
@@ -46,6 +48,9 @@ public class Utils {
         return new File("src/test/resources/" + fileName);
     }
 
+    public static String loadFileAsString(String fileName) throws IOException {
+        return new String(Files.readAllBytes(Paths.get("src/test/resources/" + fileName)));
+    }
 
     public static void log(Level l, String log) {
         if(l.intValue() >= FullContact.logLevel.intValue()) {
