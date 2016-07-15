@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fullcontact/fullcontact4j.png)](https://travis-ci.org/fullcontact/fullcontact4j)
+
 #FullContact4j
 
 A Java client for the [FullContact API](http://www.fullcontact.com/docs).
