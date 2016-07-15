@@ -25,7 +25,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ResponseModelTests {
+public class ResponseModelTest {
     public static ObjectMapper mapper = new ObjectMapper();
 
     @Test

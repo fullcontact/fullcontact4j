@@ -12,7 +12,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RequestModelTests {
+public class RequestModelTest {
 
     @Test
     public void cardReaderBodyJsonSerializationTest() throws Exception {
