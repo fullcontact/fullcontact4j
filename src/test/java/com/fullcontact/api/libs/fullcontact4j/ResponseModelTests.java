@@ -2,6 +2,7 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
+import com.fullcontact.api.libs.fullcontact4j.http.WebhookResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
@@ -17,7 +18,6 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -69,13 +69,21 @@ public class ResponseModelTests {
 
     @Test
     public void canDeserializePersonWebhookJSON() throws Exception {
-        PersonResponse r = PersonResponse.fromJson(Utils.loadFileAsString("person-webhook-json.json"));
+        WebhookResponse<PersonResponse> wr = WebhookResponse.fromJson(Utils.loadFileAsString("person-webhook-json.json"), PersonResponse.class);
+        assertEquals("ericperson", wr.getWebhookId());
+
+        PersonResponse r = wr.getResult();
+        assertEquals(200, r.getStatus());
         assertTrue(r.getSocialProfiles().size() > 0);
     }
 
     @Test
     public void canDeserializeCompanyWebhookJSON() throws Exception {
-        CompanyResponse r = CompanyResponse.fromJson(Utils.loadFileAsString("company-webhook-json.json"));
+        WebhookResponse<CompanyResponse> wr = WebhookResponse.fromJson(Utils.loadFileAsString("company-webhook-json.json"), CompanyResponse.class);
+        assertEquals("ericcompany", wr.getWebhookId());
+
+        CompanyResponse r = wr.getResult();
+        assertEquals(200, r.getStatus());
         assertTrue(r.getSocialProfiles().size() > 0);
     }
 
