@@ -16,6 +16,8 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -63,6 +65,18 @@ public class ResponseModelTests {
         assertEquals(8, r.getOrganization().getKeyPeople().size());
         assertTrue(r.getOrganization().getKeyPeople().contains(travisTodd));
         assertTrue(r.getOrganization().getKeyPeople().contains(edenElder));
+    }
+
+    @Test
+    public void canDeserializePersonWebhookJSON() throws Exception {
+        PersonResponse r = PersonResponse.fromJson(Utils.loadFileAsString("person-webhook-json.json"));
+        assertTrue(r.getSocialProfiles().size() > 0);
+    }
+
+    @Test
+    public void canDeserializeCompanyWebhookJSON() throws Exception {
+        CompanyResponse r = CompanyResponse.fromJson(Utils.loadFileAsString("company-webhook-json.json"));
+        assertTrue(r.getSocialProfiles().size() > 0);
     }
 
     @Test
