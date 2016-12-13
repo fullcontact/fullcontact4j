@@ -1,18 +1,13 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.*;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.email.*;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameParseResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.*;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import retrofit.Callback;
 import retrofit.http.*;
@@ -68,4 +63,14 @@ public interface FullContactApi {
 
     @GET(FCConstants.API_ENDPOINT_ACCOUNT_STATS)
     public void getAccountStats(@QueryMap Map<String, String> opts, Callback<AccountStatsResponse> response);
+
+    @GET(FCConstants.API_ENDPOINT_EMAIL_VERIFICATION)
+    public void getEmailVerification(@QueryMap Map<String, String> opts, Callback<EmailVerificationResponse> response);
+
+    @POST(FCConstants.API_ENDPOINT_EMAIL_VERIFICATION_SUBMIT_BATCH)
+    public void submitEmailVerificationBatch(@Body EmailVerificationBatchRequest.Body body, Callback<EmailVerificationAsyncResponse> response);
+
+
+    @GET(FCConstants.API_ENDPOINT_EMAIL_VERIFICATION_GET_BATCH)
+    public void getEmailVerificationBatch(@Path("batchId") String batchId, Callback<EmailVerificationAsyncResponse> response);
 }

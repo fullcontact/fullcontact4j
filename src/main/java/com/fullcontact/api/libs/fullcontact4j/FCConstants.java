@@ -19,6 +19,9 @@ public class FCConstants {
     public static final String API_ENDPOINT_LOCATION_NORMALIZER = "/address/locationNormalizer.json";
     public static final String API_ENDPOINT_LOCATION_ENRICHMENT = "/address/locationEnrichment.json";
     public static final String API_ENDPOINT_ACCOUNT_STATS = "/stats.json";
+    public static final String API_ENDPOINT_EMAIL_VERIFICATION = "/verification/email.json";
+    public static final String API_ENDPOINT_EMAIL_VERIFICATION_SUBMIT_BATCH = "/verification/emails.json";
+    public static final String API_ENDPOINT_EMAIL_VERIFICATION_GET_BATCH = "/verification/emails/{batchId}";
 
     public static final String HEADER_RATE_LIMIT_PER_MINUTE = "X-Rate-Limit-Limit";
     public static final String HEADER_RATE_LIMIT_REMAINING = "X-Rate-Limit-Remaining";
