@@ -10,6 +10,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRe
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.email.*;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
@@ -136,6 +137,25 @@ public class FullContact {
      * Request stats about the api key in use.
      */
     public AccountStatsRequest.Builder buildAccountStatsRequest() { return new AccountStatsRequest.Builder(); }
+
+    /**
+     * Creates a new Email Verification request.
+     */
+    public EmailVerificationRequest.Builder buildEmailVerificationRequest() { return new EmailVerificationRequest.Builder(); }
+
+    /**
+     * Creates a new Email Verification Batch Submit request.
+     */
+    public EmailVerificationBatchRequest.Builder buildEmailVerificationBatchRequest() {
+        return new EmailVerificationBatchRequest.Builder();
+    }
+
+    /**
+     * Creates a new Email Verification Batch Get request.
+     */
+    public EmailVerificationGetBatchRequest.Builder buildEmailVerificationGetBatchRequest() {
+        return new EmailVerificationGetBatchRequest.Builder();
+    }
 
     /**
      * Makes a synchronous request to the FullContact APIs.
