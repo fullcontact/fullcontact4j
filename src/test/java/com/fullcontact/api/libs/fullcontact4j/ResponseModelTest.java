@@ -8,6 +8,8 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadCo
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.KeyPerson;
+import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationAsyncResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
@@ -21,6 +23,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -178,5 +181,27 @@ public class ResponseModelTest {
         AccountStatsResponse r = mapper.readValue(Utils.loadFile("example-account-stats-response.json"), AccountStatsResponse.class);
         assertEquals(7, r.getMetrics().size());
         assertTrue(r.getPlan().contains("Fictitious"));
+    }
+
+    @Test
+    public void emailVerificationTest() throws Exception {
+        EmailVerificationResponse r = mapper.readValue(Utils.loadFile("email-verification-response.json"), EmailVerificationResponse.class);
+        assertEquals(true, r.getEmails().get("bart@fullcontact.com").isSendSafely());
+        assertEquals(Collections.emptyList(), r.getUnknownEmails());
+        assertEquals(false, r.getEmails().get("bart@fullcontact.com").getAttributes().isDisposable());
+    }
+
+    @Test
+    public void emailBatchTest() throws Exception {
+        EmailVerificationAsyncResponse r = mapper.readValue(Utils.loadFile("email-verification-batch-response.json"), EmailVerificationAsyncResponse.class);
+        assertEquals(true, r.isCompleted());
+        assertEquals("65a1bd21-e4cf-4c43-adf6-7279ae567ad3-vs", r.getBatchId());
+
+        EmailVerificationResponse emails = r.getResponse();
+
+        assertEquals(false, emails.getEmails().get("pmit20934203a@gmail.com").isSendSafely());
+        assertEquals(Collections.emptyList(), emails.getUnknownEmails());
+        assertEquals(false, emails.getEmails().get("paris2@fullcontact.com").getAttributes().isDisposable());
+        assertEquals(false, emails.getEmails().get("paris2@fullcontact.com").isSendSafely());
     }
 }

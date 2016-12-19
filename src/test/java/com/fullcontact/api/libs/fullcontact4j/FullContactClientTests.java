@@ -32,14 +32,13 @@ public class FullContactClientTests {
         String apiKey = "example-key";
         String baseUrl = "not.fullcontact.com";
         int maxThreads = 5;
+        RateLimiterConfig rateLimiterConfig = new RateLimiterConfig(10, 1);
 
-        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), null, baseUrl, maxThreads);
+        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), rateLimiterConfig, baseUrl, maxThreads);
         FullContact client2 = FullContact.withApiKey(apiKey)
                 .baseUrl(baseUrl).threadCount(maxThreads).build();
         assertEquals(client1.httpInterface.getBaseUrl(), client2.httpInterface.getBaseUrl());
     }
-
-
 
     private static final int REQUEST_AMOUNT = 75;
 
@@ -322,10 +321,6 @@ public class FullContactClientTests {
     }
 
     private PersonResponse newMockResponse(final String email) {
-        return new PersonResponse() {
-            public String getRequestId() {
-                return email;
-            }
-        };
+        return new PersonResponse(null,null,null,null,null,.99,null,email,null);
     }
 }
