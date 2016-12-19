@@ -1,12 +1,15 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 /**
  * A very simple class to represent responses back from FullContact APIs.
  * The designation is more important than the functionality.
  */
-
+@ToString
+@EqualsAndHashCode
+@Data
 public abstract class FCResponse {
 
     public int status;
@@ -14,10 +17,6 @@ public abstract class FCResponse {
 
     public int getStatus() {
         return status;
-    }
-
-    public String toString() {
-        return this.getClass().getSimpleName() + ":" + status;
     }
 
     /**

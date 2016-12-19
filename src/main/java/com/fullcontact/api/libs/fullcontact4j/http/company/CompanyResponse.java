@@ -9,11 +9,17 @@ import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyOrganization;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyTraffic;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.SocialProfile;
+import lombok.*;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class CompanyResponse extends FCResponse {
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -52,69 +58,13 @@ public class CompanyResponse extends FCResponse {
         }
     }
 
-    public static ObjectMapper getMapper() {
-        return mapper;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public List<CompanyCategory> getCategory() {
-        return category;
-    }
-
-    public String getFavicon() {
-        return favicon;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public String getRedirectsTo() {
-        return redirectsTo;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public String getLanguageLocale() {
-        return languageLocale;
-    }
-
-    public String getOnlineSince() {
-        return onlineSince;
-    }
-
-    public CompanyOrganization getOrganization() {
-        return organization;
-    }
-
-    public List<SocialProfile> getSocialProfiles() {
-        return socialProfiles;
-    }
-
-    public CompanyTraffic getTraffic() {
-        return traffic;
-    }
-
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @EqualsAndHashCode
+    @ToString
     public static class CompanyCategory {
-
         private String name;
         private String code;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getCode() {
-            return code;
-        }
     }
 }

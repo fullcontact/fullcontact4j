@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -10,6 +11,7 @@ import com.fullcontact.api.libs.fullcontact4j.Utils;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.model.ContactInfo;
+import lombok.*;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -19,56 +21,33 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@JsonIgnoreProperties("status")
 public class CardReaderFullResponse extends FCResponse {
-
     private static ObjectMapper mapper = new ObjectMapper();
-    private String lastWebhookAttempt;
-    private int webhookAttempts;
-    private String webhookUrl;
-    private CardReaderQuality quality;
-    private String submitted;
-    private ContactInfo contact = new ContactInfo();
-    private String id;
+
+    @Getter private String lastWebhookAttempt;
+    @Getter private int webhookAttempts;
+    @Getter private String webhookUrl;
+    @Getter private CardReaderQuality quality;
+    @Getter private String submitted;
+    @Getter private ContactInfo contact = new ContactInfo();
+    @Getter private String id;
     @JsonProperty("vCardUrl")
-    private String vCardUrl;
-    private ContactInfo unverifiedContact = new ContactInfo();
-    private List<String> unverifiedFields = Collections.emptyList();
-    private String unverifiedVCardUrl;
-    private String clientServerResponseCode;
-    private String clientServerResponseBody;
+    @Getter private String vCardUrl;
+    @Getter private ContactInfo unverifiedContact = new ContactInfo();
+    @Getter private List<String> unverifiedFields = Collections.emptyList();
+    @Getter private String unverifiedVCardUrl;
+    @Getter private String clientServerResponseCode;
+    @Getter private String clientServerResponseBody;
     private String status;
 
     @JsonProperty("status")
     public String getCardStatus() {
         return status;
-    }
-
-    public String getClientServerResponseCode() {
-        return clientServerResponseCode;
-    }
-
-    public String getClientServerResponseBody() {
-        return clientServerResponseBody;
-    }
-
-    public String getLastWebhookAttempt() {
-        return lastWebhookAttempt;
-    }
-
-    public int getWebhookAttempts() {
-        return webhookAttempts;
-    }
-
-    public String getWebhookUrl() {
-        return webhookUrl;
-    }
-
-    public CardReaderQuality getQuality() {
-        return quality;
-    }
-
-    public String getSubmitted() {
-        return submitted;
     }
 
     public Date getSubbmittedDate() {
@@ -97,30 +76,6 @@ public class CardReaderFullResponse extends FCResponse {
         }
     }
 
-    public ContactInfo getContact() {
-        return contact;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getVCardUrl() {
-        return vCardUrl;
-    }
-
-    public ContactInfo getUnverifiedContact() {
-        return unverifiedContact;
-    }
-
-    public List<String> getUnverifiedFields() {
-        return unverifiedFields;
-    }
-
-    public String getUnverifiedVCardUrl() {
-        return unverifiedVCardUrl;
-    }
-
     /**
      * Factory method to create a webhook response from json.
      *
@@ -142,17 +97,5 @@ public class CardReaderFullResponse extends FCResponse {
         } catch (IOException e) {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
-    }
-
-    private CardReaderFullResponse() {
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("CardReaderFullResponse{");
-        sb.append("status='").append(status).append('\'');
-        sb.append(", quality=").append(quality);
-        sb.append('}');
-        return sb.toString();
     }
 }
