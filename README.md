@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/fullcontact/fullcontact4j.png)](https://travis-ci.org/fullcontact/fullcontact4j)
-
 #FullContact4j
 
 A Java client for the [FullContact API](http://www.fullcontact.com/docs).
@@ -161,7 +159,8 @@ LocationEnrichmentResponse location = client.sendRequest(locationRequest);
 System.out.println("I found a new place in " + location.getContinent() + " with a population of " + location.getPopulation());
 ```
 
-__When you're done with the client, be sure to call `shutDown()` on it.__ Otherwise, you could end up with a small memory leak from unfinished request threads.
+When you're done with the client, be sure to call `shutDown()` on it to clean up any unused state in the client.
+
 ###Error Handling###
 If an error is encountered (these correspond to yellow/red non-2xx response codes on the [API flow diagrams](https://www.fullcontact.com/developer/docs/person/#flow-diagram)), a `FullContactException` is created with useful information about the error, including `errorCode` and a message from the FullContact APIs about the nature of the error. For synchronous requests, this will cause `sendRequest()` to throw `FullContactException`. In asynchronous requests, `FCCallback.failure(FullContactException exception)` is called instead.
 ###Supported APIs###
