@@ -3,20 +3,22 @@ package com.fullcontact.api.libs.fullcontact4j.http.name;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class NameStatsResponse extends FCResponse {
     private NameStatsResult name = new NameStatsResult();
     private String region;
 
-    public String getRegion() { return region; }
-    public NameStatsResult getName() { return name; }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("NameStatsResponse{}");
-        return sb.toString();
-    }
-
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @EqualsAndHashCode
+    @ToString
     public static class NameStatsResult {
         private String value;
         @JsonProperty("given")
@@ -36,68 +38,53 @@ public class NameStatsResponse extends FCResponse {
             return family;
         }
 
+        @AllArgsConstructor
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        @Getter
+        @EqualsAndHashCode
+        @ToString
         public static class GivenNameInfo {
             private NameInfo male = new NameInfo();
             private NameInfo female = new NameInfo();
             private int count;
             private int rank;
-
-            public int getRank() { return rank; }
-
-            public int getCount() { return count; }
-
-            public NameInfo getMale() {
-                return male;
-            }
-
-            public NameInfo getFemale() {
-                return female;
-            }
         }
 
+        @AllArgsConstructor
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        @Getter
+        @EqualsAndHashCode
+        @ToString
         public static class NameInfo {
             private int count;
             private double likelihood;
             private int rank;
             private double frequencyRatio;
-            @JsonProperty("age")
             private AgeCurve age = new AgeCurve();
-
-            public int getCount() {
-                return count;
-            }
-
-            public double getLikelihood() {
-                return likelihood;
-            }
-
-            public int getRank() {
-                return rank;
-            }
-
-            public double getFrequencyRatio() {
-                return frequencyRatio;
-            }
-
-            public AgeCurve getAge() {
-                return age;
-            }
         }
 
+        @AllArgsConstructor
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        @Getter
+        @EqualsAndHashCode
+        @ToString
         public static class AgeCurve {
             @JsonProperty("densityCurve")
             private AgeInfo age = new AgeInfo();
 
-            public AgeInfo getAgeInfo() { return age; }
+            public AgeInfo getAgeInfo() {
+                return age;
+            }
         }
 
+        @AllArgsConstructor
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        @Getter
+        @EqualsAndHashCode
+        @ToString
         @JsonIgnoreProperties({"mode", "quartiles"})
         public static class AgeInfo {
             private double meanAge;
-
-            public double getMeanAge() {
-                return meanAge;
-            }
         }
     }
 }

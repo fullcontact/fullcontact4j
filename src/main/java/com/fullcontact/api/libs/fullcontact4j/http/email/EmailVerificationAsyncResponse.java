@@ -4,9 +4,15 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.*;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import lombok.*;
 
 import java.io.IOException;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class EmailVerificationAsyncResponse extends FCResponse {
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -14,22 +20,6 @@ public class EmailVerificationAsyncResponse extends FCResponse {
     private String webhookUrl;
     private boolean completed;
     private EmailVerificationResponse response;
-
-    public String getBatchId() {
-        return batchId;
-    }
-
-    public String getWebhookUrl() {
-        return webhookUrl;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public EmailVerificationResponse getResponse() {
-        return response;
-    }
 
     /**
      * Factory method to create a webhook response from json.

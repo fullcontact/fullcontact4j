@@ -1,13 +1,17 @@
 package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
+import lombok.*;
 
 import java.io.IOException;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class WebhookResponse<R> extends FCResponse {
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -45,14 +49,5 @@ public class WebhookResponse<R> extends FCResponse {
         } catch(IOException e) {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("WebhookResponse{");
-        sb.append("result=").append(result);
-        sb.append(", webhookId=").append(webhookId);
-        sb.append('}');
-        return sb.toString();
     }
 }

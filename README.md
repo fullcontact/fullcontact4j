@@ -141,7 +141,7 @@ public void onCardReaderWebhook(String body) {
 }
 
 public void onPersonWebhook(String body) {
-  PersonResponse response = PersonResponse.fromJson(body);
+  PersonResponse response = WebhookResponse.fromJson(body, PersonResponse.class);
   System.out.println("Just got social profile info for " + response.getContactInfo().getName().toString());
 }
 ```
