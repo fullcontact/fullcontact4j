@@ -3,30 +3,22 @@ package com.fullcontact.api.libs.fullcontact4j;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.*;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.KeyPerson;
-import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationAsyncResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameParseResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
-
+import com.fullcontact.api.libs.fullcontact4j.http.email.*;
+import com.fullcontact.api.libs.fullcontact4j.http.location.*;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.*;
+import com.fullcontact.api.libs.fullcontact4j.http.name.*;
+import com.fullcontact.api.libs.fullcontact4j.http.person.*;
+import com.fullcontact.api.libs.fullcontact4j.http.person.model.Macromeasures;
+import lombok.SneakyThrows;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ResponseModelTest {
     public static ObjectMapper mapper = new ObjectMapper();
@@ -34,7 +26,22 @@ public class ResponseModelTest {
     @Test
     public void personDeserializationTest() throws IOException {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response.json"), PersonResponse.class);
-        assertTrue(r.getDemographics().getGender().equals("Male"));
+        assertEquals( "Lorang", r.getContactInfo().getFamilyName());
+        assertEquals("http://fullcontact.com", r.getContactInfo().getWebsites().get(0).getUrl());
+        assertEquals("Male", r.getDemographics().getGender());
+        assertEquals(4, r.getContactInfo().getChats().size());
+        assertEquals("Dimension Technology Solutions", r.getOrganizations().get(2).getName());
+        assertEquals("Boulder, Colorado", r.getDemographics().getLocationDeduced().getNormalizedLocation());
+    }
+
+    @Test
+    public void personDeserializationMacromeasuresTest() throws IOException {
+        PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response-macromeasures.json"), PersonResponse.class);
+        assertEquals(111, r.getMacromeasures().getInterests().size());
+
+        Macromeasures.Interest design = new Macromeasures.Interest("Design", "5457c85ad4ac147c798c5585",
+            0.2, Collections.singletonList("55afc38792cffb786d83f929"), "default");
+        assertEquals(design, r.getMacromeasures().getInterests().get(6));
     }
 
     @Test
