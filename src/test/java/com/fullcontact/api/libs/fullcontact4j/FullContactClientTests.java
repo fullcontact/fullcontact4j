@@ -321,6 +321,6 @@ public class FullContactClientTests {
     }
 
     private PersonResponse newMockResponse(final String email) {
-        return new PersonResponse(null,null,null,null,null,.99,null,email,null);
+        return new PersonResponse(null,null,null,null,null,.99,null,null,email,null);
     }
 }

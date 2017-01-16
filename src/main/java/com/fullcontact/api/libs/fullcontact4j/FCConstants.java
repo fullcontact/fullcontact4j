@@ -38,6 +38,7 @@ public class FCConstants {
     public static final String PARAM_PERSON_LOOKUP = "lookup";
     public static final String PARAM_PERSON_PHONE = "phone";
     public static final String PARAM_PERSON_PHONE_COUNTRY_CODE = "countryCode";
+    public static final String PARAM_PERSON_MACROMEASURES = "macromeasures";
     public static final String PARAM_PERSON_CALLBACK = "callback";
 
     public static final String PARAM_COMPANY_DOMAIN = "domain";

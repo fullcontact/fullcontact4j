@@ -11,6 +11,7 @@ import lombok.*;
 public class Photo {
     private String typeId;
     private String typeName;
+    private String type;
 	private String url;
 	@JsonProperty("isPrimary")
     private boolean isPrimary;

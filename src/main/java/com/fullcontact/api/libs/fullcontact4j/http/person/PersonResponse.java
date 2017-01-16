@@ -26,6 +26,7 @@ public class PersonResponse extends FCResponse {
     private List<Photo> photos = Collections.emptyList();
     private double likelihood;
     private List<SocialProfile> socialProfiles = Collections.emptyList();
+    private Macromeasures macromeasures = new Macromeasures(Collections.<Macromeasures.Interest>emptyList());
     private String requestId;
     private String message;
 

@@ -1,16 +1,10 @@
 package com.fullcontact.api.libs.fullcontact4j.http.person;
 
-import com.fullcontact.api.libs.fullcontact4j.FCConstants;
-import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
-import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
+import com.fullcontact.api.libs.fullcontact4j.*;
+import com.fullcontact.api.libs.fullcontact4j.http.*;
 import retrofit.Callback;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PersonRequest extends FCRequest<PersonResponse> {
 
@@ -57,6 +51,11 @@ public class PersonRequest extends FCRequest<PersonResponse> {
 
         public Builder lookup(String lookupValue) {
             params.put(FCConstants.PARAM_PERSON_LOOKUP, lookupValue);
+            return this;
+        }
+
+        public Builder macromeasures(boolean enabled) {
+            params.put(FCConstants.PARAM_PERSON_MACROMEASURES, enabled?"true":"false");
             return this;
         }
 
