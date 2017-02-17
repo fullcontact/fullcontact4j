@@ -1,6 +1,6 @@
 #FullContact4j
 
-A Java client for the [FullContact API](http://www.fullcontact.com/docs).
+A Java client for the [FullContact API](http://www.fullcontact.com/docs). Supports Java 7+.
 
 For FullContact4j 2.0 and later, we've designed the client from the bottom up with tons of cool new stuff.
 
@@ -173,3 +173,6 @@ client.setReadTimeout(3000, TimeUnit.MILLISECONDS);
 FullContact fcClient = FullContact.withApiKey("your-api-key").httpClient(client).build();
 ```
 The user agent and request executor thread count are also configurable. For person API requests, the client will rate limit the amount of requests sent based on the rate limit for your plan. It will hold a request queue and execute at the maximum every `1/ratelimit` seconds with some leeway if you haven’t sent requests in a certain period of time. __FullContact4j guarantees no Person API rate limiting exceptions only as long a single client instance is the only user of an API key__. However, if multiple instances of the client are being used simultaneously, FullContact4J cannot track your usage with high enough accuracy to guarantee that you will never get a rate limit exception (403). These may still occaisionally occur, and should be accounted for in your code. This rate limiter does NOT account for overages or quota limits. Make sure to check your [account stats](https://www.fullcontact.com/developer/docs/account-stats) periodically to avoid overages.
+
+### I'm on Java 6! ###
+The last Java 6-compatible FullContact4j release was version 3.3.3.
