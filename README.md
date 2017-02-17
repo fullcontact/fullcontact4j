@@ -176,7 +176,3 @@ The user agent and request executor thread count are also configurable. For pers
 
 ### I'm on Java 6! ###
 The last Java 6-compatible FullContact4j release was version 3.3.3.
-If you use Java 6 because you're using Android, it is highly recommended that you do not use FullContact4j.
-FC4j requires your api key to be available directly at runtime. This makes your (secret!) api key accessible to
-all users of your app. This is not a good idea. Instead, proxy all FullContact api requests through
-web servers that you control.
