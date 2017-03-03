@@ -1,19 +1,18 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
-import com.squareup.okhttp.OkHttpClient;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
-import retrofit.client.Response;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.OkHttpClient;
+import org.junit.*;
+import retrofit.client.*;
+import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,8 +20,6 @@ import java.net.HttpURLConnection;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
-
-import static org.junit.Assert.*;
 
 public class FullContactClientTests {
 
@@ -34,7 +31,7 @@ public class FullContactClientTests {
         int maxThreads = 5;
         RateLimiterConfig rateLimiterConfig = new RateLimiterConfig(10, 1);
 
-        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), rateLimiterConfig, baseUrl, maxThreads);
+        FullContact client1 = new FullContact(new FCUrlClient(baseUrl, apiKey), rateLimiterConfig, baseUrl, maxThreads);
         FullContact client2 = FullContact.withApiKey(apiKey)
                 .baseUrl(baseUrl).threadCount(maxThreads).build();
         assertEquals(client1.httpInterface.getBaseUrl(), client2.httpInterface.getBaseUrl());

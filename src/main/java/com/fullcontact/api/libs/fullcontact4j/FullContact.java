@@ -2,13 +2,8 @@ package com.fullcontact.api.libs.fullcontact4j;
 
 
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
-import com.fullcontact.api.libs.fullcontact4j.http.FCCallback;
-import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.FCUrlClient;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllRequest;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewRequest;
+import com.fullcontact.api.libs.fullcontact4j.http.*;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.*;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.email.*;
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRequest;
@@ -17,7 +12,8 @@ import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.name.*;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
-import com.squareup.okhttp.OkHttpClient;
+
+import okhttp3.OkHttpClient;
 import retrofit.client.Client;
 
 import java.io.InputStream;
@@ -197,7 +193,6 @@ public class FullContact {
         private String authKey;
         private Map<String, String> headers;
         private OkHttpClient httpClient = new OkHttpClient();
-        private OkHttpClient defaultClient = new OkHttpClient();
         private String userAgent = "";
         private Integer threadPoolCount = 1;
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
@@ -236,19 +231,26 @@ public class FullContact {
 
         /**
          * Sets the read timeout.
+         *
+         * @deprecated use OkHttpClient.Builder.readTimeout and the httpClient method on this builder.
          */
+        @Deprecated
         public Builder setDefaultClientReadTimeout(Integer timeoutMs) {
-            defaultClient.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            httpClient = httpClient.newBuilder()
+                .readTimeout(timeoutMs, TimeUnit.MILLISECONDS)
+                .build();
             return this;
         }
 
         /**
          * Sets the connect timeout.
-         * @param timeoutMs
-         * @return
+         *
+         * @deprecated use OkHttpClient.Builder.connectTimeout and the httpClient method on this builder.
          */
         public Builder setDefaultClientConnectTimeout(Integer timeoutMs) {
-            defaultClient.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+            httpClient = httpClient.newBuilder()
+                .connectTimeout(timeoutMs, TimeUnit.MILLISECONDS)
+                .build();
             return this;
         }
 

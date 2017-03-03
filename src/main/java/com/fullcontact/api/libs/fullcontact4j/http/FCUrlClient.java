@@ -17,12 +17,10 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.OkUrlFactory;
-import retrofit.client.Client;
-import retrofit.client.Header;
-import retrofit.client.Request;
-import retrofit.client.Response;
+
+import okhttp3.OkHttpClient;
+import okhttp3.OkUrlFactory;
+import retrofit.client.*;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
@@ -30,10 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class FCUrlClient implements Client {
@@ -42,10 +37,10 @@ public class FCUrlClient implements Client {
     private static final int READ_TIMEOUT_MILLIS = 20 * 1000; // 20s
 
     private static OkHttpClient generateDefaultOkHttp() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-        client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-        return client;
+        return new OkHttpClient.Builder()
+            .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            .build();
     }
 
     private Map<String, String> headers = new HashMap<String, String>();
