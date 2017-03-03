@@ -35,8 +35,8 @@ public class RequestExecutorHandler implements FCRequestHandler {
 
     private RequestDebtTracker requestDebtTracker = new RequestDebtTracker();
 
-    public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, Integer threadPoolCount) {
-        executorService = Executors.newFixedThreadPool(threadPoolCount);
+    public RequestExecutorHandler(RateLimiterConfig rateLimiterConfig, ExecutorService executorService) {
+        this.executorService = executorService;
         apiKeyRequestsPerSecond = rateLimiterConfig.getInitReqsPerSec();
         rateLimiter = rateLimiterConfig.createRateLimiter();
     }

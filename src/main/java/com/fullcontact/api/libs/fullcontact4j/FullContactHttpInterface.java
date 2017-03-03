@@ -1,13 +1,16 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * This interface holds references to all the objects used by a FullContact client to communicate with the api,
@@ -30,7 +33,7 @@ public class FullContactHttpInterface {
     private FullContactApi fullContactApi;
 
     public FullContactHttpInterface(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
-                                    Integer threadPoolCount) {
+                                    ExecutorService executorService) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -40,7 +43,7 @@ public class FullContactHttpInterface {
         if(rateLimiterConfig == RateLimiterConfig.DISABLED) {
             requestHandler = new FCRequestHandler.NoRateLimitRequestHandler();
         } else {
-            requestHandler = new RequestExecutorHandler(rateLimiterConfig, threadPoolCount);
+            requestHandler = new RequestExecutorHandler(rateLimiterConfig, executorService);
         }
 
         jsonConverter = new JacksonConverter(mapper);

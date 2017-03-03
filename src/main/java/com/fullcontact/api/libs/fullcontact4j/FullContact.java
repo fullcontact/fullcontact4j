@@ -18,7 +18,7 @@ import retrofit.client.Client;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 public class FullContact {
@@ -32,8 +32,8 @@ public class FullContact {
     private boolean isShutdown = false;
 
     protected FullContact(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
-                        Integer threadPoolCount) {
-        httpInterface = new FullContactHttpInterface(httpClient, rateLimiterConfig, baseUrl, threadPoolCount);
+                          ExecutorService executorService) {
+        httpInterface = new FullContactHttpInterface(httpClient, rateLimiterConfig, baseUrl, executorService);
         Utils.info("Created new FullContact client.");
     }
 
@@ -194,9 +194,9 @@ public class FullContact {
         private Map<String, String> headers;
         private OkHttpClient httpClient = new OkHttpClient();
         private String userAgent = "";
-        private Integer threadPoolCount = 1;
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterConfig rateLimiterConfig = RateLimiterConfig.SMOOTH;
+        private ExecutorService rateLimitExecutorService = Executors.newCachedThreadPool();
 
         public Builder(String apiKey) {
             //default client is OkHttpClient
@@ -225,7 +225,16 @@ public class FullContact {
          * @return
          */
         public Builder threadCount(Integer threads) {
-            threadPoolCount = threads;
+            rateLimitExecutorService = Executors.newFixedThreadPool(threads);
+            return this;
+        }
+
+        /**
+         * Configure the thread pool used to coordinate the rate limiting functionality of the client.
+         * Defaults to Executors.newCachedThreadPool().
+         */
+        public Builder rateLimitExecutorService(ExecutorService rateLimitExecutorService) {
+            this.rateLimitExecutorService = rateLimitExecutorService;
             return this;
         }
 
@@ -289,11 +298,12 @@ public class FullContact {
             if(authKey == null || authKey.isEmpty()) {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
-            if(rateLimiterConfig == null || baseUrl == null || threadPoolCount == null || userAgent == null || httpClient == null) {
+            if(rateLimiterConfig == null || baseUrl == null || rateLimitExecutorService == null ||
+                userAgent == null || httpClient == null) {
                 throw new IllegalArgumentException("One of the builder parameters was null");
             }
 
-            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), rateLimiterConfig, baseUrl, threadPoolCount);
+            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), rateLimiterConfig, baseUrl, rateLimitExecutorService);
         }
     }
 
