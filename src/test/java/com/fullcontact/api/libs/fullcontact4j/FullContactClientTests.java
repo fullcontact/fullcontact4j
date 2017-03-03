@@ -1,28 +1,23 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.RateLimiterConfig;
 import com.fullcontact.api.libs.fullcontact4j.http.*;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
-import com.squareup.okhttp.OkHttpClient;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
-import retrofit.client.Response;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.OkHttpClient;
+import org.junit.*;
+import retrofit.client.*;
+import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.*;
 import java.util.logging.Level;
-
-import static org.junit.Assert.*;
 
 public class FullContactClientTests {
 
@@ -31,12 +26,11 @@ public class FullContactClientTests {
     public void clientBuilderTest() {
         String apiKey = "example-key";
         String baseUrl = "not.fullcontact.com";
-        int maxThreads = 5;
         RateLimiterConfig rateLimiterConfig = new RateLimiterConfig(10, 1);
 
-        FullContact client1 = new FullContact(new OkClient(new OkHttpClient()), rateLimiterConfig, baseUrl, maxThreads);
+        FullContact client1 = new FullContact(new FCUrlClient(baseUrl, apiKey), rateLimiterConfig, baseUrl, Executors.newSingleThreadExecutor());
         FullContact client2 = FullContact.withApiKey(apiKey)
-                .baseUrl(baseUrl).threadCount(maxThreads).build();
+                .baseUrl(baseUrl).rateLimitExecutorService(Executors.newSingleThreadExecutor()).build();
         assertEquals(client1.httpInterface.getBaseUrl(), client2.httpInterface.getBaseUrl());
     }
 
@@ -47,7 +41,8 @@ public class FullContactClientTests {
     //counterparts
     public void asyncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
+        client.httpInterface.setRequestHandler(new MockRequestHandler(
+            RateLimiterConfig.SMOOTH, Executors.newSingleThreadExecutor()));
         final CountDownLatch latch = new CountDownLatch(REQUEST_AMOUNT);
         //async
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
@@ -77,7 +72,8 @@ public class FullContactClientTests {
     @Test(timeout = 8000)
     public void syncTest() throws Exception {
         FullContact client = FullContact.withApiKey("bad-api-key").build();
-        client.httpInterface.setRequestHandler(new MockRequestHandler(RateLimiterConfig.SMOOTH, 1));
+        client.httpInterface.setRequestHandler(
+            new MockRequestHandler(RateLimiterConfig.SMOOTH, Executors.newSingleThreadExecutor()));
         //sync
         for (int i = 0; i != REQUEST_AMOUNT; i++) {
             final PersonRequest req = client.buildPersonRequest().email(UUID.randomUUID().toString()).build();
@@ -116,7 +112,7 @@ public class FullContactClientTests {
         mockClient = new MockRetrofitClient("test", mockHeaders, new OkHttpClient(), BAD_API_KEY);
         //create a new FullContact client that uses an http client that never makes requests and points towards nothing
         mockFc = new FullContact(mockClient,
-                RateLimiterConfig.SMOOTH, "http://badbadbad.not.exist", 2);
+                RateLimiterConfig.SMOOTH, "http://badbadbad.not.exist", Executors.newSingleThreadExecutor());
     }
 
     @AfterClass
@@ -288,8 +284,8 @@ public class FullContactClientTests {
 
     private class MockRequestHandler extends RequestExecutorHandler {
 
-        public MockRequestHandler(RateLimiterConfig policy, Integer threadPoolCount) {
-            super(policy, threadPoolCount);
+        public MockRequestHandler(RateLimiterConfig policy, ExecutorService executorService) {
+            super(policy, executorService);
         }
 
         //just return a success rather than actually hitting any apis
