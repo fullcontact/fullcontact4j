@@ -24,9 +24,10 @@ public class EmailVerificationBatchRequest extends FCRequest<EmailVerificationAs
         private String webhookUrl;
         private String batchId;
 
-        public Body(List<String> emails, String webhookUrl) {
+        public Body(List<String> emails, String webhookUrl, String batchId) {
             this.emails = emails;
             this.webhookUrl = webhookUrl;
+            this.batchId = batchId;
         }
 
         public List<String> getEmails() {
@@ -36,6 +37,10 @@ public class EmailVerificationBatchRequest extends FCRequest<EmailVerificationAs
         public String getWebhookUrl() {
             return webhookUrl;
         }
+
+        public String getBatchId() {
+            return batchId;
+        }
     }
 
     public static class Builder extends FCRequest.BaseBuilder<Builder, EmailVerificationBatchRequest> {
@@ -44,7 +49,7 @@ public class EmailVerificationBatchRequest extends FCRequest<EmailVerificationAs
         private String batchId;
 
         protected EmailVerificationBatchRequest createInstance() {
-            return new EmailVerificationBatchRequest(new Body(emails, webhookUrl));
+            return new EmailVerificationBatchRequest(new Body(emails, webhookUrl, batchId));
         }
 
         public Builder emails(List<String> emails) {
