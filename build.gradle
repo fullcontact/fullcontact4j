@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.fullcontact'
+version = '5.2.0'
+
+description = """FullContact Java Bindings"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://infusionsoft.jfrog.io/infusionsoft/third-party-builds")
+        }
+    }
+}
+
+dependencies {
+    compile group: 'com.squareup.retrofit', name: 'retrofit', version: '1.7.0'
+    compile group: 'com.squareup.retrofit', name: 'converter-jackson', version: '1.2.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.4.3'
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
+    compile group: 'com.squareup.okhttp3', name: 'okhttp-urlconnection', version: '3.2.0'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.2'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile(group: 'org.projectlombok', name: 'lombok', version: '1.16.12') {
+        /* This dependency was originally in the Maven provided scope, but the project was not of type war.
+        This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
+        Please review and delete this closure when resolved. */
+    }
+}
