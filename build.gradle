@@ -29,9 +29,5 @@ dependencies {
     compile group: 'com.squareup.okhttp3', name: 'okhttp-urlconnection', version: '3.2.0'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile(group: 'org.projectlombok', name: 'lombok', version: '1.16.12') {
-        /* This dependency was originally in the Maven provided scope, but the project was not of type war.
-        This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
-        Please review and delete this closure when resolved. */
-    }
+    compile(group: 'org.projectlombok', name: 'lombok', version: '1.16.12')
 }
