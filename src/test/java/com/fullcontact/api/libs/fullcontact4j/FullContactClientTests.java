@@ -28,9 +28,9 @@ public class FullContactClientTests {
         String baseUrl = "not.fullcontact.com";
         RateLimiterConfig rateLimiterConfig = new RateLimiterConfig(10, 1);
 
-        FullContact client1 = new FullContact(new FCUrlClient(baseUrl, apiKey), rateLimiterConfig, baseUrl, Executors.newSingleThreadExecutor());
+        FullContact client1 = new FullContact(new FCUrlClient(baseUrl, apiKey), rateLimiterConfig, baseUrl, Executors.newSingleThreadExecutor(), Executors.newSingleThreadExecutor());
         FullContact client2 = FullContact.withApiKey(apiKey)
-                .baseUrl(baseUrl).rateLimitExecutorService(Executors.newSingleThreadExecutor()).build();
+                .baseUrl(baseUrl).httpExecutor(Executors.newSingleThreadExecutor()).rateLimitExecutorService(Executors.newSingleThreadExecutor()).build();
         assertEquals(client1.httpInterface.getBaseUrl(), client2.httpInterface.getBaseUrl());
     }
 
@@ -112,7 +112,7 @@ public class FullContactClientTests {
         mockClient = new MockRetrofitClient("test", mockHeaders, new OkHttpClient(), BAD_API_KEY);
         //create a new FullContact client that uses an http client that never makes requests and points towards nothing
         mockFc = new FullContact(mockClient,
-                RateLimiterConfig.SMOOTH, "http://badbadbad.not.exist", Executors.newSingleThreadExecutor());
+                RateLimiterConfig.SMOOTH, "http://badbadbad.not.exist", Executors.newSingleThreadExecutor(), Executors.newSingleThreadExecutor());
     }
 
     @AfterClass

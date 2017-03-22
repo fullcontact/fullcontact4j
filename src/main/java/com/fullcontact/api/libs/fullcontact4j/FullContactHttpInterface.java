@@ -10,6 +10,7 @@ import retrofit.client.Client;
 import retrofit.converter.Converter;
 import retrofit.converter.JacksonConverter;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -33,7 +34,7 @@ public class FullContactHttpInterface {
     private FullContactApi fullContactApi;
 
     public FullContactHttpInterface(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
-                                    ExecutorService executorService) {
+                                    ExecutorService rateLimitExecutor, Executor httpExecutor) {
         ObjectMapper mapper = new ObjectMapper();
         //Properties not present in the POJO are ignored instead of throwing exceptions
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -43,11 +44,11 @@ public class FullContactHttpInterface {
         if(rateLimiterConfig == RateLimiterConfig.DISABLED) {
             requestHandler = new FCRequestHandler.NoRateLimitRequestHandler();
         } else {
-            requestHandler = new RequestExecutorHandler(rateLimiterConfig, executorService);
+            requestHandler = new RequestExecutorHandler(rateLimiterConfig, rateLimitExecutor);
         }
 
         jsonConverter = new JacksonConverter(mapper);
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl)
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl).setExecutors(httpExecutor, null)
                 .setClient(httpClient).setConverter(jsonConverter).build();
         fullContactApi = adapter.create(FullContactApi.class);
         this.baseUrl = baseUrl;
