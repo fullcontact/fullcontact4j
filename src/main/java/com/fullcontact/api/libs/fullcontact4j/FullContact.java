@@ -32,8 +32,8 @@ public class FullContact {
     private boolean isShutdown = false;
 
     protected FullContact(Client httpClient, RateLimiterConfig rateLimiterConfig, String baseUrl,
-                          ExecutorService executorService) {
-        httpInterface = new FullContactHttpInterface(httpClient, rateLimiterConfig, baseUrl, executorService);
+                          ExecutorService rateLimitExecutor, Executor httpExecutor) {
+        httpInterface = new FullContactHttpInterface(httpClient, rateLimiterConfig, baseUrl, rateLimitExecutor, httpExecutor);
         Utils.info("Created new FullContact client.");
     }
 
@@ -197,6 +197,7 @@ public class FullContact {
         private String baseUrl = FCConstants.API_BASE_DEFAULT;
         private RateLimiterConfig rateLimiterConfig = RateLimiterConfig.SMOOTH;
         private ExecutorService rateLimitExecutorService = Executors.newCachedThreadPool();
+        private Executor httpExecutor = Executors.newCachedThreadPool();
 
         public Builder(String apiKey) {
             //default client is OkHttpClient
@@ -226,6 +227,14 @@ public class FullContact {
          */
         public Builder threadCount(Integer threads) {
             rateLimitExecutorService = Executors.newFixedThreadPool(threads);
+            return this;
+        }
+
+        /**
+         * Configure the thread pool used to coordinate the HTTP request threads used by the client.
+         */
+        public Builder httpExecutor(Executor httpExecutor) {
+            this.httpExecutor = httpExecutor;
             return this;
         }
 
@@ -299,11 +308,11 @@ public class FullContact {
                 throw new IllegalArgumentException("Authentication key cannot be null");
             }
             if(rateLimiterConfig == null || baseUrl == null || rateLimitExecutorService == null ||
-                userAgent == null || httpClient == null) {
+                httpExecutor == null || userAgent == null || httpClient == null) {
                 throw new IllegalArgumentException("One of the builder parameters was null");
             }
 
-            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), rateLimiterConfig, baseUrl, rateLimitExecutorService);
+            return new FullContact(new FCUrlClient(userAgent, headers, httpClient, authKey), rateLimiterConfig, baseUrl, rateLimitExecutorService, httpExecutor);
         }
     }
 
