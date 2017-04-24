@@ -55,7 +55,7 @@ public class RequestExecutorHandler implements FCRequestHandler {
 
         int requestsRemaining = rateLimits.getRequestsRemaining();
         int secondsToReset = rateLimits.getSecondsToReset();
-
+        apiKeyRequestsPerSecond = rateLimits.getMaxRequestsPerSecond();
         lastKnownRateLimits = rateLimits;
 
         if (shouldUpdateRateLimit()) {
