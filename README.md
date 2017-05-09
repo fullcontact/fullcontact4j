@@ -1,4 +1,4 @@
-#FullContact4j
+# FullContact4j
 
 A Java client for the [FullContact API](http://www.fullcontact.com/docs). Supports Java 7+.
 
@@ -8,7 +8,7 @@ See the changelog [here.](https://github.com/fullcontact/fullcontact4j/wiki/chan
 
 __Coming from version 1? Read this [wiki page](https://github.com/fullcontact/fullcontact4j/wiki/Coming-from-v1.0) for a rundown of the big changes, then continue here.__
 
-##Add to your project##
+## Add to your project ##
 FullContact uses [Bintray](https://bintray.com/) as a repository.
 
 __Maven__
@@ -41,7 +41,7 @@ dependencies {
 }
 ```
 
-##Dependencies##
+## Dependencies ##
 __OkHttp__, which FullContact uses as an HTTP client.
 
 __Retrofit__, for interacting with the FullContact API.
@@ -49,9 +49,9 @@ __Retrofit__, for interacting with the FullContact API.
 __Jackson__, a JSON library, for conversion of API responses.
 
 
-##Working with FullContact4j##
+## Working with FullContact4j ##
 FullContact4j 2.0 is designed from the ground up to be as painless to use as possible. FullContact clients are customizable and require just one line of code to set up; requests take only one line to create and one to execute. FullContact4j abstracts away all the headaches associated with HTTP communication with the API, ranging from managing possible response scenarios to keeping your requests below your account's rate limit (queries per second). Make a request object, execute it, and get a response object back.
-###Quick Overview###
+### Quick Overview ###
 Firstly, read the [API documentation](https://www.fullcontact.com/developer/docs/)! FullContact4j provides an object layer to FullContact API communication, but understanding webhooks, response flows, request parameters, and common snags is still important.
 
 Once you’re on board with the API behavior, using FullContact4j is easy. Look up social and demographic data for an email address in just 3 lines of code:
@@ -85,7 +85,7 @@ fullContact.sendRequest(personRequest, new FCCallback() {
 
 You can see a simple demo of this client in action in the [Hello World app example!](https://github.com/fullcontact/fullcontact4j/blob/master/example/src/main/java/com/fullcontact/example/FullContactHelloWorld.java)
 
-###Making Requests###
+### Making Requests ###
 First, let’s get our request builder.
 ```java
 fullContact.buildPersonRequest()
@@ -161,11 +161,11 @@ System.out.println("I found a new place in " + location.getContinent() + " with 
 
 When you're done with the client, be sure to call `shutDown()` on it to clean up any unused state in the client.
 
-###Error Handling###
+### Error Handling ###
 If an error is encountered (these correspond to yellow/red non-2xx response codes on the [API flow diagrams](https://www.fullcontact.com/developer/docs/person/#flow-diagram)), a `FullContactException` is created with useful information about the error, including `errorCode` and a message from the FullContact APIs about the nature of the error. For synchronous requests, this will cause `sendRequest()` to throw `FullContactException`. In asynchronous requests, `FCCallback.failure(FullContactException exception)` is called instead.
-###Supported APIs###
+### Supported APIs ###
 FullContact4j supports all Person, Company, Email, Name, Location, Card Reader, and Account Statistics endpoints. These can all be accessed from their respective `build_____Request()` methods in the FullContact client. Some will need required parameters (like `CardReaderRequest`’s requirement for a front image `InputStream`) and automatically create a builder with those required parameters set.
-###Advanced###
+### Advanced ###
 In the background, FullContact4j is making requests using an `OkHttpClient`. You can supply your own `OkHttpClient`.
 ```java
 OkHttpClient client = new OkHttpClient();
