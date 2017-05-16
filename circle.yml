@@ -1,0 +1,18 @@
+machine:
+  environment:
+  java:
+    version: oraclejdk7
+
+dependencies:
+  override:
+    - curl "https://storage.googleapis.com/circle-scripts/latest/init.sh" | bash
+
+test:
+  override:
+    - ./gradlew build
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./gradlew deploy
