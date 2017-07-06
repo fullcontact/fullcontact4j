@@ -11,6 +11,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.*;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import retrofit.Callback;
 import retrofit.http.*;
+import retrofit.mime.TypedFile;
 
 import java.util.Map;
 
@@ -30,6 +31,21 @@ public interface FullContactApi {
 
     @POST(FCConstants.API_ENDPOINT_CARDREADER)
     public void uploadCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Body CardReaderUploadRequest.RequestBodyJson bodyJson, Callback<CardReaderUploadConfirmResponse> callback);
+
+    @Multipart
+    @POST(FCConstants.API_ENDPOINT_CARDREADER)
+    public void uploadCardForm(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken,
+                               @QueryMap Map<String, String> opts,
+                               @Part("front") TypedFile frontFile,
+                               @Part("back") TypedFile backFile,
+                               Callback<CardReaderUploadConfirmResponse> callback);
+
+    @Multipart
+    @POST(FCConstants.API_ENDPOINT_CARDREADER)
+    public void uploadCardForm(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken,
+                               @QueryMap Map<String, String> opts,
+                               @Part("front") TypedFile frontFile,
+                               Callback<CardReaderUploadConfirmResponse> callback);
 
     @GET(FCConstants.API_ENDPOINT_CARDREADER + "/{id}")
     public void viewCard(@Header(FCConstants.HEADER_AUTH_ACCESS_TOKEN) String accessToken, @QueryMap Map<String, String> opts, @Path("id") String id, Callback<CardReaderFullResponse> callback);

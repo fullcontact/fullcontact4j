@@ -16,6 +16,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.person.PersonRequest;
 import okhttp3.OkHttpClient;
 import retrofit.client.Client;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -74,6 +75,14 @@ public class FullContact {
      * @param front a ByteArrayOutputStream representing the picture of the front of the card
      */
     public CardReaderUploadRequest.Builder buildUploadCardRequest(InputStream front) { return new CardReaderUploadRequest.Builder().cardFront(front); }
+
+    /**
+     * Upload a new card to be processed by Card Reader via multipart upload.
+     * @param front a ByteArrayOutputStream representing the picture of the front of the card
+     * @param mimeType the mime type of this file
+     */
+    public CardReaderUploadRequest.Builder buildUploadCardRequest(File front, String mimeType) {
+        return new CardReaderUploadRequest.Builder().cardFront(front).mimeType(mimeType); }
 
     /**
      * View a single card.
