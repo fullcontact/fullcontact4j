@@ -72,13 +72,13 @@ public class FullContact {
 
     /**
      * Upload a new card to be processed by Card Reader.
-     * @param front a ByteArrayOutputStream representing the picture of the front of the card
+     * @param front an inputstream representing the picture of the front of the card
      */
     public CardReaderUploadRequest.Builder buildUploadCardRequest(InputStream front) { return new CardReaderUploadRequest.Builder().cardFront(front); }
 
     /**
      * Upload a new card to be processed by Card Reader via multipart upload.
-     * @param front a ByteArrayOutputStream representing the picture of the front of the card
+     * @param front a file representing the picture of the front of the card
      * @param mimeType the mime type of this file
      */
     public CardReaderUploadRequest.Builder buildUploadCardRequest(File front, String mimeType) {
