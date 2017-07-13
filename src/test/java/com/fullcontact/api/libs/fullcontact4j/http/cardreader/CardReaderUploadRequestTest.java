@@ -4,40 +4,21 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 
 public class CardReaderUploadRequestTest {
-
     @Test(expected = IllegalArgumentException.class)
-    public void testMix() {
+    public void missingMime() throws IOException {
         new CardReaderUploadRequest.Builder()
-            .accessToken("a")
-            .cardBack(new File("irrelevant"))
-            .cardFront(new ByteArrayInputStream(new byte[]{1,2,3}))
-            .build();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testMix2() {
-        new CardReaderUploadRequest.Builder()
-            .accessToken("a")
-            .cardFront(new File("irrelevant"))
-            .cardBack(new ByteArrayInputStream(new byte[]{1,2,3}))
-            .build();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void missingMime() {
-        new CardReaderUploadRequest.Builder()
-            .cardFront(new File("irrelevant"))
-            .cardBack(new File("hello"))
+            .cardFront(new ByteArrayInputStream(new byte[0]))
             .build();
     }
 
     @Test
-    public void happy() {
+    public void happy() throws IOException {
         new CardReaderUploadRequest.Builder()
-            .cardFront(new File("f"))
-            .cardBack(new File("b"))
+            .cardFront(new ByteArrayInputStream(new byte[0]))
+            .cardBack(new ByteArrayInputStream(new byte[0]))
             .mimeType("something")
             .webhookUrl("http://abc.com/webhook")
             .build();

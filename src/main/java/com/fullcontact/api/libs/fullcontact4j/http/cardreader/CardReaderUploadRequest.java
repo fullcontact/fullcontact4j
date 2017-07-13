@@ -7,31 +7,29 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
+import com.fullcontact.api.libs.fullcontact4j.http.retrofit.TypedInputStream;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import retrofit.Callback;
-import retrofit.mime.TypedFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
 public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmResponse> {
 
-    private String cardFrontStr;
-    private String cardBackStr;
-    private File cardFrontFile;
-    private File cardBackFile;
+    private InputStream cardFrontIS;
+    private InputStream cardBackIS;
     private String mimeType;
     private String accessToken;
 
-    public CardReaderUploadRequest(Map<String, String> params, String cardFrontStr, String cardBackStr, File
-        cardFrontFile, File cardBackFile, String mimeType, String accessToken) {
+    public CardReaderUploadRequest(Map<String, String> params, InputStream cardFrontIS, InputStream cardBackIS,
+        String mimeType, String accessToken) {
         super(params);
-        this.cardFrontStr = cardFrontStr;
-        this.cardBackStr = cardBackStr;
-        this.cardFrontFile = cardFrontFile;
-        this.cardBackFile = cardBackFile;
+        this.cardFrontIS = cardFrontIS;
+        this.cardBackIS = cardBackIS;
         this.mimeType = mimeType;
         this.accessToken = accessToken;
     }
@@ -40,27 +38,18 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
     protected void makeRequest(FullContactApi api, Callback<CardReaderUploadConfirmResponse> callback) {
         //if accesstoken is null, it is not added to the headers. if it is not null, it replaces API Key header
         //(see FullContactHttpInterface.DynamicHeaderOkClient)
-        if(cardFrontStr != null) {
-            RequestBodyJson body = new RequestBodyJson();
-            body.setFront(cardFrontStr);
-            body.setBack(cardBackStr);
-            api.uploadCard(accessToken, params, body, callback);
+        if(cardBackIS == null) {
+            api.uploadCardForm(accessToken, params, new TypedInputStream(mimeType, cardFrontIS), callback);
         } else {
-            if(cardBackFile == null) {
-                api.uploadCardForm(accessToken, params, new TypedFile(mimeType, cardFrontFile), callback);
-            } else {
-                api.uploadCardForm(accessToken, params, new TypedFile(mimeType, cardFrontFile),
-                    new TypedFile(mimeType, cardBackFile), callback);
-            }
+            api.uploadCardForm(accessToken, params, new TypedInputStream(mimeType, cardFrontIS),
+                new TypedInputStream(mimeType, cardBackIS), callback);
         }
     }
 
     public static class Builder extends WebhookBuilder<Builder, CardReaderUploadRequest> {
 
-        private String cardFrontStr;
-        private String cardBackStr;
-        private File cardFrontFile;
-        private File cardBackFile;
+        private InputStream cardFrontIS;
+        private InputStream cardBackIS;
         private String mimeType;
         private String accessToken;
 
@@ -70,22 +59,22 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
         }
 
         public Builder cardFront(InputStream stream) {
-            cardFrontStr = Utils.encodeToStringAndClose(stream);
+            cardFrontIS = stream;
             return this;
         }
 
-        public Builder cardFront(File file) {
-            cardFrontFile = file;
+        public Builder cardFront(File file) throws FileNotFoundException {
+            cardFrontIS = new FileInputStream(file);
             return this;
         }
 
         public Builder cardBack(InputStream stream) {
-            cardBackStr = Utils.encodeToStringAndClose(stream);
+            cardBackIS = stream;
             return this;
         }
 
-        public Builder cardBack(File file) {
-            cardBackFile = file;
+        public Builder cardBack(File file) throws FileNotFoundException {
+            cardBackIS = new FileInputStream(file);
             return this;
         }
 
@@ -129,53 +118,23 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             if(!hasParam(FCConstants.PARAM_WEBHOOK_URL)) {
                 throw new IllegalArgumentException("All CardReader requests must specify a webhook.");
             }
-            if(cardFrontStr == null && cardFrontFile == null) {
+            if(cardFrontIS == null) {
                 throw new IllegalArgumentException("Cards must have a front image.");
             }
-            if(cardFrontStr != null || cardBackStr != null) {
-                if(cardFrontFile != null || cardBackFile != null) {
-                    throw new IllegalArgumentException("Cannot mix file upload with InputStream upload");
-                }
-            }
-            if(cardFrontFile != null && mimeType == null) {
+            if(cardFrontIS != null && mimeType == null) {
                 throw new IllegalArgumentException("mimeType must be set with file upload");
             }
         }
 
         @Override
         protected CardReaderUploadRequest createInstance() {
-            return new CardReaderUploadRequest(params, cardFrontStr, cardBackStr, cardFrontFile, cardBackFile,
-                mimeType, accessToken);
+            return new CardReaderUploadRequest(params, cardFrontIS, cardBackIS, mimeType, accessToken);
         }
 
         @Override
         protected Builder self() {
             return this;
         }
-    }
-
-    //don't write null properties to json
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class RequestBodyJson {
-        private String front;
-
-        public String getBack() {
-            return back;
-        }
-
-        public void setBack(String back) {
-            this.back = back;
-        }
-
-        public String getFront() {
-            return front;
-        }
-
-        public void setFront(String front) {
-            this.front = front;
-        }
-
-        private String back;
     }
 
     public enum Sandbox {
