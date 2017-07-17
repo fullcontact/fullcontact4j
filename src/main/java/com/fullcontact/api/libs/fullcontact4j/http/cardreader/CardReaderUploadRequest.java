@@ -1,6 +1,5 @@
 package com.fullcontact.api.libs.fullcontact4j.http.cardreader;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.FullContactApi;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
@@ -8,36 +7,51 @@ import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.enums.Casing;
 import com.fullcontact.api.libs.fullcontact4j.http.FCRequest;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookBuilder;
+import com.fullcontact.api.libs.fullcontact4j.http.retrofit.TypedInputStream;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import retrofit.Callback;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
 public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmResponse> {
 
-    private RequestBodyJson body;
+    private InputStream cardFrontIS;
+    private InputStream cardBackIS;
+    private String mimeType;
     private String accessToken;
 
-    protected CardReaderUploadRequest(String accessToken, String front, String back, Map<String, String> params) {
+    public CardReaderUploadRequest(Map<String, String> params, InputStream cardFrontIS, InputStream cardBackIS,
+        String mimeType, String accessToken) {
         super(params);
+        this.cardFrontIS = cardFrontIS;
+        this.cardBackIS = cardBackIS;
+        this.mimeType = mimeType;
         this.accessToken = accessToken;
-        body = new RequestBodyJson();
-        body.setFront(front);
-        body.setBack(back);
     }
 
     @Override
     protected void makeRequest(FullContactApi api, Callback<CardReaderUploadConfirmResponse> callback) {
-       //if accesstoken is null, it is not added to the headers. if it is not null, it replaces API Key header
-       //(see FullContactHttpInterface.DynamicHeaderOkClient)
-       api.uploadCard(accessToken, params, body, callback);
+        //if accesstoken is null, it is not added to the headers. if it is not null, it replaces API Key header
+        //(see FullContactHttpInterface.DynamicHeaderOkClient)
+        if(cardBackIS == null) {
+            api.uploadCardForm(accessToken, params, new TypedInputStream(mimeType, cardFrontIS), callback);
+        } else {
+            api.uploadCardForm(accessToken, params, new TypedInputStream(mimeType, cardFrontIS),
+                new TypedInputStream(mimeType, cardBackIS), callback);
+        }
     }
 
     public static class Builder extends WebhookBuilder<Builder, CardReaderUploadRequest> {
 
-        private String cardFront;
+        private InputStream cardFrontIS;
+        private InputStream cardBackIS;
+        private String mimeType;
         private String accessToken;
-        private String cardBack;
 
         public Builder verified(CardReaderQuality quality) {
             params.put(FCConstants.PARAM_CARD_VERIFIED, quality.name());
@@ -45,12 +59,28 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
         }
 
         public Builder cardFront(InputStream stream) {
-            cardFront = Utils.encodeToStringAndClose(stream);
+            cardFrontIS = stream;
+            return this;
+        }
+
+        public Builder cardFront(File file) throws FileNotFoundException {
+            cardFrontIS = new FileInputStream(file);
             return this;
         }
 
         public Builder cardBack(InputStream stream) {
-            cardBack = Utils.encodeToStringAndClose(stream);
+            cardBackIS = stream;
+            return this;
+        }
+
+        public Builder cardBack(File file) throws FileNotFoundException {
+            cardBackIS = new FileInputStream(file);
+            return this;
+        }
+
+        // specify the file type for this card. only needed if using cardFront(File) or cardBack(File).
+        public Builder mimeType(String m) {
+            mimeType = m;
             return this;
         }
 
@@ -88,45 +118,23 @@ public class CardReaderUploadRequest extends FCRequest<CardReaderUploadConfirmRe
             if(!hasParam(FCConstants.PARAM_WEBHOOK_URL)) {
                 throw new IllegalArgumentException("All CardReader requests must specify a webhook.");
             }
-            if(cardFront == null) {
+            if(cardFrontIS == null) {
                 throw new IllegalArgumentException("Cards must have a front image.");
+            }
+            if(cardFrontIS != null && mimeType == null) {
+                throw new IllegalArgumentException("mimeType must be set with file upload");
             }
         }
 
         @Override
         protected CardReaderUploadRequest createInstance() {
-            return new CardReaderUploadRequest(accessToken, cardFront, cardBack, params);
+            return new CardReaderUploadRequest(params, cardFrontIS, cardBackIS, mimeType, accessToken);
         }
 
         @Override
         protected Builder self() {
             return this;
         }
-    }
-
-    //don't write null properties to json
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class RequestBodyJson {
-        private String front;
-
-        public String getBack() {
-            return back;
-        }
-
-        public void setBack(String back) {
-            this.back = back;
-        }
-
-        public String getFront() {
-            return front;
-        }
-
-        public void setFront(String front) {
-            this.front = front;
-        }
-
-        private String back;
-
     }
 
     public enum Sandbox {
