@@ -184,6 +184,15 @@ public class ResponseModelTest {
     }
 
     @Test
+    public void testOrganisationSerialization() throws JsonProcessingException {
+        Organization organization = new Organization("test", null, true, null, null, true);
+
+        String actual = new ObjectMapper().writeValueAsString(organization);
+        assertEquals("{\"name\":\"test\",\"startDate\":null,\"current\":true," +
+            "\"endDate\":null,\"title\":null,\"isPrimary\":true}", actual);
+    }
+
+    @Test
     public void accountStatsDeserializationTest() throws Exception {
         AccountStatsResponse r = mapper.readValue(Utils.loadFile("example-account-stats-response.json"), AccountStatsResponse.class);
         assertEquals(7, r.getMetrics().size());
