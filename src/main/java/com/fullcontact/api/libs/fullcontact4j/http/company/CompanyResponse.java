@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.FullContactException;
 import com.fullcontact.api.libs.fullcontact4j.http.FCResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyIndustry;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyOrganization;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyTraffic;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.SocialProfile;
@@ -35,9 +36,11 @@ public class CompanyResponse extends FCResponse {
     private CompanyOrganization organization;
     private List<SocialProfile> socialProfiles = Collections.emptyList();
     private CompanyTraffic traffic;
+    private List<CompanyIndustry> industries = Collections.emptyList();
 
     /**
      * Factory method to create a webhook response from json.
+     *
      * @param json
      * @return a new PersonResponse represented by the Json string
      * @throws com.fullcontact.api.libs.fullcontact4j.FullContactException if there is a parsing/mapping error.
@@ -49,11 +52,11 @@ public class CompanyResponse extends FCResponse {
         mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         try {
             return mapper.readValue(json, CompanyResponse.class);
-        } catch(JsonMappingException e) {
+        } catch (JsonMappingException e) {
             throw new FullContactException("Failed to convert person json to a response", e);
-        } catch(JsonParseException e) {
+        } catch (JsonParseException e) {
             throw new FullContactException("Json is not valid format", e);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new FullContactException("Unexpected exception when parsing json", e);
         }
     }
