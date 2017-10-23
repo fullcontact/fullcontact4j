@@ -1,24 +1,31 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.cardreader.*;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.KeyPerson;
-import com.fullcontact.api.libs.fullcontact4j.http.email.*;
-import com.fullcontact.api.libs.fullcontact4j.http.location.*;
-import com.fullcontact.api.libs.fullcontact4j.http.misc.*;
+import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationAsyncResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.*;
-import com.fullcontact.api.libs.fullcontact4j.http.person.*;
+import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.Macromeasures;
+import com.fullcontact.api.libs.fullcontact4j.http.person.model.Organization;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.*;
 
 public class ResponseModelTest {
     public static ObjectMapper mapper = new ObjectMapper();
@@ -184,7 +191,8 @@ public class ResponseModelTest {
     }
 
     @Test
-    public void testOrganisationSerialization() throws JsonProcessingException {
+    @SneakyThrows
+    public void testOrganisationSerialization() {
         Organization organization = new Organization("test", null, true, null, null, true);
 
         String actual = new ObjectMapper().writeValueAsString(organization);
