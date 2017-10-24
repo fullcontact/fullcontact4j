@@ -1,6 +1,5 @@
 package com.fullcontact.api.libs.fullcontact4j;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fullcontact.api.libs.fullcontact4j.enums.CardReaderQuality;
 import com.fullcontact.api.libs.fullcontact4j.http.WebhookResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResponse;
@@ -21,12 +20,17 @@ import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.Macromeasures;
+import com.fullcontact.api.libs.fullcontact4j.http.person.model.Organization;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static org.junit.Assert.*;
 
 public class ResponseModelTest {
     public static ObjectMapper mapper = new ObjectMapper();
@@ -202,6 +206,16 @@ public class ResponseModelTest {
         LocationNormalizationResponse r = mapper.readValue(Utils.loadFile("example-location-normalization-response.json"), LocationNormalizationResponse.class);
         assertEquals("Denver", r.getCity());
         assertEquals("US", r.getCountry().getCode());
+    }
+
+    @Test
+    @SneakyThrows
+    public void testOrganisationSerialization() {
+        Organization organization = new Organization("test", null, true, null, null, true);
+
+        String actual = new ObjectMapper().writeValueAsString(organization);
+        assertEquals("{\"name\":\"test\",\"startDate\":null,\"current\":true," +
+            "\"endDate\":null,\"title\":null,\"isPrimary\":true}", actual);
     }
 
     @Test
