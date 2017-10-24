@@ -9,7 +9,11 @@
   "logo" : "https://d2ojpxxtu63wzl.cloudfront.net/static/1bacd7306731a30d2a9f024eeb1dcff1_94d77dcdedbfe40707ac4a75ca4f4d2978bffc20b2e33a3288ea9e4d47f5af6c",
   "website" : "https://www.fullcontact.com",
   "languageLocale" : "en",
-  "industries":[],
+  "industries":[{
+    "type":"SIC",
+    "name":"Foo",
+    "code":"1111"
+  }],
   "organization" : {
     "name" : "FullContact Inc.",
     "approxEmployees" : 75,

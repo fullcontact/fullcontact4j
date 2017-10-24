@@ -6,6 +6,7 @@ import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderFullResp
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderUploadConfirmResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.cardreader.CardReaderViewAllResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.company.CompanyResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.company.model.CompanyIndustry;
 import com.fullcontact.api.libs.fullcontact4j.http.company.model.KeyPerson;
 import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationAsyncResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.email.EmailVerificationResponse;
@@ -13,7 +14,10 @@ import com.fullcontact.api.libs.fullcontact4j.http.location.LocationEnrichmentRe
 import com.fullcontact.api.libs.fullcontact4j.http.location.LocationNormalizationResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.AccountStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.misc.DisposableEmailResponse;
-import com.fullcontact.api.libs.fullcontact4j.http.name.*;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameParseResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameSimilarityResponse;
+import com.fullcontact.api.libs.fullcontact4j.http.name.NameStatsResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.PersonResponse;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.Macromeasures;
 import com.fullcontact.api.libs.fullcontact4j.http.person.model.Organization;
@@ -22,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -33,7 +38,7 @@ public class ResponseModelTest {
     @Test
     public void personDeserializationTest() throws IOException {
         PersonResponse r = mapper.readValue(Utils.loadFile("example-person-response.json"), PersonResponse.class);
-        assertEquals( "Lorang", r.getContactInfo().getFamilyName());
+        assertEquals("Lorang", r.getContactInfo().getFamilyName());
         assertEquals("http://fullcontact.com", r.getContactInfo().getWebsites().get(0).getUrl());
         assertEquals("Male", r.getDemographics().getGender());
         assertEquals(4, r.getContactInfo().getChats().size());
@@ -59,15 +64,26 @@ public class ResponseModelTest {
     }
 
     private static KeyPerson travisTodd = new KeyPerson("Travis Todd", "Co-Founder",
-            "https://api.fullcontact.com/v2/person.json?lookup=pDF50R_M0Gw8OfXk4zQXZBhkY_WkYdgF7SulvVo4uE0=");
+        "https://api.fullcontact.com/v2/person.json?lookup=pDF50R_M0Gw8OfXk4zQXZBhkY_WkYdgF7SulvVo4uE0=");
     private static KeyPerson edenElder = new KeyPerson("Eden Elder, Ph.D.",
-            "Chief People Officer", null);
+        "Chief People Officer", null);
 
     @Test
     public void companyDeserializationTest() throws IOException {
+        CompanyResponse r = mapper.readValue(Utils.loadFile("example-company-response-with-ind.json"), CompanyResponse.class);
+        assertFalse(r.getIndustries().isEmpty());
+        CompanyIndustry ind = r.getIndustries().get(0);
+        assertEquals("SIC", ind.getType());
+        assertEquals("Foo", ind.getName());
+        assertEquals("1111", ind.getCode());
+    }
+
+    @Test
+    public void companyDeserilizationTestNoInd() throws IOException {
         CompanyResponse r = mapper.readValue(Utils.loadFile("example-company-response.json"), CompanyResponse.class);
 
         assertTrue(r.getLogo().contains("cloudfront"));
+        assertTrue(r.getIndustries().isEmpty());
         assertEquals("en", r.getLanguageLocale());
         assertEquals("2010", r.getOrganization().getFounded());
         assertEquals("FullContact Inc.", r.getOrganization().getName());
@@ -107,7 +123,7 @@ public class ResponseModelTest {
     @Test
     public void keyPersonToRequestTest() {
         assertEquals("pDF50R_M0Gw8OfXk4zQXZBhkY_WkYdgF7SulvVo4uE0=",
-                travisTodd.toPersonRequestOrNull().build().getParam("lookup"));
+            travisTodd.toPersonRequestOrNull().build().getParam("lookup"));
         assertEquals(null, edenElder.toPersonRequestOrNull());
     }
 
@@ -117,6 +133,7 @@ public class ResponseModelTest {
         assertEquals(conf.getEstimatedWaitTimeMinutes(), 33);
         assertEquals(conf.getStatus(), 202);
     }
+
     @Test
     public void cardReaderViewDeserializationTest() throws Exception {
         CardReaderFullResponse conf = mapper.readValue(Utils.loadFile("example-card-full-response.json"), CardReaderFullResponse.class);
@@ -124,6 +141,7 @@ public class ResponseModelTest {
         assertEquals(conf.getContact().getOrganizations().size(), 1);
 
     }
+
     @Test
     public void cardReaderViewAllDeserializationTest() throws Exception {
         CardReaderViewAllResponse conf = mapper.readValue(Utils.loadFile("example-card-view-all-response.json"), CardReaderViewAllResponse.class);
@@ -178,7 +196,7 @@ public class ResponseModelTest {
 
     @Test
     public void locationEnrichmentDeserializationTest() throws Exception {
-        LocationEnrichmentResponse r = mapper.readValue(Utils.loadFile("example-location-enrichment-response.json"),LocationEnrichmentResponse.class);
+        LocationEnrichmentResponse r = mapper.readValue(Utils.loadFile("example-location-enrichment-response.json"), LocationEnrichmentResponse.class);
         assertEquals("San Miguel", r.getPossibleLocations().get(1).getCounty());
         assertEquals("ES", r.getPossibleLocations().get(2).getCountry().getCode());
     }
