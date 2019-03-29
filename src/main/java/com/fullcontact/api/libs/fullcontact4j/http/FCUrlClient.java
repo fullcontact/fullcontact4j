@@ -16,10 +16,10 @@ package com.fullcontact.api.libs.fullcontact4j.http;
  */
 
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
+import com.fullcontact.api.libs.fullcontact4j.OkUrlFactory;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 
 import okhttp3.OkHttpClient;
-import okhttp3.OkUrlFactory;
 import retrofit.client.*;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
