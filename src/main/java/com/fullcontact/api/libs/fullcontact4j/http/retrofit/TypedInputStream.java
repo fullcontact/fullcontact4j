@@ -1,5 +1,6 @@
 package com.fullcontact.api.libs.fullcontact4j.http.retrofit;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,6 +25,13 @@ public class TypedInputStream implements TypedOutput {
 
     @Override
     public long length() {
+        if (in instanceof FileInputStream) {
+            try {
+                ((FileInputStream) in).getChannel().size();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return -1;
     }
 
