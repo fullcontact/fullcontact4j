@@ -18,16 +18,18 @@ package com.fullcontact.api.libs.fullcontact4j.http;
 import com.fullcontact.api.libs.fullcontact4j.FCConstants;
 import com.fullcontact.api.libs.fullcontact4j.Utils;
 
+import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.OkUrlFactory;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
 import retrofit.client.*;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,17 +40,17 @@ public class FCUrlClient implements Client {
 
     private static OkHttpClient generateDefaultOkHttp() {
         return new OkHttpClient.Builder()
-            .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-            .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-            .build();
+                .connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                .readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     private Map<String, String> headers = new HashMap<String, String>();
-    private OkUrlFactory okUrlFactory;
+    private OkHttpClient client;
     private String apiKey;
     private String userAgent;
     public FCUrlClient(String userAgent, Map<String, String> customHeaders, OkHttpClient client, String apiKey) {
-        okUrlFactory = new OkUrlFactory(client);
+        this.client = client;
 
         if(customHeaders != null) {
             this.headers = customHeaders;
@@ -69,109 +71,121 @@ public class FCUrlClient implements Client {
         this(userAgent, null, generateDefaultOkHttp(), apiKey);
     }
 
-    @Override public Response execute(Request request) throws IOException {
-        HttpURLConnection connection = openConnection(request);
-        prepareRequest(connection, request);
-        return readResponse(connection);
+    @Override
+    public Response execute(Request request) throws IOException {
+        okhttp3.Request okRequest = buildRequest(request);
+        okhttp3.Response okResponse = client.newCall(okRequest).execute();
+        Response response = buildResponse(okResponse);
+        return response;
     }
 
-    protected HttpURLConnection openConnection(Request request) throws IOException {
-        return okUrlFactory.open(new URL(request.getUrl()));
-    }
+    // build okhttp3.Request from retrofit.client.Request
+    public okhttp3.Request buildRequest(Request request) {
+        okhttp3.Request.Builder requestBuilder = new okhttp3.Request.Builder();
 
-    protected void prepareRequest(HttpURLConnection connection, Request request) throws IOException {
-        connection.setRequestMethod(request.getMethod());
-        connection.setDoInput(true);
-
-        //add request headers
-        for (Header header : request.getHeaders()) {
-            connection.addRequestProperty(header.getName(), header.getValue());
+        boolean hasAuthToken = false;
+        //---copy headers---
+        List<retrofit.client.Header> requestHeaders = request.getHeaders();
+        Headers.Builder okHeadersBulder = new Headers.Builder();
+        if (requestHeaders != null && requestHeaders.size() > 0) {
+            for (Header header : requestHeaders) {
+                okHeadersBulder.add(header.getName(), header.getValue());
+                if (header.getName().equals(FCConstants.HEADER_AUTH_ACCESS_TOKEN)) {
+                    hasAuthToken = true;
+                }
+            }
         }
-
         //add custom global headers
-        for(Map.Entry<String, String> header : headers.entrySet()) {
-            if(header.getKey() != null && header.getValue() != null) {
-                connection.setRequestProperty(header.getKey(), header.getValue());
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            if (header.getKey() != null && header.getValue() != null) {
+                okHeadersBulder.add(header.getKey(), header.getValue());
             } else {
                 Utils.verbose("Ignored null header in request (Key: " + header.getKey() + ", Value: " + header.getValue() + ")");
             }
         }
 
-        boolean hasAuthToken = false;
-        for(Header header : request.getHeaders()) {
-            if(header.getName().equals(FCConstants.HEADER_AUTH_ACCESS_TOKEN)) {
-                hasAuthToken = true;
-            }
-        }
-        if(!hasAuthToken) {
-            connection.setRequestProperty(FCConstants.HEADER_AUTH_API_KEY, apiKey);
+        if (!hasAuthToken) {
+            okHeadersBulder.add(FCConstants.HEADER_AUTH_API_KEY, apiKey);
             Utils.verbose("Added API key to headers");
         } else {
             Utils.verbose("Added auth token instead of API key to headers");
         }
-        connection.setRequestProperty(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
+        okHeadersBulder.add(FCConstants.HEADER_USER_AGENT, FCConstants.USER_AGENT_BASE + " " + userAgent);
 
-        TypedOutput body = request.getBody();
-        if (body != null) {
-            connection.setDoOutput(true);
-            connection.addRequestProperty("Content-Type", body.mimeType());
-            long length = body.length();
-            if (length != -1) {
-                connection.setFixedLengthStreamingMode((int) length);
-                connection.addRequestProperty("Content-Length", String.valueOf(length));
-            } else {
-                connection.setChunkedStreamingMode(CHUNK_SIZE);
-            }
-            body.writeTo(connection.getOutputStream());
+        requestBuilder.headers(okHeadersBulder.build());
+
+        //--- copy url ----
+        requestBuilder.url(request.getUrl());
+
+        //--- copy method and create request body---
+        if (!request.getMethod().equalsIgnoreCase("GET"))
+            requestBuilder.method(request.getMethod(), new RequestBodyWrapper(request.getBody()));
+        else
+            requestBuilder.get();
+
+        return requestBuilder.build();
+    }
+
+    private Response buildResponse(okhttp3.Response okResponse) {
+        TypedInput inputBody = new ResponseBodyWrapper(okResponse.body());
+        Response response = new retrofit.client.Response(okResponse.request().url().toString(),
+                okResponse.code(), okResponse.message(), getHeaders(okResponse.headers()), inputBody);
+        return response;
+    }
+
+    private List<Header> getHeaders(Headers headers) {
+        List<Header> retrofitHeaders = new ArrayList<Header>();
+        int headerCount = headers.names().size();
+        for (int i = 0; i < headerCount; i++) {
+            retrofitHeaders.add(new Header(headers.name(i), headers.value(i)));
+        }
+        return retrofitHeaders;
+    }
+
+    private static class RequestBodyWrapper extends RequestBody {
+        private final TypedOutput mWrapped;
+
+        public RequestBodyWrapper(TypedOutput output) {
+            mWrapped = output;
+        }
+
+        @Override
+        public long contentLength() {
+            return mWrapped.length();
+        }
+
+        @Override
+        public MediaType contentType() {
+            return MediaType.parse(mWrapped.mimeType());
+        }
+
+        @Override
+        public void writeTo(BufferedSink sink) throws IOException {
+            mWrapped.writeTo(sink.outputStream());
         }
     }
 
-    Response readResponse(HttpURLConnection connection) throws IOException {
-        int status = connection.getResponseCode();
-        String reason = connection.getResponseMessage();
-        if (reason == null) reason = ""; // HttpURLConnection treats empty reason as null.
+    public static class ResponseBodyWrapper implements TypedInput {
+        private ResponseBody mWrapped;
 
-        List<Header> headers = new ArrayList<Header>();
-        for (Map.Entry<String, List<String>> field : connection.getHeaderFields().entrySet()) {
-            String name = field.getKey();
-            for (String value : field.getValue()) {
-                headers.add(new Header(name, value));
-            }
+        public ResponseBodyWrapper(ResponseBody body) {
+            mWrapped = body;
         }
 
-        String mimeType = connection.getContentType();
-        int length = connection.getContentLength();
-        InputStream stream;
-        if (status >= 400) {
-            stream = connection.getErrorStream();
-        } else {
-            stream = connection.getInputStream();
-        }
-        TypedInput responseBody = new TypedInputStream(mimeType, length, stream);
-        return new Response(connection.getURL().toString(), status, reason, headers, responseBody);
-    }
-
-    private static class TypedInputStream implements TypedInput {
-        private final String mimeType;
-        private final long length;
-        private final InputStream stream;
-
-        private TypedInputStream(String mimeType, long length, InputStream stream) {
-            this.mimeType = mimeType;
-            this.length = length;
-            this.stream = stream;
+        @Override
+        public String mimeType() {
+            return mWrapped.contentType().type();
         }
 
-        @Override public String mimeType() {
-            return mimeType;
+        @Override
+        public long length() {
+            return mWrapped.contentLength();
         }
 
-        @Override public long length() {
-            return length;
+        @Override
+        public InputStream in() throws IOException {
+            return mWrapped.byteStream();
         }
 
-        @Override public InputStream in() throws IOException {
-            return stream;
-        }
     }
 }
