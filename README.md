@@ -1,5 +1,6 @@
-# FullContact4j
+# FullContact4j [Deprecated]
 
+### This is no longer supported. Please use our updated [java client](https://github.com/fullcontact/fullcontact-java-client). Also checkout our client libraries [here](https://dashboard.fullcontact.com/api-ref#client-libraries).
 A Java client for the [FullContact API](http://www.fullcontact.com/docs). Supports Java 7+.
 
 For FullContact4j 2.0 and later, we've designed the client from the bottom up with tons of cool new stuff.
